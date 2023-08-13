@@ -299,7 +299,7 @@
                             </svg> <span>Profile</span>
                         </a>
                     </div>
-                    <div class="dropdown-item">
+                    {{-- <div class="dropdown-item">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -310,8 +310,8 @@
                                 </path>
                             </svg> <span>Inbox</span>
                         </a>
-                    </div>
-                    <div class="dropdown-item">
+                    </div> --}}
+                    {{-- <div class="dropdown-item">
                         <a href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -321,7 +321,7 @@
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                             </svg> <span>Lock Screen</span>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="dropdown-item">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

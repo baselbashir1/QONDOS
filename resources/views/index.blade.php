@@ -10,7 +10,7 @@
             <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-4">
                 <a class="card style-6" href="{{ route('clients.index') }}">
                     <img src="{{ Vite::asset('resources/src/assets/img/clients.png') }}" class="card-img-top"
-                        alt="..." style="width: 100%; height: 150px">
+                        alt="..." style="width: 100%; height: 100%;">
                     <div class="card-footer">
                         <div class="row">
                             <div class="container">
@@ -24,7 +24,7 @@
             <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-4">
                 <a class="card style-6" href="{{ route('maintenance-technicians.index') }}">
                     <img src="{{ Vite::asset('resources/src/assets/img/maintenance-technician.jpeg') }}"
-                        class="card-img-top" alt="..." style="width: 100%; height: 150px">
+                        class="card-img-top" alt="..." style="width: 100%; height: 100%;">
                     <div class="card-footer">
                         <div class="row">
                             <div class="container">
