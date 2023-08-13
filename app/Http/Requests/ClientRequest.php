@@ -29,4 +29,14 @@ class ClientRequest extends FormRequest
             'password' => ['required', 'min:6'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'الاسم مطلوب.',
+            'phone.required' => 'رقم الهاتف مطلوب.',
+            'city.required' => 'اسم المدينة مطلوب.',
+            'password.required' => 'كلمة السر مطلوبة.'
+        ];
+    }
 }

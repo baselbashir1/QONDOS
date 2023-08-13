@@ -3,7 +3,7 @@
     <x-slot:pageTitle>فنيو الصيانة</x-slot>
 
         <div class="row layout-top-spacing">
-            <div class="col-xl-12 col-lg-6">
+            <div class="col-xl-12 col-lg-6" style="width: 200px">
                 <a href="{{ route('maintenance-technicians.create') }}" class="btn btn-primary w-100 btn-lg mb-4">
                     <span class="btn-text-inner">إضافة فني صيانة</span>
                 </a>
@@ -21,7 +21,6 @@
                                 <th>رقم الهاتف</th>
                                 <th>المدينة</th>
                                 <th>البريد الالكتروني</th>
-                                <th>كلمة المرور</th>
                                 <th class="no-content text-center">خيارات</th>
                             </tr>
                         </thead>
@@ -34,7 +33,6 @@
                                         <td>{{ $maintenanceTechnician->phone }}</td>
                                         <td>{{ $maintenanceTechnician->city }}</td>
                                         <td>{{ $maintenanceTechnician->email }}</td>
-                                        <td>{{ substr($maintenanceTechnician->password, 0, 15) }}</td>
                                         <td class="text-center">
                                             <div class="dropdown">
                                                 <a class="dropdown-toggle" href="#" role="button"
