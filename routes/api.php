@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\API\CategoryController;
-use App\Http\Controllers\API\ClientController;
-use App\Http\Controllers\API\MaintenanceTechnicianController;
-use App\Http\Resources\ClientResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\ClientController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\MaintenanceTechnicianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,19 +21,22 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::middleware('auth:api')->get('/client', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/client', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('/client/login', [ClientController::class, 'login']);
-Route::get('/client/profile', [ClientController::class, 'getProfile'])->middleware(['auth:api-client', 'scopes:client']);
-Route::get('/client/logout', [ClientController::class, 'logout'])->middleware(['auth:api-client', 'scopes:client']);
+Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
+    Route::get('/client/logout', [ClientController::class, 'logout']);
+    Route::get('/client/profile', [ClientController::class, 'getProfile']);
+    Route::apiResource('categories', CategoryController::class);
+});
 
 Route::post('/maintenance-technician/login', [MaintenanceTechnicianController::class, 'login']);
-Route::get('/maintenance-technician/profile', [MaintenanceTechnicianController::class, 'getProfile'])->middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician']);
-Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout'])->middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician']);
-
-// Route::get('list/categories', [CategoryController::class], 'list');
-// Route::apiResource('categories', [CategoryController::class]);
+Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician'])->group(function () {
+    Route::get('/maintenance-technician/profile', [MaintenanceTechnicianController::class, 'getProfile']);
+    Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout']);
+});
 
 Route::apiResource('clients', ClientController::class);
+Route::apiResource('maintenance-technicians', MaintenanceTechnicianController::class);

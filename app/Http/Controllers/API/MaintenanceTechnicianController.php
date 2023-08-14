@@ -5,11 +5,18 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MaintenanceTechnicianResource;
+use App\Models\MaintenanceTechnician;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class MaintenanceTechnicianController extends Controller
 {
+    public function index()
+    {
+        return MaintenanceTechnicianResource::collection(MaintenanceTechnician::all());
+    }
+
     public function login(Request $request)
     {
         $input = $request->all();

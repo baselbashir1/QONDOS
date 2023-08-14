@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\MaintenanceTechnicianController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MaintenanceTechnicianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/xclear', function () {
+    Artisan::call('config:cache');
+    Artisan::call('cache:clear');
+    Artisan::call('view:clear');
+    return 'cleared';
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('index');
     });
     Route::resource('clients', ClientController::class);
     Route::resource('maintenance-technicians', MaintenanceTechnicianController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', CategoryController::class);
     Route::resource('categories', CategoryController::class);
 });
 
