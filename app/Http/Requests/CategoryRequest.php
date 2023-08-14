@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,21 +22,19 @@ class ClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => ['nullable', 'email'],
-            'phone' => ['required', 'unique:clients,phone,except,id'],
-            'city' => 'required',
-            'password' => ['required', 'min:6'],
+            'type' => 'required',
+            'name_en' => ['required', 'string'],
+            'name_ar' => ['required', 'string'],
+            'image' => ['nullable', 'image']
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'الاسم مطلوب.',
-            'phone.required' => 'رقم الهاتف مطلوب.',
-            'city.required' => 'اسم المدينة مطلوب.',
-            'password.required' => 'كلمة السر مطلوبة.'
+            'type.required' => 'نوع التصنيف مطلوب.',
+            'name_ar.required' => 'اسم التصنيف باللغة العربية مطلوب.',
+            'name_en.required' => 'اسم التصنيف باللغة الانكليزية مطلوب.'
         ];
     }
 }

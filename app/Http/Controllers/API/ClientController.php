@@ -5,16 +5,23 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClientResource;
+use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
+    public function index()
+    {
+        return ClientResource::collection(Client::all());
+    }
+
     public function login(Request $request)
     {
         $input = $request->all();
         $rules = [
-            'email' => 'required|email',
+            'phone' => 'required',
             'password' => 'required|min:6'
         ];
 
@@ -23,7 +30,7 @@ class ClientController extends Controller
             return response()->json(['error' => $validator->errors()]);
         }
 
-        if (Auth::guard('client')->attempt(['email' => $input['email'], 'password' => $input['password']])) {
+        if (Auth::guard('client')->attempt(['phone' => $input['phone'], 'password' => $input['password']])) {
             $client = Auth::guard('client')->user();
 
             $token = $client->createToken('client token', ['client'])->accessToken;

@@ -37,7 +37,7 @@ class MaintenanceTechnicianController extends Controller
             return redirect()->route('maintenance-technicians.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء إضافة فني صيانة');
-            return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء إضافة فني صيانة']);
+            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء إضافة فني صيانة']);
         }
     }
 
@@ -63,7 +63,7 @@ class MaintenanceTechnicianController extends Controller
             return redirect()->route('maintenance-technicians.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء تعديل فني الصيانة');
-            return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء تعديل فني الصيانة']);
+            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء تعديل فني الصيانة']);
         }
     }
 

@@ -14,7 +14,7 @@ class MaintenanceTechnicianController extends Controller
     {
         $input = $request->all();
         $rules = [
-            'email' => 'required|email',
+            'phone' => 'required',
             'password' => 'required|min:6'
         ];
 
@@ -23,12 +23,12 @@ class MaintenanceTechnicianController extends Controller
             return response()->json(['error' => $validator->errors()]);
         }
 
-        if (Auth::guard('maintenance-technician')->attempt(['email' => $input['email'], 'password' => $input['password']])) {
+        if (Auth::guard('maintenance-technician')->attempt(['phone' => $input['phone'], 'password' => $input['password']])) {
             $maintenanceTechnician = Auth::guard('maintenance-technician')->user();
 
             $token = $maintenanceTechnician->createToken('maintenance-technician token', ['maintenance-technician'])->accessToken;
 
-            return response()->json(['maintenanceTechnician' => $maintenanceTechnician, 'token' => $token]);
+            return response()->json(['maintenance-technician' => $maintenanceTechnician, 'token' => $token]);
         } else {
             return response()->json(['error' => 'Invalid Credentials']);
         }

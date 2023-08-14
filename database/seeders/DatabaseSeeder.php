@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Category;
 use App\Models\Client;
 use App\Models\MaintenanceTechnician;
 use App\Models\User;
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
         Client::create([
             'name' => 'client',
             'email' => 'client@gmail.com',
-            'phone' => '1234567890',
+            'phone' => '0912345678',
             'city' => 'New York',
             'password' => bcrypt(123456)
         ]);
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
         MaintenanceTechnician::create([
             'name' => 'maintenance technician',
             'email' => 'maintenance.technician@gmail.com',
-            'phone' => '1234567890',
+            'phone' => '0912345679',
             'city' => 'New York',
             'password' => bcrypt(123456)
         ]);

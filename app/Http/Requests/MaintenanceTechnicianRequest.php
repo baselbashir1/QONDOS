@@ -24,7 +24,7 @@ class MaintenanceTechnicianRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => ['nullable', 'email'],
-            'phone' => 'required',
+            'phone' => ['required', 'unique:maintenance_technicians,phone,except,id'],
             'city' => 'required',
             'password' => ['required', 'min:6'],
         ];

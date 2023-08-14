@@ -2,7 +2,7 @@
 
     <x-slot:pageTitle>إضافة عميل</x-slot>
 
-        <div class="mt-4">
+        {{-- <div class="mt-4">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -12,7 +12,7 @@
                     </ul>
                 </div>
             @endif
-        </div>
+        </div> --}}
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST" action="{{ route('clients.store') }}">
@@ -43,7 +43,7 @@
                                 <input type="text" name="city" class="form-control"
                                     placeholder="ادخل اسم المدينة">
                             </div>
-                            @error('phone')
+                            @error('city')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

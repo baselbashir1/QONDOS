@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ClientController;
 use App\Http\Controllers\API\MaintenanceTechnicianController;
+use App\Http\Resources\ClientResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +33,8 @@ Route::get('/client/logout', [ClientController::class, 'logout'])->middleware(['
 Route::post('/maintenance-technician/login', [MaintenanceTechnicianController::class, 'login']);
 Route::get('/maintenance-technician/profile', [MaintenanceTechnicianController::class, 'getProfile'])->middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician']);
 Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout'])->middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician']);
+
+// Route::get('list/categories', [CategoryController::class], 'list');
+// Route::apiResource('categories', [CategoryController::class]);
+
+Route::apiResource('clients', ClientController::class);
