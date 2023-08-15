@@ -19,22 +19,11 @@ use App\Http\Controllers\API\SubCategoryController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-// Route::middleware('auth:api')->get('/client', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::post('/client/login', [ClientController::class, 'login']);
 Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::get('/client/logout', [ClientController::class, 'logout']);
     Route::get('/client/profile', [ClientController::class, 'getProfile']);
-    // Route::post('/client/{service}/makeOrder', [ClientController::class, 'makeOrder']);
     Route::post('/client/makeOrder', [ClientController::class, 'makeOrder']);
-    // Route::get('/client/main-categories', [ClientController::class, 'index']);
-    // Route::apiResource('clients', ClientController::class);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);

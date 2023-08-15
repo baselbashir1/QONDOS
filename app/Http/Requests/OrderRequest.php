@@ -24,8 +24,9 @@ class OrderRequest extends FormRequest
         return [
             'services' => 'required|array',
             'notes' => 'nullable',
-            'images' => 'nullable|array|max:5',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images' => 'nullable',
+            // 'images' => 'nullable|array|max:5',
+            // 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }
