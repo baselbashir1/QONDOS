@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ClientController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\MaintenanceTechnicianController;
+use App\Http\Controllers\API\ServiceController;
+use App\Http\Controllers\API\SubCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,8 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::get('/client/logout', [ClientController::class, 'logout']);
     Route::get('/client/profile', [ClientController::class, 'getProfile']);
     Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('sub-categories', SubCategoryController::class);
+    Route::apiResource('services', ServiceController::class);
 });
 
 Route::post('/maintenance-technician/login', [MaintenanceTechnicianController::class, 'login']);
