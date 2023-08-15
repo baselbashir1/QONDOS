@@ -15,26 +15,33 @@
                         <div class="col-sm-12">
                             <label for="phone">الخدمات</label>
                             @foreach ($order->orderServices as $orderService)
-                                <div class="form-control">{{ $orderService->service->translate('ar')->name }}</div>
+                                <div class="card">
+                                    <div class="form-control">{{ $orderService->service->translate('ar')->name }}</div>
+                                    <div class="form-control">{{ $orderService->service->image }}</div>
+                                </div>
                             @endforeach
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="city">الصور</label>
-                            <div class="form-control">{{ $orderService->service->image }}</div>
+                            @foreach ($order->orderImages as $orderImage)
+                                <div class="card">
+                                    <div class="form-control">{{ $orderImage->image }}</div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="email">صاحب الطلب</label>
-                            <div class="form-control">{{ $orderService->order->client->name }}</div>
+                            <div class="form-control">{{ $order->client->name }}</div>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="password">ملاحظات</label>
-                            <div class="form-control">{{ $orderService->order->notes }}</div>
+                            <div class="form-control">{{ $order->notes }}</div>
                         </div>
                     </div>
                 </div>

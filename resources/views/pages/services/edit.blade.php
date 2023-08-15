@@ -30,7 +30,7 @@
                             <div class="col-sm-12">
                                 <label for="type">نوع التنصيف</label>
                                 <select name="type" class="form-control">
-                                    <option selected hidden>{{ $category->type }}</option>
+                                    <option selected hidden>{{ $service->type }}</option>
                                     @foreach ($categoryTypes as $categoryType)
                                         <option value="{{ $categoryType }}">{{ $categoryType }}</option>
                                     @endforeach
