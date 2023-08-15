@@ -52,7 +52,6 @@ class CategoryController extends Controller
             return redirect()->route('categories.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء إضافة التصنيف');
-            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء إضافة التصنيف']);
         }
     }
 

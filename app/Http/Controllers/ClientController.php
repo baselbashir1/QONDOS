@@ -38,7 +38,6 @@ class ClientController extends Controller
             return redirect()->route('clients.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء إضافة العميل');
-            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء إضافة العميل']);
         }
     }
 
@@ -64,7 +63,6 @@ class ClientController extends Controller
             return redirect()->route('clients.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء تعديل العميل');
-            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء تعديل العميل']);
         }
     }
 
