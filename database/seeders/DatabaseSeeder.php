@@ -17,26 +17,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt(123456)
-        ]);
-
-        Client::create([
-            'name' => 'client',
-            'email' => 'client@gmail.com',
-            'phone' => '0912345678',
-            'city' => 'New York',
-            'password' => bcrypt(123456)
-        ]);
-
-        MaintenanceTechnician::create([
-            'name' => 'maintenance technician',
-            'email' => 'maintenance.technician@gmail.com',
-            'phone' => '0912345679',
-            'city' => 'New York',
-            'password' => bcrypt(123456)
+        $this->call([
+            UserSeeder::class,
+            ClientSeeder::class,
+            MaintenanceTechnicianSeeder::class,
+            CategorySeeder::class,
+            SubCategorySeeder::class,
+            ServiceSeeder::class
         ]);
     }
 }

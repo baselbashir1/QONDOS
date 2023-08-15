@@ -1,11 +1,11 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>التصنيفات</x-slot>
+    <x-slot:pageTitle>الخدمات</x-slot>
 
         <div class="row layout-top-spacing">
             <div class="col-xl-12 col-lg-6" style="width: 200px">
-                <a href="{{ route('categories.create') }}" class="btn btn-primary w-100 btn-lg mb-4">
-                    <span class="btn-text-inner">إضافة تصنيف</span>
+                <a href="{{ route('services.create') }}" class="btn btn-primary w-100 btn-lg mb-4">
+                    <span class="btn-text-inner">إضافة خدمة</span>
                 </a>
             </div>
         </div>
@@ -18,24 +18,26 @@
                             <tr>
                                 <th class="checkbox-column"></th>
                                 <th>نوع التصنيف</th>
-                                <th>اسم التصنيف باللغة العربية</th>
-                                <th>اسم التصنيف باللغة الانكليزية</th>
-                                <th>صورة التصنيف</th>
+                                <th>التنصيف الفرعي لهذه الخدمة</th>
+                                <th>اسم الخدمة باللغة العربية</th>
+                                <th>اسم الخدمة باللغة الانكليزية</th>
+                                <th>صورة الخدمة</th>
                                 <th class="no-content text-center">خيارات</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (count($categories))
-                                @foreach ($categories as $category)
+                            @if (count($services))
+                                @foreach ($services as $service)
                                     <tr>
-                                        <td>{{ $category->id }}</td>
-                                        <td>{{ $category->type }}</td>
-                                        <td>{{ $category->translate('ar')->name }}</td>
-                                        <td>{{ $category->translate('en')->name }}</td>
+                                        <td>{{ $service->id }}</td>
+                                        <td>{{ $service->type }}</td>
+                                        <td>{{ $service->subCategory->translate('ar')->name }}</td>
+                                        <td>{{ $service->translate('ar')->name }}</td>
+                                        <td>{{ $service->translate('en')->name }}</td>
                                         <td>
                                             <div class="d-flex justify-content-left align-items-center">
                                                 <div class="avatar  me-3">
-                                                    <img src="{{ Vite::asset('public/storage/' . $category->image) }}"
+                                                    <img src="{{ $service->image ? Vite::asset('public/storage/' . $service->image) : Vite::asset('public/no-image.png') }}"
                                                         alt="Avatar" width="64" height="64"
                                                         style="border-radius: 20px">
                                                 </div>
@@ -57,9 +59,9 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                                     <a class="dropdown-item"
-                                                        href="{{ route('categories.edit', ['category' => $category->id]) }}">تعديل</a>
+                                                        href="{{ route('services.edit', ['service' => $service->id]) }}">تعديل</a>
                                                     <form
-                                                        action="{{ route('categories.destroy', ['category' => $category->id]) }}"
+                                                        action="{{ route('services.destroy', ['service' => $service->id]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -73,7 +75,7 @@
                                 @endforeach
                             @else
                                 <div class="mb-4 text-center">
-                                    <h4>لا يوجد تصنيفات</h4>
+                                    <h4>لا يوجد خدمات</h4>
                                 </div>
                             @endif
                         </tbody>

@@ -1,21 +1,9 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>تعديل التصنيف</x-slot>
-
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
+    <x-slot:pageTitle>تعديل الخدمة</x-slot>
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
-            <form method="POST" action="{{ route('categories.update', ['category' => $category->id]) }}"
+            <form method="POST" action="{{ route('services.update', ['service' => $service->id]) }}"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -23,9 +11,30 @@
                     <div class="widget-content widget-content-area ecommerce-create-section">
                         <div class="row mb-4">
                             <div class="col-sm-12">
+                                <label for="sub_category">اختر التنصيف الفرعي لهذه الخدمة</label>
+                                <select name="sub_category" class="form-control">
+                                    <option value="{{ $service->sub_category_id }}" selected hidden>
+                                        {{ $service->subCategory->translate('ar')->name }}
+                                    </option>
+                                    @foreach ($subCategories as $subCategory)
+                                        <option value="{{ $subCategory->id }}">{{ $subCategory->translate('ar')->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('sub_category')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
                                 <label for="type">نوع التنصيف</label>
-                                <input type="text" name="type" class="form-control" placeholder="ادخل نوع التنصيف"
-                                    value="{{ $category->type }}">
+                                <select name="type" class="form-control">
+                                    <option selected hidden>{{ $category->type }}</option>
+                                    @foreach ($categoryTypes as $categoryType)
+                                        <option value="{{ $categoryType }}">{{ $categoryType }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             @error('type')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
@@ -33,10 +42,10 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="name_ar">اسم التصنيف باللغة العربية</label>
+                                <label for="name_ar">اسم الخدمة باللغة العربية</label>
                                 <input type="text" name="name_ar" class="form-control"
-                                    placeholder="ادخل اسم التصنيف باللغة العربية"
-                                    value="{{ $category->translate('ar')->name }}">
+                                    placeholder="ادخل اسم الخدمة باللغة العربية"
+                                    value="{{ $service->translate('ar')->name }}">
                             </div>
                             @error('name_ar')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
@@ -44,10 +53,10 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="name_en">اسم التصنيف باللغة الانكليزية</label>
+                                <label for="name_en">اسم الخدمة باللغة الانكليزية</label>
                                 <input type="text" name="name_en" class="form-control"
-                                    placeholder="ادخل اسم التصنيف باللغة الانكليزية"
-                                    value="{{ $category->translate('en')->name }}">
+                                    placeholder="ادخل اسم الخدمة باللغة الانكليزية"
+                                    value="{{ $service->translate('en')->name }}">
                             </div>
                             @error('name_en')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
@@ -55,13 +64,13 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="image">صورة التصنيف</label>
+                                <label for="image">صورة الخدمة</label>
                                 <div class="text-center">
-                                    <img src="{{ Vite::asset('public/storage/' . $category->image) }}"
+                                    <img src="{{ $service->image ? Vite::asset('public/storage/' . $service->image) : Vite::asset('public/no-image.png') }}"
                                         class="card-img-top" alt="..." style="width: 250px; height: 250px;">
                                 </div>
                                 <input type="file" name="image" class="form-control"
-                                    value="{{ $category->image }}">
+                                    value="{{ $service->image }}">
                             </div>
                             @error('image')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>

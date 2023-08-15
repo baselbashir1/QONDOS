@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
+use App\Models\Service;
 use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use App\Http\Enums\CategoryType;
+use App\Models\CategoryTranslation;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -20,7 +24,8 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('pages.categories.add');
+        $categoryTypes = [CategoryType::mainCategory, CategoryType::subCategory, CategoryType::service];
+        return view('pages.categories.add', ['categoryTypes' => $categoryTypes]);
     }
 
     public function store(CategoryRequest $request)
@@ -53,7 +58,8 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('pages.categories.edit', ['category' => $category]);
+        $categoryTypes = [CategoryType::mainCategory, CategoryType::subCategory, CategoryType::service];
+        return view('pages.categories.edit', ['category' => $category, 'categoryTypes' => $categoryTypes]);
     }
 
     public function update(CategoryRequest $request, Category $category)
@@ -80,12 +86,13 @@ class CategoryController extends Controller
             return redirect()->route('categories.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء تعديل التصنيف');
-            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء تعديل التصنيف']);
         }
     }
 
     public function destroy(Category $category)
     {
+        $category->subCategories()->delete();
+        $category->categoryTranslations()->delete();
         $category->delete();
         notify()->success('تم حذف التصنيف بنجاح');
         return redirect()->route('categories.index');

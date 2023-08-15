@@ -47,7 +47,13 @@
                         <a href="{{ route('maintenance-technicians.index') }}"> فنيو الصيانة </a>
                     </li>
                     <li>
-                        <a href="{{ route('categories.index') }}"> التصنيفات </a>
+                        <a href="{{ route('categories.index') }}"> التصنيفات الرئيسية </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('sub-categories.index') }}"> التصنيفات الفرعية </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('services.index') }}"> الخدمات </a>
                     </li>
                 </ul>
             </li>

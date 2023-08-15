@@ -2,18 +2,6 @@
 
     <x-slot:pageTitle>تعديل التصنيف</x-slot>
 
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
-
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST" action="{{ route('categories.update', ['category' => $category->id]) }}"
                 enctype="multipart/form-data">
@@ -24,8 +12,12 @@
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="type">نوع التنصيف</label>
-                                <input type="text" name="type" class="form-control" placeholder="ادخل نوع التنصيف"
-                                    value="{{ $category->type }}">
+                                <select name="type" class="form-control">
+                                    <option selected hidden>{{ $category->type }}</option>
+                                    @foreach ($categoryTypes as $categoryType)
+                                        <option value="{{ $categoryType }}">{{ $categoryType }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             @error('type')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
@@ -57,7 +49,7 @@
                             <div class="col-sm-12">
                                 <label for="image">صورة التصنيف</label>
                                 <div class="text-center">
-                                    <img src="{{ Vite::asset('public/storage/' . $category->image) }}"
+                                    <img src="{{ $category->image ? Vite::asset('public/storage/' . $category->image) : Vite::asset('public/no-image.png') }}"
                                         class="card-img-top" alt="..." style="width: 250px; height: 250px;">
                                 </div>
                                 <input type="file" name="image" class="form-control"

@@ -1,11 +1,11 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>التصنيفات</x-slot>
+    <x-slot:pageTitle>التصنيفات الفرعية</x-slot>
 
         <div class="row layout-top-spacing">
             <div class="col-xl-12 col-lg-6" style="width: 200px">
-                <a href="{{ route('categories.create') }}" class="btn btn-primary w-100 btn-lg mb-4">
-                    <span class="btn-text-inner">إضافة تصنيف</span>
+                <a href="{{ route('sub-categories.create') }}" class="btn btn-primary w-100 btn-lg mb-4">
+                    <span class="btn-text-inner">إضافة تصنيف فرعي</span>
                 </a>
             </div>
         </div>
@@ -18,6 +18,7 @@
                             <tr>
                                 <th class="checkbox-column"></th>
                                 <th>نوع التصنيف</th>
+                                <th>التنصيف الرئيسي لهذا التصنيف</th>
                                 <th>اسم التصنيف باللغة العربية</th>
                                 <th>اسم التصنيف باللغة الانكليزية</th>
                                 <th>صورة التصنيف</th>
@@ -25,17 +26,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (count($categories))
-                                @foreach ($categories as $category)
+                            @if (count($subCategories))
+                                @foreach ($subCategories as $subCategory)
                                     <tr>
-                                        <td>{{ $category->id }}</td>
-                                        <td>{{ $category->type }}</td>
-                                        <td>{{ $category->translate('ar')->name }}</td>
-                                        <td>{{ $category->translate('en')->name }}</td>
+                                        <td>{{ $subCategory->id }}</td>
+                                        <td>{{ $subCategory->type }}</td>
+                                        <td>{{ $subCategory->category->translate('ar')->name }}</td>
+                                        <td>{{ $subCategory->translate('ar')->name }}</td>
+                                        <td>{{ $subCategory->translate('en')->name }}</td>
                                         <td>
                                             <div class="d-flex justify-content-left align-items-center">
                                                 <div class="avatar  me-3">
-                                                    <img src="{{ Vite::asset('public/storage/' . $category->image) }}"
+                                                    <img src="{{ $subCategory->image ? Vite::asset('public/storage/' . $subCategory->image) : Vite::asset('public/no-image.png') }}"
                                                         alt="Avatar" width="64" height="64"
                                                         style="border-radius: 20px">
                                                 </div>
@@ -57,9 +59,9 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                                     <a class="dropdown-item"
-                                                        href="{{ route('categories.edit', ['category' => $category->id]) }}">تعديل</a>
+                                                        href="{{ route('sub-categories.edit', ['sub_category' => $subCategory->id]) }}">تعديل</a>
                                                     <form
-                                                        action="{{ route('categories.destroy', ['category' => $category->id]) }}"
+                                                        action="{{ route('sub-categories.destroy', ['sub_category' => $subCategory->id]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -73,7 +75,7 @@
                                 @endforeach
                             @else
                                 <div class="mb-4 text-center">
-                                    <h4>لا يوجد تصنيفات</h4>
+                                    <h4>لا يوجد تصنيفات فرعية</h4>
                                 </div>
                             @endif
                         </tbody>

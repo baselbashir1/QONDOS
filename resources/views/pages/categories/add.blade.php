@@ -1,6 +1,6 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>إضافة تصنيف</x-slot>
+    <x-slot:pageTitle>إضافة تصنيف رئيسي</x-slot>
 
         {{-- <div class="mt-4">
             @if ($errors->any())
@@ -22,7 +22,12 @@
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="type">نوع التنصيف</label>
-                                <input type="text" name="type" class="form-control" placeholder="ادخل نوع التنصيف">
+                                <select name="type" class="form-control">
+                                    <option selected disabled>اختر نوع التصنيف</option>
+                                    @foreach ($categoryTypes as $categoryType)
+                                        <option value="{{ $categoryType }}">{{ $categoryType }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             @error('type')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
@@ -61,7 +66,7 @@
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-success w-100"
                                     style="background:green"><span>إضافة
-                                        تصنيف</span></button>
+                                        تصنيف رئيسي</span></button>
                             </div>
                         </div>
                     </div>

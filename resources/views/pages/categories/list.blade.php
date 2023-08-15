@@ -1,11 +1,11 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>التصنيفات</x-slot>
+    <x-slot:pageTitle>التصنيفات الرئيسية</x-slot>
 
         <div class="row layout-top-spacing">
             <div class="col-xl-12 col-lg-6" style="width: 200px">
                 <a href="{{ route('categories.create') }}" class="btn btn-primary w-100 btn-lg mb-4">
-                    <span class="btn-text-inner">إضافة تصنيف</span>
+                    <span class="btn-text-inner">إضافة تصنيف رئيسي</span>
                 </a>
             </div>
         </div>
@@ -35,7 +35,7 @@
                                         <td>
                                             <div class="d-flex justify-content-left align-items-center">
                                                 <div class="avatar  me-3">
-                                                    <img src="{{ Vite::asset('public/storage/' . $category->image) }}"
+                                                    <img src="{{ $category->image ? Vite::asset('public/storage/' . $category->image) : Vite::asset('public/no-image.png') }}"
                                                         alt="Avatar" width="64" height="64"
                                                         style="border-radius: 20px">
                                                 </div>
@@ -73,7 +73,7 @@
                                 @endforeach
                             @else
                                 <div class="mb-4 text-center">
-                                    <h4>لا يوجد تصنيفات</h4>
+                                    <h4>لا يوجد تصنيفات رئيسية</h4>
                                 </div>
                             @endif
                         </tbody>

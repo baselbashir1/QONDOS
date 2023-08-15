@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Enums\CategoryType;
 use App\Http\Requests\SubCategoryRequest;
+use App\Models\Category;
+use App\Models\Service;
+use App\Models\ServiceTranslation;
 use App\Models\SubCategory;
+use App\Models\SubCategoryTranslation;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
@@ -20,7 +25,9 @@ class SubCategoryController extends Controller
 
     public function create()
     {
-        return view('pages.sub-categories.add');
+        $categories = Category::all();
+        $categoryTypes = [CategoryType::mainCategory, CategoryType::subCategory, CategoryType::service];
+        return view('pages.sub-categories.add', ['categories' => $categories, 'categoryTypes' => $categoryTypes]);
     }
 
     public function store(SubCategoryRequest $request)
@@ -45,16 +52,17 @@ class SubCategoryController extends Controller
             ]);
 
             notify()->success('تمت إضافة التصنيف بنجاح');
-            return redirect()->route('categories.index');
+            return redirect()->route('sub-categories.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء إضافة التصنيف');
-            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء إضافة التصنيف']);
         }
     }
 
     public function edit(SubCategory $subCategory)
     {
-        return view('pages.sub-categories.edit', ['subCategory' => $subCategory]);
+        $categories = Category::all();
+        $categoryTypes = [CategoryType::mainCategory, CategoryType::subCategory, CategoryType::service];
+        return view('pages.sub-categories.edit', ['subCategory' => $subCategory, 'categories' => $categories, 'categoryTypes' => $categoryTypes]);
     }
 
     public function update(SubCategoryRequest $request, SubCategory $subCategory)
@@ -74,22 +82,23 @@ class SubCategoryController extends Controller
                 'ar' => [
                     'name' => $formFields['name_ar']
                 ],
-                'image' => isset($formFields['image']) ? $formFields['image'] : $category->image,
+                'image' => isset($formFields['image']) ? $formFields['image'] : $subCategory->image,
                 'category_id' => $formFields['category']
             ]);
 
             notify()->success('تم تعديل التصنيف بنجاح');
-            return redirect()->route('categories.index');
+            return redirect()->route('sub-categories.index');
         } catch (\Exception $e) {
             notify()->error('حدث خطأ أثناء تعديل التصنيف');
-            // return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء تعديل التصنيف']);
         }
     }
 
-    public function destroy(Category $category)
+    public function destroy(SubCategory $subCategory)
     {
-        $category->delete();
+        $subCategory->services()->delete();
+        $subCategory->subCategoryTranslations()->delete();
+        $subCategory->delete();
         notify()->success('تم حذف التصنيف بنجاح');
-        return redirect()->route('categories.index');
+        return redirect()->route('sub-categories.index');
     }
 }

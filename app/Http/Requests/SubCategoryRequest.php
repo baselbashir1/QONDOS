@@ -29,4 +29,14 @@ class SubCategoryRequest extends FormRequest
             'category' => 'required'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'type.required' => 'نوع التصنيف مطلوب.',
+            'name_ar.required' => 'اسم التصنيف باللغة العربية مطلوب.',
+            'name_en.required' => 'اسم التصنيف باللغة الانكليزية مطلوب.',
+            'category.required' => 'التصنيف الرئيسي لهذا التصنيف مطلوب.'
+        ];
+    }
 }
