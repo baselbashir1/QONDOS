@@ -15,19 +15,23 @@
                         <div class="col-sm-12">
                             <label for="phone">الخدمات</label>
                             @foreach ($order->orderServices as $orderService)
-                                <div class="card">
-                                    <div class="form-control">{{ $orderService->service->translate('ar')->name }}</div>
-                                    <div class="form-control">{{ $orderService->service->image }}</div>
+                                <div class="card container mb-2">
+                                    <div>{{ $orderService->service->translate('ar')->name }}</div>
+                                    <div class="form-control">
+                                        <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
+                                            alt="..." style="width: 30%; height: 30%">
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
-                    <div class="row mb-4">
+                    <div class="row mb-4 tex">
                         <div class="col-sm-12">
                             <label for="city">الصور</label>
                             @foreach ($order->orderImages as $orderImage)
-                                <div class="card">
-                                    <div class="form-control">{{ $orderImage->image }}</div>
+                                <div class="card container mb-2">
+                                    <img src="{{ $orderImage->image ? Vite::asset('public/storage/' . $orderImage->image) : Vite::asset('public/no-image.png') }}"
+                                        alt="..." style="width: 30%; height: 30%">
                                 </div>
                             @endforeach
                         </div>
