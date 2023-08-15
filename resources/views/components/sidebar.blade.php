@@ -55,6 +55,9 @@
                     <li>
                         <a href="{{ route('services.index') }}"> الخدمات </a>
                     </li>
+                    <li>
+                        <a href="{{ route('orders.index') }}"> الطلبات </a>
+                    </li>
                 </ul>
             </li>
         </ul>

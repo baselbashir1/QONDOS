@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MaintenanceTechnicianController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SubCategoryController;
 
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('sub-categories', SubCategoryController::class);
     Route::resource('services', ServiceController::class);
+    Route::resource('orders', OrderController::class);
 });
 
 require __DIR__ . '/auth.php';

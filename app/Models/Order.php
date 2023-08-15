@@ -4,11 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
     use HasFactory;
 
-    // protected $fillable = ['service_id', 'notes', 'image', 'client_id'];
     protected $fillable = ['notes', 'image', 'client_id'];
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function orderServices()
+    {
+        return $this->hasMany(OrderService::class, 'order_id');
+    }
+
+    public function orderImages()
+    {
+        return $this->hasMany(OrderImage::class, 'order_id');
+    }
 }
