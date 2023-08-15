@@ -31,6 +31,12 @@ Route::post('/client/login', [ClientController::class, 'login']);
 Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::get('/client/logout', [ClientController::class, 'logout']);
     Route::get('/client/profile', [ClientController::class, 'getProfile']);
+    // Route::get('/client/main-categories', [ClientController::class, 'index']);
+    // Route::apiResource('clients', ClientController::class);
+
+
+    // Route::get('categories', [CategoryController::class, 'index']);
+    // Route::get('categories/{category}', [CategoryController::class, 'show']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);
