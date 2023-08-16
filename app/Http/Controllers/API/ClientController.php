@@ -75,7 +75,7 @@ class ClientController extends Controller
 
         $services = $input['services'] ?? [];
         if (!is_array($services)) {
-            return response()->json(['error' => 'Invalid checkbox values format'], 400);
+            return response()->json(['error' => 'Invalid services.'], 400);
         }
 
         foreach ($services as $serviceId) {
@@ -93,12 +93,26 @@ class ClientController extends Controller
             }
         }
 
+        // dd($imagesPaths);
+
         foreach ($imagesPaths as $imagePath) {
             OrderImage::create([
                 'order_id' => $order->id,
                 'image' => $imagePath,
             ]);
         }
+
+        // $images = $input['images'] ?? [];
+        // if (!is_array($images)) {
+        //     return response()->json(['error' => 'Invalid images.'], 400);
+        // }
+
+        // foreach ($images as $imageId) {
+        //     OrderImage::create([
+        //         'order_id' => $order->id,
+        //         'image' => $imageId,
+        //     ]);
+        // }
 
         return response()->json(['success' => 'Added services and images to order successfully.']);
     }
