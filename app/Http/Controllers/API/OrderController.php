@@ -20,12 +20,12 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $orderServices = OrderService::where('order_id', $order->id);
-        $orderImages = OrderImage::where('order_id', $order->id);
+        $orderServices = OrderService::where('order_id', $order->id)->get();
+        $orderImages = OrderImage::where('order_id', $order->id)->get();
         return [
             'order' => OrderResource::make($order),
-            // 'order-services' => OrderServicesResource::collection($orderServices),
-            // 'order-images' => OrderImagesResource::collection($orderImages)
+            'order-services' => OrderServicesResource::collection($orderServices),
+            'order-images' => OrderImagesResource::collection($orderImages)
         ];
     }
 }
