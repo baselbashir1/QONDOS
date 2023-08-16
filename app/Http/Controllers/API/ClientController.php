@@ -104,4 +104,8 @@ class ClientController extends Controller
 
         return response()->json(['success' => 'Added services and images to order successfully.']);
     }
+
+    public function showOrders(){
+        
+    }
 }
