@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
 use App\Models\MaintenanceTechnician;
 use Illuminate\Support\Facades\Auth;
@@ -17,20 +18,16 @@ class MaintenanceTechnicianController extends Controller
         return MaintenanceTechnicianResource::collection(MaintenanceTechnician::all());
     }
 
-    public function login(Request $request)
+    public function login(AuthRequest $request)
     {
-        $input = $request->all();
-        $rules = [
-            'phone' => 'required',
-            'password' => 'required|min:6'
-        ];
+        $inputFields = $request->all();
 
-        $validator = Validator::make($input, $rules);
+        $validator = Validator::make($inputFields, $request->rules());
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()]);
         }
 
-        if (Auth::guard('maintenance-technician')->attempt(['phone' => $input['phone'], 'password' => $input['password']])) {
+        if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
             $maintenanceTechnician = Auth::guard('maintenance-technician')->user();
 
             $token = $maintenanceTechnician->createToken('maintenance-technician token', ['maintenance-technician'])->accessToken;

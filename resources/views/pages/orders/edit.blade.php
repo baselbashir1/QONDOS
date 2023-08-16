@@ -1,79 +1,59 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>تعديل العميل</x-slot>
-
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
+    <x-slot:pageTitle>تعديل الطلب</x-slot>
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
-            <form method="POST" action="{{ route('clients.update', ['client' => $client->id]) }}">
+            <form method="POST" action="{{ route('orders.update', ['order' => $order->id]) }}">
                 @csrf
                 @method('PUT')
                 <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="widget-content widget-content-area ecommerce-create-section">
+                        <div class="row">
+                            <label class="ml-1 mr-1" style="width: 45%">رقم الطلب</label>
+                            <label class="ml-1 mr-1" style="width: 45%">صاحب الطلب</label>
+                        </div>
                         <div class="row mb-4">
+                            <div class="form-control m-1" style="width: 45%">{{ $order->id }}</div>
+                            <div class="form-control m-1" style="width: 45%">{{ $order->client->name }}</div>
+                        </div>
+                        <div class="row mb-4">
+                            <label>الخدمات</label>
+                            @foreach ($order->orderServices as $orderService)
+                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
+                                    {{ $orderService->service->translate('ar')->name }}
+                                    <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
+                                        alt="..." style="width: 100%; height: 100%">
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="row mb-4 tex">
                             <div class="col-sm-12">
-                                <label for="name">الاسم</label>
-                                <input type="text" name="name" class="form-control" value="{{ $client->name }}"
-                                    placeholder="ادخل الاسم">
+                                <label for="city">الصور</label>
+                                @if (count($order->orderImages))
+                                    @foreach ($order->orderImages as $orderImage)
+                                        <div class="card container mb-2">
+                                            <img src="{{ $orderImage->image ? Vite::asset('public/storage/' . $orderImage->image) : Vite::asset('public/no-image.png') }}"
+                                                alt="..." style="width: 30%; height: 30%">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="container text-center">
+                                        <p style="font-size: 35px">لا يوجد صور مرفقة</p>
+                                    </div>
+                                @endif
+
                             </div>
-                            @error('name')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="phone">رقم الهاتف</label>
-                                <input type="text" name="phone" class="form-control" value="{{ $client->phone }}"
-                                    placeholder="ادخل رقم الهاتف">
+                                <label for="password">ملاحظات</label>
+                                <textarea class="form-control" name="notes" style="border-width: 3px; border-color:lightseagreen">{{ $order->notes }}</textarea>
                             </div>
-                            @error('phone')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-12">
-                                <label for="city">المدينة</label>
-                                <input type="text" name="city" class="form-control" value="{{ $client->city }}"
-                                    placeholder="ادخل اسم المدينة">
-                            </div>
-                            @error('city')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-12">
-                                <label for="email">البريد الالكتروني</label>
-                                <input type="email" name="email" class="form-control text-right"
-                                    value="{{ $client->email }}" placeholder="ادخل البريد الالكتروني">
-                            </div>
-                            @error('email')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-12">
-                                <label for="password">كلمة المرور</label>
-                                <input type="password" name="password" class="form-control"
-                                    value="{{ $client->password }}" placeholder="ادخل كلمة المرور">
-                            </div>
-                            @error('password')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
                         </div>
                         <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-4">
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-success w-100"
-                                    style="background: green"><span>تحديث</span></button>
+                                    style="background:green"><span>تحديث الطلب</span></button>
                             </div>
                         </div>
                     </div>

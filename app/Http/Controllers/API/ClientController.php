@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
@@ -22,20 +23,16 @@ class ClientController extends Controller
         return ClientResource::collection(Client::all());
     }
 
-    public function login(Request $request)
+    public function login(AuthRequest $request)
     {
-        $input = $request->all();
-        $rules = [
-            'phone' => 'required',
-            'password' => 'required|min:6'
-        ];
+        $inputFields = $request->all();
 
-        $validator = Validator::make($input, $rules);
+        $validator = Validator::make($inputFields, $request->rules());
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()]);
         }
 
-        if (Auth::guard('client')->attempt(['phone' => $input['phone'], 'password' => $input['password']])) {
+        if (Auth::guard('client')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
             $client = Auth::guard('client')->user();
 
             $token = $client->createToken('client token', ['client'])->accessToken;

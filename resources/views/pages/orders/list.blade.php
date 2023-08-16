@@ -2,14 +2,6 @@
 
     <x-slot:pageTitle>الطلبات</x-slot>
 
-        {{-- <div class="row layout-top-spacing">
-            <div class="col-xl-12 col-lg-6" style="width: 200px">
-                <a href="{{ route('clients.create') }}" class="btn btn-primary w-100 btn-lg mb-4">
-                    <span class="btn-text-inner">إضافة عميل</span>
-                </a>
-            </div>
-        </div> --}}
-
         <div class="row layout-top-spacing">
             <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
                 <div class="widget-content widget-content-area br-8">
