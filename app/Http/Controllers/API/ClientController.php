@@ -102,18 +102,6 @@ class ClientController extends Controller
             ]);
         }
 
-        // $images = $input['images'] ?? [];
-        // if (!is_array($images)) {
-        //     return response()->json(['error' => 'Invalid images.'], 400);
-        // }
-
-        // foreach ($images as $imageId) {
-        //     OrderImage::create([
-        //         'order_id' => $order->id,
-        //         'image' => $imageId,
-        //     ]);
-        // }
-
         return response()->json(['success' => 'Added services and images to order successfully.']);
     }
 }
