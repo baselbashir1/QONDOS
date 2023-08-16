@@ -5,25 +5,23 @@
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="widget-content widget-content-area ecommerce-create-section">
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <label for="name">رقم الطلب</label>
-                            <div class="form-control">{{ $order->id }}</div>
-                        </div>
+                    <div class="row">
+                        <label class="ml-1 mr-1" style="width: 45%">رقم الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 45%">صاحب الطلب</label>
                     </div>
                     <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <label for="phone">الخدمات</label>
-                            @foreach ($order->orderServices as $orderService)
-                                <div class="card container mb-2">
-                                    <div>{{ $orderService->service->translate('ar')->name }}</div>
-                                    <div class="form-control">
-                                        <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
-                                            alt="..." style="width: 30%; height: 30%">
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                        <div class="form-control m-1" style="width: 45%">{{ $order->id }}</div>
+                        <div class="form-control m-1" style="width: 45%">{{ $order->client->name }}</div>
+                    </div>
+                    <div class="row mb-4">
+                        <label>الخدمات</label>
+                        @foreach ($order->orderServices as $orderService)
+                            <div class="card form-control m-1" style="font-size: 25px; width: 25%">
+                                {{ $orderService->service->translate('ar')->name }}
+                                <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
+                                    alt="..." style="width: 100%; height: 100%">
+                            </div>
+                        @endforeach
                     </div>
                     <div class="row mb-4 tex">
                         <div class="col-sm-12">
@@ -38,14 +36,8 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
-                            <label for="email">صاحب الطلب</label>
-                            <div class="form-control">{{ $order->client->name }}</div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
                             <label for="password">ملاحظات</label>
-                            <div class="form-control">{{ $order->notes }}</div>
+                            <textarea class="form-control">{{ $order->notes }}</textarea>
                         </div>
                     </div>
                 </div>
