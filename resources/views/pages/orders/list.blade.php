@@ -13,6 +13,8 @@
                                 <th>عدد الخدمات</th>
                                 <th>عدد الصور</th>
                                 <th>صاحب الطلب</th>
+                                <th>حالة الطلب</th>
+                                <th>وقت الزيارة</th>
                                 <th>ملاحظات</th>
                                 <th class="no-content text-center">خيارات</th>
                             </tr>
@@ -26,6 +28,20 @@
                                         <td>{{ count($order->orderServices) }}</td>
                                         <td>{{ count($order->orderImages) }}</td>
                                         <td>{{ $order->client->name }}</td>
+                                        <td>
+                                            @if ($order->is_scheduled === 1)
+                                                مجدول
+                                            @else
+                                                غير مجدول
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($order->visit_time)
+                                                {{ $order->visit_time }}
+                                            @else
+                                                فوري
+                                            @endif
+                                        </td>
                                         <td>{{ $order->notes }}</td>
                                         <td class="text-center">
                                             <div class="dropdown">

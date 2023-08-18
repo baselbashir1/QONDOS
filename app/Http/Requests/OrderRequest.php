@@ -26,6 +26,8 @@ class OrderRequest extends FormRequest
             'notes' => 'nullable',
             'images' => 'nullable|array|max:5',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_scheduled' => 'required',
+            'visit_time' => 'nullable'
         ];
     }
 }

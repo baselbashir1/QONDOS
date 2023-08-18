@@ -33,7 +33,9 @@ class OrderController extends Controller
         $formFields = $request->all();
 
         $order->update([
-            'notes' => $formFields['notes']
+            'notes' => $formFields['notes'],
+            'is_scheduled' => $formFields['is_scheduled'],
+            'visit_time' => isset($formFields['visit_time']) ? $formFields['visit_time'] : $order->visit_time
         ]);
 
         return redirect()->route('orders.index');

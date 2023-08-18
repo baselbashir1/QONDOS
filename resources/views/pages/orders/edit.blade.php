@@ -18,13 +18,19 @@
                         </div>
                         <div class="row mb-4">
                             <label>الخدمات</label>
-                            @foreach ($order->orderServices as $orderService)
-                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                    {{ $orderService->service->translate('ar')->name }}
-                                    <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
-                                        alt="..." style="width: 100%; height: 100%">
+                            @if (count($order->orderServices))
+                                @foreach ($order->orderServices as $orderService)
+                                    <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
+                                        {{ $orderService->service->translate('ar')->name }}
+                                        <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
+                                            alt="..." style="width: 100%; height: 100%">
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="container text-center">
+                                    <p style="font-size: 35px">لا يوجد خدمات</p>
                                 </div>
-                            @endforeach
+                            @endif
                         </div>
                         <div class="row mb-4 tex">
                             <div class="col-sm-12">
@@ -43,6 +49,26 @@
                                 @endif
 
                             </div>
+                        </div>
+                        <div class="row">
+                            <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
+                            <label class="ml-1 mr-1" style="width: 45%">وقت الزيارة</label>
+                        </div>
+                        <div class="row mb-4">
+                            @if ($order->is_scheduled === 1)
+                                <div class="col mt-3">
+                                    <input type="radio" name="is_scheduled" value="1" checked> مجدول
+                                    <input type="radio" name="is_scheduled" value="0"> غير مجدول
+                                </div>
+                            @else
+                                <div class="col mt-3">
+                                    <input type="radio" name="is_scheduled" value="1"> مجدول
+                                    <input type="radio" name="is_scheduled" value="0" checked> غير مجدول
+                                </div>
+                            @endif
+                            <input type="datetime" name="visit_time" class="form-control m-1"
+                                style="width: 55%; border-width: 3px; border-color:lightseagreen"
+                                @if ($order->visit_time) value="{{ $order->visit_time }}" @else value="فوري" @endif>
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">

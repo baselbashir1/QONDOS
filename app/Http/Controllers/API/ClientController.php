@@ -65,15 +65,16 @@ class ClientController extends Controller
 
     public function makeOrder(OrderRequest $request)
     {
-        $input = $request->validated();
-
+        $inputFields = $request->validated();
 
         $order = Order::create([
-            'notes' => $input['notes'],
-            'client_id' => Auth::user()->id
+            'notes' => $inputFields['notes'],
+            'client_id' => Auth::user()->id,
+            'is_scheduled' => $inputFields['is_scheduled'],
+            'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null
         ]);
 
-        $services = $input['services'] ?? [];
+        $services = $inputFields['services'] ?? [];
         if (!is_array($services)) {
             return response()->json(['error' => 'Invalid services.'], 400);
         }

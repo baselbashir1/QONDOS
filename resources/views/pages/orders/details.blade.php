@@ -1,5 +1,4 @@
 <x-base-layout>
-
     <x-slot:pageTitle>تفاصيل الطلب</x-slot>
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
@@ -15,13 +14,19 @@
                     </div>
                     <div class="row mb-4">
                         <label>الخدمات</label>
-                        @foreach ($order->orderServices as $orderService)
-                            <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                {{ $orderService->service->translate('ar')->name }}
-                                <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
-                                    alt="..." style="width: 100%; height: 100%">
+                        @if (count($order->orderServices))
+                            @foreach ($order->orderServices as $orderService)
+                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
+                                    {{ $orderService->service->translate('ar')->name }}
+                                    <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
+                                        alt="..." style="width: 100%; height: 100%">
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="container text-center">
+                                <p style="font-size: 35px">لا يوجد خدمات</p>
                             </div>
-                        @endforeach
+                        @endif
                     </div>
                     <div class="row mb-4 tex">
                         <div class="col-sm-12">
@@ -38,7 +43,26 @@
                                     <p style="font-size: 35px">لا يوجد صور مرفقة</p>
                                 </div>
                             @endif
-
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 45%">وقت الزيارة</label>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="form-control m-1" style="width: 45%">
+                            @if ($order->is_scheduled === 1)
+                                مجدول
+                            @else
+                                غير مجدول
+                            @endif
+                        </div>
+                        <div class="form-control m-1" style="width: 45%">
+                            @if ($order->visit_time)
+                                {{ $order->visit_time }}
+                            @else
+                                فوري
+                            @endif
                         </div>
                     </div>
                     <div class="row mb-4">

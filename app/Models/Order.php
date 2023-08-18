@@ -11,7 +11,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['notes', 'image', 'client_id'];
+    protected $fillable = ['notes', 'image', 'client_id', 'is_scheduled', 'visit_time'];
 
     public function client(): BelongsTo
     {
