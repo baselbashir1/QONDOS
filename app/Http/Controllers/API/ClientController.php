@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
+use App\Http\Requests\ClientRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
@@ -43,6 +44,42 @@ class ClientController extends Controller
         }
     }
 
+    public function register(ClientRequest $request)
+    {
+        $inputFields = $request->all();
+
+        $validator = Validator::make($inputFields, $request->rules());
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()]);
+        }
+
+        $existingClient = Client::where('phone', $inputFields['phone'])->first();
+        if ($existingClient) {
+            return response()->json(['error' => 'Phone number already registered']);
+        }
+
+        $newClient = new Client();
+        $newClient->name = $inputFields['name'];
+        $newClient->phone = $inputFields['phone'];
+        $newClient->email =  isset($inputFields['email']) ? $inputFields['email'] : null;
+        $newClient->city = $inputFields['city'];
+        $newClient->password = bcrypt($inputFields['password']);
+
+        if ($newClient->save()) {
+            if (Auth::guard('client')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
+                $client = Auth::guard('client')->user();
+
+                $token = $client->createToken('client token', ['client'])->accessToken;
+
+                return response()->json(['client' => $client, 'token' => $token]);
+            } else {
+                return response()->json(['error' => 'Registration failed to log in.']);
+            }
+        } else {
+            return response()->json(['error' => 'Registration failed.']);
+        }
+    }
+
     public function getProfile()
     {
         $client = Auth::user();
@@ -71,7 +108,9 @@ class ClientController extends Controller
             'notes' => $inputFields['notes'],
             'client_id' => Auth::user()->id,
             'is_scheduled' => $inputFields['is_scheduled'],
-            'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null
+            'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null,
+            'payment_type' => $inputFields['payment_type'],
+            'payment_method' => isset($inputFields['payment_method']) ? $inputFields['payment_method'] : null
         ]);
 
         $services = $inputFields['services'] ?? [];

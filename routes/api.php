@@ -21,6 +21,7 @@ use App\Http\Controllers\API\SubCategoryController;
 */
 
 Route::post('/client/login', [ClientController::class, 'login']);
+Route::post('/client/register', [ClientController::class, 'register']);
 Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::get('/client/logout', [ClientController::class, 'logout']);
     Route::get('/client/profile', [ClientController::class, 'getProfile']);

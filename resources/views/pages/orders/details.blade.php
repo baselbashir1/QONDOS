@@ -71,6 +71,30 @@
                             <textarea class="form-control" style="pointer-events: none">{{ $order->notes }}</textarea>
                         </div>
                     </div>
+                    @if ($order->payment_type === 0)
+                        <div class="row">
+                            <label class="ml-1 mr-1" style="width: 45%">نوع الدفع</label>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="form-control m-1" style="width: 45%">
+                                نقدي
+                            </div>
+                        </div>
+                    @endif
+                    @if ($order->payment_type === 1 && $order->payment_method)
+                        <div class="row">
+                            <label class="ml-1 mr-1" style="width: 45%">نوع الدفع</label>
+                            <label class="ml-1 mr-1" style="width: 45%">طريقة الدفع</label>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="form-control m-1" style="width: 45%">
+                                الكتروني
+                            </div>
+                            <div class="form-control m-1" style="width: 45%">
+                                {{ $order->payment_method }}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

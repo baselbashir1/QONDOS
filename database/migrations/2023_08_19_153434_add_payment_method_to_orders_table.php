@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->boolean('is_scheduled')->after('client_id')->comment('0 unscheduled - 1 scheduled');
+            $table->string('payment_method')->nullable()->after('payment_type');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('is_scheduled');
+            $table->dropColumn('payment_method');
         });
     }
 };
