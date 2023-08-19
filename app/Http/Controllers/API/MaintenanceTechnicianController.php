@@ -63,6 +63,9 @@ class MaintenanceTechnicianController extends Controller
             $inputFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
         }
 
+        $latitude = $request->input('latitude');
+        $longitude = $request->input('longitude');
+
         $newClient = new MaintenanceTechnician();
         $newClient->name = $inputFields['name'];
         $newClient->phone = $inputFields['phone'];
@@ -76,6 +79,7 @@ class MaintenanceTechnicianController extends Controller
         $newClient->sub_category_id = $inputFields['sub_category'];
         $newClient->service_id = $inputFields['service'];
         $newClient->is_verified = 0;
+        $newClient->location = DB::raw("POINT($latitude, $longitude)");
         $newClient->save();
 
         // if ($newClient->save()) {

@@ -33,6 +33,9 @@ class MaintenanceTechnicianRequest extends FormRequest
             'main_category' => 'required',
             'sub_category' => 'required',
             'service' => 'required',
+
+            'longitude' => 'nullable',
+            'latitude' => 'nullable'
         ];
     }
 

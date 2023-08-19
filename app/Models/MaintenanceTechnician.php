@@ -5,9 +5,10 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class MaintenanceTechnician extends Authenticatable
@@ -17,7 +18,7 @@ class MaintenanceTechnician extends Authenticatable
     protected $guard = 'maintenance-technician';
     protected $fillable = [
         'name', 'phone', 'password', 'city', 'bank', 'account_number', 'photo', 'residency_photo',
-        'is_verified', 'main_category_id', 'sub_category_id', 'service_id'
+        'is_verified', 'main_category_id', 'sub_category_id', 'service_id', 'location'
     ];
 
     public function mainCategory(): BelongsTo
@@ -41,7 +42,7 @@ class MaintenanceTechnician extends Authenticatable
     //     $longitude = $request->input('longitude');
 
     //     $location = new MaintenanceTechnician();
-    //     $location->location = new DB::raw("POINT($latitude, $longitude)");
+    //     $location->location = DB::raw("POINT($latitude, $longitude)");
     //     $location->save();
 
     //     return response()->json(['message' => 'Location stored successfully']);
