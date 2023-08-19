@@ -15,7 +15,7 @@
         </div> --}}
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
-            <form method="POST" action="{{ route('maintenance-technicians.store') }}">
+            <form method="POST" action="{{ route('maintenance-technicians.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="widget-content widget-content-area ecommerce-create-section">

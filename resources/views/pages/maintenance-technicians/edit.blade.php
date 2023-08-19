@@ -16,7 +16,8 @@
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST"
-                action="{{ route('maintenance-technicians.update', ['maintenance_technician' => $maintenanceTechnician->id]) }}">
+                action="{{ route('maintenance-technicians.update', ['maintenance_technician' => $maintenanceTechnician->id]) }}"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -119,7 +120,7 @@
                             <div class="col-sm-12">
                                 <label for="main_category">اختر التصنيف الرئيسي لهذه الخدمة</label>
                                 <select name="main_category" class="form-control">
-                                    <option selected hidden>
+                                    <option value="{{ $maintenanceTechnician->main_category_id }}" selected hidden>
                                         {{ $maintenanceTechnician->mainCategory->translate('ar')->name }}</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->translate('ar')->name }}
@@ -135,7 +136,7 @@
                             <div class="col-sm-12">
                                 <label for="sub_category">اختر التصنيف الفرعي لهذه الخدمة</label>
                                 <select name="sub_category" class="form-control">
-                                    <option selected hidden>
+                                    <option value="{{ $maintenanceTechnician->sub_category_id }}" selected hidden>
                                         {{ $maintenanceTechnician->subCategory->translate('ar')->name }}</option>
                                     @foreach ($subCategories as $subCategory)
                                         <option value="{{ $subCategory->id }}">
@@ -152,7 +153,7 @@
                             <div class="col-sm-12">
                                 <label for="service">اختر الخدمة</label>
                                 <select name="service" class="form-control">
-                                    <option selected hidden>
+                                    <option value="{{ $maintenanceTechnician->service_id }}" selected hidden>
                                         {{ $maintenanceTechnician->service->translate('ar')->name }}</option>
                                     @foreach ($services as $service)
                                         <option value="{{ $service->id }}">
