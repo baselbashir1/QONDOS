@@ -28,12 +28,14 @@ class MaintenanceTechnicianController extends Controller
             return response()->json(['error' => $validator->errors()]);
         }
 
-        if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
+        if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password'], 'is_verified' => 1])) {
             $maintenanceTechnician = Auth::guard('maintenance-technician')->user();
 
             $token = $maintenanceTechnician->createToken('maintenance-technician token', ['maintenance-technician'])->accessToken;
 
             return response()->json(['maintenance-technician' => $maintenanceTechnician, 'token' => $token]);
+        } elseif (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password'], 'is_verified' => 0])) {
+            return response()->json(['unauthorized' => 'Pending approval.']);
         } else {
             return response()->json(['error' => 'Invalid Credentials']);
         }
@@ -74,20 +76,22 @@ class MaintenanceTechnicianController extends Controller
         $newClient->sub_category_id = $inputFields['sub_category'];
         $newClient->service_id = $inputFields['service'];
         $newClient->is_verified = 0;
+        $newClient->save();
 
-        if ($newClient->save()) {
-            if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
-                $maintenanceTechnician = Auth::guard('maintenance-technician')->user();
+        // if ($newClient->save()) {
+        if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
+            // $maintenanceTechnician = Auth::guard('maintenance-technician')->user();
 
-                $token = $maintenanceTechnician->createToken('maintenance-technician token', ['maintenance-technician'])->accessToken;
+            // $token = $maintenanceTechnician->createToken('maintenance-technician token', ['maintenance-technician'])->accessToken;
 
-                return response()->json(['maintenance-technician' => $maintenanceTechnician, 'token' => $token]);
-            } else {
-                return response()->json(['error' => 'Registration failed to log in.']);
-            }
+            return response()->json(['unauthorized' => 'Pending approval.']);
+            // return response()->json(['maintenance-technician' => $maintenanceTechnician, 'token' => $token]);
         } else {
-            return response()->json(['error' => 'Registration failed.']);
+            return response()->json(['error' => 'Registration failed to log in.']);
         }
+        // } else {
+        //     return response()->json(['error' => 'Registration failed.']);
+        // }
     }
 
     public function getProfile()
