@@ -58,6 +58,9 @@
                     <li>
                         <a href="{{ route('orders.index') }}"> الطلبات </a>
                     </li>
+                    <li>
+                        <a href="#"> طلبات فنيو الصيانة </a>
+                    </li>
                 </ul>
             </li>
         </ul>

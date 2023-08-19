@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MaintenanceTechnician;
 use App\Http\Requests\MaintenanceTechnicianRequest;
+use App\Models\Category;
+use App\Models\Service;
+use App\Models\SubCategory;
 use Exception;
 
 class MaintenanceTechnicianController extends Controller
@@ -15,9 +18,17 @@ class MaintenanceTechnicianController extends Controller
         return view('pages.maintenance-technicians.list', ['maintenanceTechnicians' => $maintenanceTechnicians]);
     }
 
+    public function show(MaintenanceTechnician $maintenanceTechnician)
+    {
+        return view('pages.maintenance-technicians.details', ['maintenanceTechnician' => $maintenanceTechnician]);
+    }
+
     public function create()
     {
-        return view('pages.maintenance-technicians.add');
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
+        $services = Service::all();
+        return view('pages.maintenance-technicians.add', ['categories' => $categories, 'subCategories' => $subCategories, 'services' => $services]);
     }
 
     public function store(MaintenanceTechnicianRequest $request)
@@ -25,12 +36,27 @@ class MaintenanceTechnicianController extends Controller
         $formFields = $request->validated();
 
         try {
+            if ($request->hasFile('photo')) {
+                $formFields['photo'] = $request->file('photo')->store('images', 'public');
+            }
+
+            if ($request->hasFile('residency_photo')) {
+                $formFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
+            }
+
             MaintenanceTechnician::create([
                 'name' => $formFields['name'],
-                'email' => isset($formFields['email']) ? $formFields['email'] : null,
                 'phone' => $formFields['phone'],
+                'password' => bcrypt($formFields['password']),
                 'city' => $formFields['city'],
-                'password' => bcrypt($formFields['password'])
+                'bank' => $formFields['bank'],
+                'account_number' => $formFields['account_number'],
+                'photo' => isset($formFields['photo']) ? $formFields['photo'] : null,
+                'residency_photo' => isset($formFields['residency_photo']) ? $formFields['residency_photo'] : null,
+                'is_verified' => 1,
+                'main_category_id' => $formFields['main_category'],
+                'sub_category_id' => $formFields['sub_category'],
+                'service_id' => $formFields['service'],
             ]);
 
             notify()->success('تمت إضافة فني صيانة بنجاح');
@@ -42,7 +68,15 @@ class MaintenanceTechnicianController extends Controller
 
     public function edit(MaintenanceTechnician $maintenanceTechnician)
     {
-        return view('pages.maintenance-technicians.edit', ['maintenanceTechnician' => $maintenanceTechnician]);
+        $categories = Category::all();
+        $subCategories = SubCategory::all();
+        $services = Service::all();
+        return view('pages.maintenance-technicians.edit', [
+            'maintenanceTechnician' => $maintenanceTechnician,
+            'categories' => $categories,
+            'subCategories' => $subCategories,
+            'services' => $services
+        ]);
     }
 
     public function update(MaintenanceTechnicianRequest $request, MaintenanceTechnician $maintenanceTechnician)
@@ -50,12 +84,26 @@ class MaintenanceTechnicianController extends Controller
         $formFields = $request->validated();
 
         try {
+            if ($request->hasFile('photo')) {
+                $formFields['photo'] = $request->file('photo')->store('images', 'public');
+            }
+
+            if ($request->hasFile('residency_photo')) {
+                $formFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
+            }
+
             $maintenanceTechnician->update([
                 'name' => $formFields['name'],
-                'email' => isset($formFields['email']) ? $formFields['email'] : null,
                 'phone' => $formFields['phone'],
+                'password' => bcrypt($formFields['password']),
                 'city' => $formFields['city'],
-                'password' => bcrypt($formFields['password'])
+                'bank' => $formFields['bank'],
+                'account_number' => $formFields['account_number'],
+                'photo' => isset($formFields['photo']) ? $formFields['photo'] : $maintenanceTechnician->photo,
+                'residency_photo' => isset($formFields['residency_photo']) ? $formFields['residency_photo'] : $maintenanceTechnician->residency_photo,
+                'main_category_id' => $formFields['main_category'],
+                'sub_category_id' => $formFields['sub_category'],
+                'service_id' => $formFields['service']
             ]);
 
             notify()->success('تم تعديل فني الصيانة بنجاح');

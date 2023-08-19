@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Service;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -14,10 +17,18 @@ return new class extends Migration
         Schema::create('maintenance_technicians', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique()->nullable();
             $table->string('phone')->unique();
-            $table->string('city');
             $table->string('password');
+            $table->string('city');
+            $table->string('bank');
+            $table->string('account_number');
+            $table->string('photo')->nullable();
+            $table->string('residency_photo')->nullable();
+            $table->boolean('is_verified');
+            // $table->point('location')->nullable();
+            $table->foreignIdFor(Category::class, 'main_category_id')->comment('main service');
+            $table->foreignIdFor(SubCategory::class, 'sub_category_id')->comment('sub service');
+            $table->foreignIdFor(Service::class, 'service_id')->comment('maintenance technician service');
             $table->timestamps();
         });
     }
