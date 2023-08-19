@@ -55,7 +55,7 @@ class ClientController extends Controller
 
         $existingClient = Client::where('phone', $inputFields['phone'])->first();
         if ($existingClient) {
-            return response()->json(['error' => 'Phone number already registered']);
+            return response()->json(['error' => 'Phone number already registered.']);
         }
 
         $newClient = new Client();
