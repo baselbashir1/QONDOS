@@ -27,18 +27,18 @@
                                         <td>{{ $maintenanceTechnician->city }}</td>
                                         <td>{{ $maintenanceTechnician->bank }}</td>
                                         <td>{{ $maintenanceTechnician->account_number }}</td>
-                                        <td class="text-center row">
+                                        <td class="row">
                                             <form action="/approve/{{ $maintenanceTechnician->id }}" method="POST"
-                                                class="col">
+                                                class="col" style=" width: 10px">
                                                 @csrf
                                                 <button class="btn btn-success" type="submit"
-                                                    style="font-size: 13px">قبول</button>
+                                                    style="background: rgb(14, 164, 14)">قبول</button>
                                             </form>
-                                            <form class="col" action="/reject/{{ $maintenanceTechnician->id }}"
-                                                method="POST">
+                                            <form action="/reject/{{ $maintenanceTechnician->id }}" method="POST"
+                                                class="col" style=" width: 10px">
                                                 @csrf
                                                 <button class="btn btn-danger" type="submit"
-                                                    style="font-size: 13px">رفض</button>
+                                                    style="background: rgb(255, 55, 55)">رفض</button>
                                             </form>
                                         </td>
                                     </tr>

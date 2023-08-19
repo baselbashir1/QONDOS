@@ -59,7 +59,7 @@
                         <a href="{{ route('orders.index') }}"> الطلبات </a>
                     </li>
                     <li>
-                        <a href="/join-requests"> طلبات فنيو الصيانة </a>
+                        <a href="/join-requests"> طلبات انضمام فنيو الصيانة </a>
                     </li>
                 </ul>
             </li>
