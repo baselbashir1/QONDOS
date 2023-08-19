@@ -11,7 +11,7 @@
                     <div class="widget-content widget-content-area ecommerce-create-section">
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="type">نوع التنصيف</label>
+                                <label for="type">نوع التصنيف</label>
                                 <select name="type" class="form-control">
                                     <option selected hidden>{{ $category->type }}</option>
                                     @foreach ($categoryTypes as $categoryType)

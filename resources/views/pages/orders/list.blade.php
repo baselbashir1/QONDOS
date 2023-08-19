@@ -77,7 +77,7 @@
                                 @endforeach
                             @else
                                 <div class="mb-4 text-center">
-                                    <h4>لا يوجد عملاء</h4>
+                                    <h4>لا يوجد طلبات</h4>
                                 </div>
                             @endif
                         </tbody>

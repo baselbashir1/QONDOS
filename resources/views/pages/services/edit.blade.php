@@ -11,7 +11,7 @@
                     <div class="widget-content widget-content-area ecommerce-create-section">
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="sub_category">اختر التنصيف الفرعي لهذه الخدمة</label>
+                                <label for="sub_category">اختر التصنيف الفرعي لهذه الخدمة</label>
                                 <select name="sub_category" class="form-control">
                                     <option value="{{ $service->sub_category_id }}" selected hidden>
                                         {{ $service->subCategory->translate('ar')->name }}
@@ -28,7 +28,7 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="type">نوع التنصيف</label>
+                                <label for="type">نوع التصنيف</label>
                                 <select name="type" class="form-control">
                                     <option selected hidden>{{ $service->type }}</option>
                                     @foreach ($categoryTypes as $categoryType)
