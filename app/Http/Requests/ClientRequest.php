@@ -35,6 +35,7 @@ class ClientRequest extends FormRequest
         return [
             'name.required' => 'الاسم مطلوب.',
             'phone.required' => 'رقم الهاتف مطلوب.',
+            'phone.unique' => 'رقم الهاتف موجود مسبقا.',
             'city.required' => 'اسم المدينة مطلوب.',
             'password.required' => 'كلمة السر مطلوبة.'
         ];

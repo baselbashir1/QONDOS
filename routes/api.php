@@ -33,6 +33,7 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
 });
 
 Route::post('/maintenance-technician/login', [MaintenanceTechnicianController::class, 'login']);
+Route::post('/maintenance-technician/register', [MaintenanceTechnicianController::class, 'register']);
 Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician'])->group(function () {
     Route::get('/maintenance-technician/profile', [MaintenanceTechnicianController::class, 'getProfile']);
     Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout']);

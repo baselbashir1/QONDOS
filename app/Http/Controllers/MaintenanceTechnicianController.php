@@ -14,7 +14,7 @@ class MaintenanceTechnicianController extends Controller
 {
     public function index()
     {
-        $maintenanceTechnicians = MaintenanceTechnician::all();
+        $maintenanceTechnicians = MaintenanceTechnician::where('is_verified', 1)->get();
         return view('pages.maintenance-technicians.list', ['maintenanceTechnicians' => $maintenanceTechnicians]);
     }
 
@@ -118,5 +118,25 @@ class MaintenanceTechnicianController extends Controller
         $maintenanceTechnician->delete();
         notify()->success('تم حذف فني الصيانة بنجاح');
         return redirect()->route('maintenance-technicians.index');
+    }
+
+    public function joinRequests()
+    {
+        $maintenanceTechnicians = MaintenanceTechnician::where('is_verified', 0)->get();
+        return view('pages.maintenance-technicians.join-requests', ['maintenanceTechnicians' => $maintenanceTechnicians]);
+    }
+
+    public function approve(MaintenanceTechnician $maintenanceTechnician)
+    {
+        $maintenanceTechnician->update(['is_verified' => 1]);
+        notify()->success('تم قبول طلب انضمام فني الصيانة بنجاح');
+        return redirect()->back();
+    }
+
+    public function reject(MaintenanceTechnician $maintenanceTechnician)
+    {
+        $maintenanceTechnician->delete();
+        notify()->success('تم رفض فني الصيانة بنجاح');
+        return redirect()->back();
     }
 }
