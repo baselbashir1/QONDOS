@@ -18,7 +18,7 @@ class MaintenanceTechnician extends Authenticatable
     protected $guard = 'maintenance-technician';
     protected $fillable = [
         'name', 'phone', 'password', 'city', 'bank', 'account_number', 'photo', 'residency_photo',
-        'is_verified', 'main_category_id', 'sub_category_id', 'service_id', 'location'
+        'is_verified', 'main_category_id', 'sub_category_id', 'service_id', 'location_id'
     ];
 
     public function mainCategory(): BelongsTo

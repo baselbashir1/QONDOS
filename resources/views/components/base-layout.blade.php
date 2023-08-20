@@ -38,7 +38,7 @@
 
     {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0HqqYZX6UfJhKREUB5hAnwcGWnP4Xl_Q&callback=initMap" async
     defer></script> --}}
-    
+
     @notifyCss
 </head>
 

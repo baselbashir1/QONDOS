@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\MaintenanceTechnicianRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
+use App\Models\Location;
 use App\Models\MaintenanceTechnician;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -63,39 +64,31 @@ class MaintenanceTechnicianController extends Controller
             $inputFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
         }
 
-        $latitude = $request->input('latitude');
-        $longitude = $request->input('longitude');
+        $location = Location::create([
+            'latitude' =>  $inputFields['latitude'],
+            'longitude' =>  $inputFields['longitude'],
+        ]);
 
-        $newClient = new MaintenanceTechnician();
-        $newClient->name = $inputFields['name'];
-        $newClient->phone = $inputFields['phone'];
-        $newClient->password = bcrypt($inputFields['password']);
-        $newClient->city = $inputFields['city'];
-        $newClient->bank = $inputFields['bank'];
-        $newClient->account_number = $inputFields['account_number'];
-        $newClient->photo =  isset($inputFields['photo']) ? $inputFields['photo'] : null;
-        $newClient->residency_photo =  isset($inputFields['residency_photo']) ? $inputFields['residency_photo'] : null;
-        $newClient->main_category_id = $inputFields['main_category'];
-        $newClient->sub_category_id = $inputFields['sub_category'];
-        $newClient->service_id = $inputFields['service'];
-        $newClient->is_verified = 0;
-        $newClient->location = DB::raw("POINT($latitude, $longitude)");
-        $newClient->save();
-
-        // if ($newClient->save()) {
+        MaintenanceTechnician::create([
+            'name' => $inputFields['name'],
+            'phone' => $inputFields['phone'],
+            'password' => bcrypt($inputFields['password']),
+            'city' => $inputFields['city'],
+            'bank' => $inputFields['bank'],
+            'account_number' => $inputFields['account_number'],
+            'photo' => isset($inputFields['photo']) ? $inputFields['photo'] : null,
+            'residency_photo' => isset($inputFields['residency_photo']) ? $inputFields['residency_photo'] : null,
+            'main_category_id' => $inputFields['main_category'],
+            'sub_category_id' => $inputFields['sub_category'],
+            'service_id' => $inputFields['service'],
+            'is_verified' => 0,
+            'location_id' => $location->id
+        ]);
         if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
-            // $maintenanceTechnician = Auth::guard('maintenance-technician')->user();
-
-            // $token = $maintenanceTechnician->createToken('maintenance-technician token', ['maintenance-technician'])->accessToken;
-
             return response()->json(['unauthorized' => 'Pending approval.']);
-            // return response()->json(['maintenance-technician' => $maintenanceTechnician, 'token' => $token]);
         } else {
             return response()->json(['error' => 'Registration failed to log in.']);
         }
-        // } else {
-        //     return response()->json(['error' => 'Registration failed.']);
-        // }
     }
 
     public function getProfile()
