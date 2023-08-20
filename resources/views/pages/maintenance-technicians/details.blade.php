@@ -64,7 +64,8 @@
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="phone">الموقع الجغرافي</label>
-                            <h1>{{ $maintenanceTechnician->location }}</h1>
+                            {{-- <button class="btn btn-success"
+                                onclick="showMap({{ $maintenanceTechnician->location->latitude }}, {{ $maintenanceTechnician->location->longitude }})">{{ $maintenanceTechnician->location->longitude }}</button> --}}
                             <div id="map" style="height: 400px;"></div>
                         </div>
                         @error('phone')
@@ -102,7 +103,6 @@
             window.initMap = initMap;
         </script>
 
-        <script type="text/javascript"
-            src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initMap"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initMap" defer></script>
 
 </x-base-layout>

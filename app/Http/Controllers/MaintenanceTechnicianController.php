@@ -22,7 +22,8 @@ class MaintenanceTechnicianController extends Controller
 
     public function show(MaintenanceTechnician $maintenanceTechnician)
     {
-        return view('pages.maintenance-technicians.details', ['maintenanceTechnician' => $maintenanceTechnician]);
+        $locations = Location::all();
+        return view('pages.maintenance-technicians.details', ['maintenanceTechnician' => $maintenanceTechnician, 'locations' => $locations]);
     }
 
     public function create()
