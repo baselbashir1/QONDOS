@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Service;
+use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Enums\CategoryType;
-use App\Models\CategoryTranslation;
 use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller

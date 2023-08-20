@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Exception;
 use App\Models\Service;
 use App\Models\Category;
 use App\Models\Location;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\MaintenanceTechnician;
 use App\Http\Requests\MaintenanceTechnicianRequest;
 

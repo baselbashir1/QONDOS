@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Http\Enums\CategoryType;
-use App\Models\ServiceTranslation;
 use App\Http\Requests\ServiceRequest;
 
 class ServiceController extends Controller

@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\MaintenanceTechnicianController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\MaintenanceTechnicianController;
 
 /*
 |--------------------------------------------------------------------------

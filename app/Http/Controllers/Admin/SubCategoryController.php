@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Enums\CategoryType;
 use App\Http\Requests\SubCategoryRequest;
 use App\Models\Category;
-use App\Models\Service;
-use App\Models\ServiceTranslation;
 use App\Models\SubCategory;
-use App\Models\SubCategoryTranslation;
 use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
