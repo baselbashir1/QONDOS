@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('image')->nullable();
-            $table->foreignIdFor(SubCategory::class, 'sub_category_id');
+            $table->foreignIdFor(SubCategory::class, 'sub_category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

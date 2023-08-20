@@ -93,7 +93,6 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
-        $service->serviceTranslations()->delete();
         $service->delete();
         notify()->success('تم حذف الخدمة بنجاح');
         return redirect()->route('services.index');

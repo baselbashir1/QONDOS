@@ -90,8 +90,6 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        $category->subCategories()->delete();
-        $category->categoryTranslations()->delete();
         $category->delete();
         notify()->success('تم حذف التصنيف بنجاح');
         return redirect()->route('categories.index');

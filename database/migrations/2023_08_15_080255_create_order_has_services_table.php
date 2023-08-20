@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('order_has_services', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Order::class, 'order_id');
+            $table->foreignIdFor(Order::class, 'order_id')->constrained()->onDelete('cascade');
             $table->foreignIdFor(Service::class, 'service_id');
             $table->timestamps();
         });

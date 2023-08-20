@@ -95,8 +95,6 @@ class SubCategoryController extends Controller
 
     public function destroy(SubCategory $subCategory)
     {
-        $subCategory->services()->delete();
-        $subCategory->subCategoryTranslations()->delete();
         $subCategory->delete();
         notify()->success('تم حذف التصنيف بنجاح');
         return redirect()->route('sub-categories.index');

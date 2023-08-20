@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('notes')->nullable();
-            $table->foreignIdFor(Client::class, 'client_id');
+            $table->foreignIdFor(Client::class, 'client_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
