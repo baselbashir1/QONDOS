@@ -17,7 +17,9 @@ class OrderServicesResource extends JsonResource
         return [
             'id' => $this->id,
             'order_id' => $this->order_id,
-            'service_id' => $this->service_id
+            'service_id' => $this->service_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

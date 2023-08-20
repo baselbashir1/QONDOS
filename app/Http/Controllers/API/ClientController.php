@@ -13,7 +13,6 @@ use App\Models\Client;
 use App\Models\Order;
 use App\Models\OrderImage;
 use App\Models\OrderService;
-use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,14 +57,15 @@ class ClientController extends Controller
             return response()->json(['error' => 'Phone number already registered.']);
         }
 
-        $newClient = new Client();
-        $newClient->name = $inputFields['name'];
-        $newClient->phone = $inputFields['phone'];
-        $newClient->email =  isset($inputFields['email']) ? $inputFields['email'] : null;
-        $newClient->city = $inputFields['city'];
-        $newClient->password = bcrypt($inputFields['password']);
+        $newClient = Client::create([
+            'name' => $inputFields['name'],
+            'phone' => $inputFields['phone'],
+            'email' => isset($inputFields['email']) ? $inputFields['email'] : null,
+            'city' => $inputFields['city'],
+            'password' => bcrypt($inputFields['password'])
+        ]);
 
-        if ($newClient->save()) {
+        if ($newClient) {
             if (Auth::guard('client')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
                 $client = Auth::guard('client')->user();
 

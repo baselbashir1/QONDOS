@@ -35,16 +35,4 @@ class MaintenanceTechnician extends Authenticatable
     {
         return $this->belongsTo(Service::class);
     }
-
-    // public function storeLocation(Request $request)
-    // {
-    //     $latitude = $request->input('latitude');
-    //     $longitude = $request->input('longitude');
-
-    //     $location = new MaintenanceTechnician();
-    //     $location->location = DB::raw("POINT($latitude, $longitude)");
-    //     $location->save();
-
-    //     return response()->json(['message' => 'Location stored successfully']);
-    // }
 }

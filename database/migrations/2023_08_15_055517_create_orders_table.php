@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            // $table->foreignIdFor(Service::class, 'service_id');
             $table->string('notes')->nullable();
-            // $table->string('image')->nullable();
             $table->foreignIdFor(Client::class, 'client_id');
             $table->timestamps();
         });

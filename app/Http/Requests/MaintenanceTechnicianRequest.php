@@ -33,13 +33,9 @@ class MaintenanceTechnicianRequest extends FormRequest
             'main_category' => 'required',
             'sub_category' => 'required',
             'service' => 'required',
-            // 'location' => 'nullable',
 
-            // Location Request
-            'location_name' => 'nullable',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            // 'maintenance_technician_id' => 'required',
+            'latitude' => 'nullable',
+            'longitude' => 'nullable',
         ];
     }
 

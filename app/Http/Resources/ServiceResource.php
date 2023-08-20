@@ -20,7 +20,9 @@ class ServiceResource extends JsonResource
             'name_ar' => $this->translate('ar')->name,
             'name_en' => $this->translate('en')->name,
             'image' => $this->image,
-            'sub_category_id' => $this->sub_category_id
+            'sub_category_id' => $this->sub_category_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

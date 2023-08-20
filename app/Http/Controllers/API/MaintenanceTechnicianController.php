@@ -84,6 +84,7 @@ class MaintenanceTechnicianController extends Controller
             'is_verified' => 0,
             'location_id' => $location->id
         ]);
+
         if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
             return response()->json(['unauthorized' => 'Pending approval.']);
         } else {

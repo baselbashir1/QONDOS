@@ -19,7 +19,11 @@ class OrderResource extends JsonResource
             'notes' => $this->notes,
             'client_id' => $this->client_id,
             'is_scheduled' => $this->is_scheduled,
-            'visit_time' => $this->visit_time
+            'visit_time' => $this->visit_time,
+            'payment_type' => $this->payment_type,
+            'payment_method' => $this->payment_method,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

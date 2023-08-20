@@ -20,7 +20,9 @@ class SubCategoryResource extends JsonResource
             'name_ar' => $this->translate('ar')->name,
             'name_en' => $this->translate('en')->name,
             'image' => $this->image,
-            'category_id' => $this->category_id
+            'category_id' => $this->category_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

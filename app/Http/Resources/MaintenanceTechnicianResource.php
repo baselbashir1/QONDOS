@@ -17,8 +17,20 @@ class MaintenanceTechnicianResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'phone' => $this->phone
+            'phone' => $this->phone,
+            'password' => $this->password,
+            'city' => $this->city,
+            'bank' => $this->bank,
+            'account_number' => $this->account_number,
+            'photo' => $this->photo,
+            'residency_photo' => $this->residency_photo,
+            'is_verified' => $this->is_verified,
+            'location_id' => $this->location_id,
+            'main_category_id' => $this->main_category_id,
+            'sub_category_id' => $this->sub_category_id,
+            'service_id' => $this->service_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

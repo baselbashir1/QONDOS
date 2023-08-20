@@ -17,7 +17,9 @@ class OrderImagesResource extends JsonResource
         return [
             'id' => $this->id,
             'order_id' => $this->order_id,
-            'image' => $this->image
+            'image' => $this->image,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

@@ -19,7 +19,9 @@ class CategoryResource extends JsonResource
             'type' => $this->type,
             'name_ar' => $this->translate('ar')->name,
             'name_en' => $this->translate('en')->name,
-            'image' => $this->image
+            'image' => $this->image,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }

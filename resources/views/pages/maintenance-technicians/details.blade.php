@@ -61,8 +61,6 @@
                             {{ $maintenanceTechnician->service->translate('ar')->name }}
                         </div>
                     </div>
-
-
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="phone">الموقع الجغرافي</label>
@@ -73,54 +71,32 @@
                             <p class="mt-2 text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-
-
                 </div>
             </div>
         </div>
 
-        {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0HqqYZX6UfJhKREUB5hAnwcGWnP4Xl_Q&callback=initMap" async
-            defer></script> --}}
-        {{-- <script>
-            function initMap() {
-                var location = {!! json_encode($maintenanceTechnician->location) !!};
-                var lat = location.coordinates[1];
-                var lng = location.coordinates[0];
-
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    center: {
-                        lat: lat,
-                        lng: lng
-                    },
-                    zoom: 12
-                });
-
-                var marker = new google.maps.Marker({
-                    position: {
-                        lat: lat,
-                        lng: lng
-                    },
-                    map: map,
-                    title: 'Location Name'
-                });
-            }
-        </script> --}}
         <script type="text/javascript">
             function initMap() {
-                const myLatLng = {
-                    lat: 22.2734719,
-                    lng: 70.7512559
-                };
                 const map = new google.maps.Map(document.getElementById("map"), {
                     zoom: 5,
-                    center: myLatLng,
                 });
 
-                new google.maps.Marker({
-                    position: myLatLng,
-                    map,
-                    title: "Hello Rajkot!",
-                });
+                fetch('/get-location')
+                    .then(response => response.json())
+                    .then(data => {
+                        const myLatLng = {
+                            lat: parseFloat(data.latitude),
+                            lng: parseFloat(data.longitude)
+                        };
+
+                        map.setCenter(myLatLng);
+
+                        new google.maps.Marker({
+                            position: myLatLng,
+                            map,
+                            title: data.name,
+                        });
+                    });
             }
 
             window.initMap = initMap;
@@ -130,52 +106,3 @@
             src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initMap"></script>
 
 </x-base-layout>
-
-{{-- <x-base-layout>
-    <x-slot name="pageTitle">معلومات فني الصيانة</x-slot>
-
-    <div class="row mb-4 layout-spacing layout-top-spacing">
-        <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="widget-content widget-content-area ecommerce-create-section">
-
-                <div class="row mb-4">
-                    <div class="col-sm-12">
-                        <label for="phone">الموقع الجغرافي</label>
-                        <h1>{{ $maintenanceTechnician->location }}</h1>
-                        <div id="map" style="height: 400px;"></div>
-                    </div>
-                    @error('phone')
-                        <p class="mt-2 text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0HqqYZX6UfJhKREUB5hAnwcGWnP4Xl_Q&callback=initMap" async
-        defer></script>
-    <script>
-        function initMap() {
-            var location = {!! json_encode($maintenanceTechnician->location) !!};
-            var lat = location.coordinates[1];
-            var lng = location.coordinates[0];
-
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: lat,
-                    lng: lng
-                },
-                zoom: 12
-            });
-
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                map: map,
-                title: 'Location Name'
-            });
-        }
-    </script>
-</x-base-layout> --}}

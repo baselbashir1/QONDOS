@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Service;
+use App\Models\Category;
+use App\Models\Location;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\MaintenanceTechnician;
 use App\Http\Requests\MaintenanceTechnicianRequest;
-use App\Models\Category;
-use App\Models\Service;
-use App\Models\SubCategory;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class MaintenanceTechnicianController extends Controller
 {
@@ -45,9 +46,6 @@ class MaintenanceTechnicianController extends Controller
                 $formFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
             }
 
-            $latitude = $request->input('latitude');
-            $longitude = $request->input('longitude');
-
             MaintenanceTechnician::create([
                 'name' => $formFields['name'],
                 'phone' => $formFields['phone'],
@@ -61,7 +59,6 @@ class MaintenanceTechnicianController extends Controller
                 'main_category_id' => $formFields['main_category'],
                 'sub_category_id' => $formFields['sub_category'],
                 'service_id' => $formFields['service'],
-                'location' => DB::raw("POINT($latitude, $longitude)")
             ]);
 
             notify()->success('تمت إضافة فني صيانة بنجاح');
@@ -143,5 +140,14 @@ class MaintenanceTechnicianController extends Controller
         $maintenanceTechnician->delete();
         notify()->success('تم رفض فني الصيانة بنجاح');
         return redirect()->back();
+    }
+
+    public function getLocation()
+    {
+        $location = Location::first();
+        return response()->json([
+            'latitude' => $location->latitude,
+            'longitude' => $location->longitude,
+        ]);
     }
 }
