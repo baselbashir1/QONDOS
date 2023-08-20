@@ -14,7 +14,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(5);
         return view('pages.categories.list', ['categories' => $categories]);
     }
 

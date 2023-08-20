@@ -80,6 +80,7 @@
                             @endif
                         </tbody>
                     </table>
+                    {{ $subCategories->links() }}
                 </div>
             </div>
         </div>

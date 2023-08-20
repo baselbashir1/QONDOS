@@ -13,12 +13,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return CategoryResource::collection(Category::all());
+        $categories = Category::paginate(5);
+        return CategoryResource::collection($categories);
     }
 
     public function show(Category $category)
     {
-        $subCategories = SubCategory::where('category_id', $category->id)->get();
+        $subCategories = $category->subCategories()->get();
         return [
             'category' => CategoryResource::make($category),
             'sub-categories' => SubCategoryResource::collection($subCategories),

@@ -13,13 +13,12 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::paginate(5);
         return view('pages.orders.list', ['orders' => $orders]);
     }
 
     public function show(Order $order)
     {
-
         return view('pages.orders.details', ['order' => $order]);
     }
 

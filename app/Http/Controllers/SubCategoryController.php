@@ -15,7 +15,7 @@ class SubCategoryController extends Controller
 {
     public function index()
     {
-        $subCategories = SubCategory::all();
+        $subCategories = SubCategory::paginate(5);
         return view('pages.sub-categories.list', ['subCategories' => $subCategories]);
     }
 

@@ -15,13 +15,14 @@ class OrderController extends Controller
 {
     public function index()
     {
-        return OrderResource::collection(Order::all());
+        $orders = Order::paginate(5);
+        return OrderResource::collection($orders);
     }
 
     public function show(Order $order)
     {
-        $orderServices = OrderService::where('order_id', $order->id)->get();
-        $orderImages = OrderImage::where('order_id', $order->id)->get();
+        $orderServices = $order->orderServices()->get();
+        $orderImages = $order->orderImages()->get();
         return [
             'order' => OrderResource::make($order),
             'order-services' => OrderServicesResource::collection($orderServices),

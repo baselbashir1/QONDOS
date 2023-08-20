@@ -77,6 +77,7 @@
                             @endif
                         </tbody>
                     </table>
+                    {{ $maintenanceTechnicians->links() }}
                 </div>
             </div>
         </div>

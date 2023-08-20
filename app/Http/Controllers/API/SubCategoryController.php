@@ -13,12 +13,13 @@ class SubCategoryController extends Controller
 {
     public function index()
     {
-        return SubCategoryResource::collection(SubCategory::all());
+        $subCategories = SubCategory::paginate(5);
+        return SubCategoryResource::collection($subCategories);
     }
 
     public function show(SubCategory $subCategory)
     {
-        $services = Service::where('sub_category_id', $subCategory->id)->get();
+        $services = $subCategory->services()->get();
         return [
             'sub-category' => SubCategoryResource::make($subCategory),
             'services' => ServiceResource::collection($services)

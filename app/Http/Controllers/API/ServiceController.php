@@ -11,7 +11,8 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        return ServiceResource::collection(Service::all());
+        $services = Service::paginate(5);
+        return ServiceResource::collection($services);
     }
 
     public function show(Service $service)

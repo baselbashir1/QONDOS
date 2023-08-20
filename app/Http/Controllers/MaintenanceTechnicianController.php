@@ -16,14 +16,13 @@ class MaintenanceTechnicianController extends Controller
 {
     public function index()
     {
-        $maintenanceTechnicians = MaintenanceTechnician::where('is_verified', 1)->get();
+        $maintenanceTechnicians = MaintenanceTechnician::where('is_verified', 1)->paginate(5);
         return view('pages.maintenance-technicians.list', ['maintenanceTechnicians' => $maintenanceTechnicians]);
     }
 
     public function show(MaintenanceTechnician $maintenanceTechnician)
     {
-        $locations = Location::all();
-        return view('pages.maintenance-technicians.details', ['maintenanceTechnician' => $maintenanceTechnician, 'locations' => $locations]);
+        return view('pages.maintenance-technicians.details', ['maintenanceTechnician' => $maintenanceTechnician]);
     }
 
     public function create()
