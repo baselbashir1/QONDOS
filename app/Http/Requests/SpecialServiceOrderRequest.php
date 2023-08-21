@@ -26,7 +26,7 @@ class SpecialServiceOrderRequest extends FormRequest
             'visit_time' => 'nullable',
             'notes' => 'nullable',
             'images' => 'nullable|array|max:5',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

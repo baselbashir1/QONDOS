@@ -116,7 +116,6 @@ class ClientController extends Controller
             'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null,
             'payment_type' => $inputFields['payment_type'],
             'payment_method' => isset($inputFields['payment_method']) ? $inputFields['payment_method'] : null,
-            // 'request_special_service' => isset($inputFields['request_special_service']) ? $inputFields['request_special_service'] : false
         ]);
 
         $services = $inputFields['services'] ?? [];
@@ -148,13 +147,6 @@ class ClientController extends Controller
             ]);
         }
 
-        // if ($order->request_special_service) {
-        //     SpecialService::create([
-        //         'name' => $inputFields['special_service_name'],
-        //         'type' => $inputFields['special_service_type'],
-        //     ]);
-        // }
-
         return response()->json(['success' => 'Added services and images to order successfully.']);
     }
 
@@ -166,7 +158,7 @@ class ClientController extends Controller
             'notes' => $inputFields['notes'],
             'client_id' => Auth::user()->id,
             'is_scheduled' => $inputFields['is_scheduled'],
-            'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null,
+            'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null
         ]);
 
         $imagesPaths = [];
@@ -177,10 +169,12 @@ class ClientController extends Controller
             }
         }
 
+        // dd($specialServiceOrder, $imagesPaths);
+
         foreach ($imagesPaths as $imagePath) {
             SpecialServiceOrderImage::create([
-                'special_service_order_id' => $specialServiceOrder->id,
-                'image' => $imagePath,
+                'order_id' => $specialServiceOrder->id,
+                'image' => $imagePath
             ]);
         }
 

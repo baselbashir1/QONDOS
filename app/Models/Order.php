@@ -11,19 +11,19 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['notes', 'image', 'client_id', 'is_scheduled', 'visit_time', 'payment_type', 'payment_method', 'request_special_service'];
+    protected $fillable = ['notes', 'client_id', 'is_scheduled', 'visit_time', 'payment_type', 'payment_method'];
 
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function orderServices()
+    public function orderServices(): HasMany
     {
         return $this->hasMany(OrderService::class, 'order_id');
     }
 
-    public function orderImages()
+    public function orderImages(): HasMany
     {
         return $this->hasMany(OrderImage::class, 'order_id');
     }

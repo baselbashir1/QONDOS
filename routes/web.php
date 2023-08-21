@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCategoryController;
-use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\SpecialServiceOrderController;
 use App\Http\Controllers\Admin\MaintenanceTechnicianController;
 
 /*
@@ -38,11 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/approve/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'approve']);
     Route::post('/reject/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'reject']);
     Route::get('/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
-    Route::post('/request-new-service', [ClientController::class, 'requestNewService']);
+    // Route::get('/special-services-requests', [ClientController::class, 'specialServicesRequests']);
     Route::resource('categories', CategoryController::class);
     Route::resource('sub-categories', SubCategoryController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('orders', OrderController::class);
+    Route::resource('special-service-orders', SpecialServiceOrderController::class);
 });
 
 require __DIR__ . '/auth.php';

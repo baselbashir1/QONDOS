@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
+use App\Models\SpecialServiceOrder;
 use Exception;
 
 class ClientController extends Controller
@@ -71,13 +72,5 @@ class ClientController extends Controller
         $client->delete();
         notify()->success('تم حذف العميل بنجاح');
         return redirect()->route('clients.index');
-    }
-
-    public function makeOrder()
-    {
-    }
-
-    public function requestNewService()
-    {
     }
 }

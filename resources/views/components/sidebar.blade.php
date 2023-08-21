@@ -61,6 +61,9 @@
                     <li>
                         <a href="/join-requests"> طلبات انضمام فنيو الصيانة </a>
                     </li>
+                    <li>
+                        <a href="{{ route('special-service-orders.index') }}"> طلبات خدمات خاصة للفنيين </a>
+                    </li>
                 </ul>
             </li>
         </ul>
