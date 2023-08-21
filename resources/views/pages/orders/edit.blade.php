@@ -66,9 +66,9 @@
                                     <input type="radio" name="is_scheduled" value="0" checked> غير مجدول
                                 </div>
                             @endif
-                            <input type="datetime" name="visit_time" class="form-control m-1"
+                            <input type="date" name="visit_time" class="form-control m-1"
                                 style="width: 55%; border-width: 3px; border-color:lightseagreen"
-                                @if ($order->visit_time) value="{{ $order->visit_time }}" @else value="فوري" @endif>
+                                value="{{ date('Y-m-d') }}">
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">

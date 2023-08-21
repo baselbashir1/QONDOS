@@ -26,6 +26,7 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::get('/client/logout', [ClientController::class, 'logout']);
     Route::get('/client/profile', [ClientController::class, 'getProfile']);
     Route::post('/client/makeOrder', [ClientController::class, 'makeOrder']);
+    Route::post('/client/request-special-service', [ClientController::class, 'requestSpecialService']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);

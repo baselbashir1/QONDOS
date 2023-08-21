@@ -8,11 +8,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests\OrderRequest;
+use App\Http\Requests\SpecialServiceOrderRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
 use App\Models\Order;
 use App\Models\OrderImage;
 use App\Models\OrderService;
+use App\Models\ServiceRequest;
+use App\Models\SpecialService;
+use App\Models\SpecialServiceOrder;
+use App\Models\SpecialServiceOrderImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -110,7 +115,8 @@ class ClientController extends Controller
             'is_scheduled' => $inputFields['is_scheduled'],
             'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null,
             'payment_type' => $inputFields['payment_type'],
-            'payment_method' => isset($inputFields['payment_method']) ? $inputFields['payment_method'] : null
+            'payment_method' => isset($inputFields['payment_method']) ? $inputFields['payment_method'] : null,
+            // 'request_special_service' => isset($inputFields['request_special_service']) ? $inputFields['request_special_service'] : false
         ]);
 
         $services = $inputFields['services'] ?? [];
@@ -142,6 +148,42 @@ class ClientController extends Controller
             ]);
         }
 
+        // if ($order->request_special_service) {
+        //     SpecialService::create([
+        //         'name' => $inputFields['special_service_name'],
+        //         'type' => $inputFields['special_service_type'],
+        //     ]);
+        // }
+
         return response()->json(['success' => 'Added services and images to order successfully.']);
+    }
+
+    public function requestSpecialService(SpecialServiceOrderRequest $request)
+    {
+        $inputFields = $request->validated();
+
+        $specialServiceOrder = SpecialServiceOrder::create([
+            'notes' => $inputFields['notes'],
+            'client_id' => Auth::user()->id,
+            'is_scheduled' => $inputFields['is_scheduled'],
+            'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null,
+        ]);
+
+        $imagesPaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $imageFile) {
+                $imagePath = $imageFile->store('images', 'public');
+                $imagesPaths[] = $imagePath;
+            }
+        }
+
+        foreach ($imagesPaths as $imagePath) {
+            SpecialServiceOrderImage::create([
+                'special_service_order_id' => $specialServiceOrder->id,
+                'image' => $imagePath,
+            ]);
+        }
+
+        return response()->json(['success' => 'Added request for special service order successfully.']);
     }
 }

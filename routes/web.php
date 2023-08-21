@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/approve/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'approve']);
     Route::post('/reject/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'reject']);
     Route::get('/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
+    Route::post('/request-new-service', [ClientController::class, 'requestNewService']);
     Route::resource('categories', CategoryController::class);
     Route::resource('sub-categories', SubCategoryController::class);
     Route::resource('services', ServiceController::class);

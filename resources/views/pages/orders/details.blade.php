@@ -22,6 +22,13 @@
                                         alt="..." style="width: 100%; height: 100%">
                                 </div>
                             @endforeach
+                            {{-- @foreach ($order->orderServices as $orderService)
+                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
+                                    {{ $orderService->service->translate('ar')->name }}
+                                    <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
+                                        alt="..." style="width: 100%; height: 100%">
+                                </div>
+                            @endforeach --}}
                         @else
                             <div class="container text-center">
                                 <p style="font-size: 35px">لا يوجد خدمات</p>

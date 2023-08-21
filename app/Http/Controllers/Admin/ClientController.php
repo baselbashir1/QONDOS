@@ -72,4 +72,12 @@ class ClientController extends Controller
         notify()->success('تم حذف العميل بنجاح');
         return redirect()->route('clients.index');
     }
+
+    public function makeOrder()
+    {
+    }
+
+    public function requestNewService()
+    {
+    }
 }

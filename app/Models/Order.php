@@ -11,7 +11,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['notes', 'image', 'client_id', 'is_scheduled', 'visit_time', 'payment_type', 'payment_method'];
+    protected $fillable = ['notes', 'image', 'client_id', 'is_scheduled', 'visit_time', 'payment_type', 'payment_method', 'request_special_service'];
 
     public function client(): BelongsTo
     {
@@ -26,5 +26,10 @@ class Order extends Model
     public function orderImages()
     {
         return $this->hasMany(OrderImage::class, 'order_id');
+    }
+
+    public function specialServices(): HasMany
+    {
+        return $this->hasMany(SpecialService::class, 'order_id');
     }
 }
