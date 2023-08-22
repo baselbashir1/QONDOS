@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
+use App\Http\Requests\ClientAddressRequest;
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SpecialServiceOrderRequest;
@@ -16,8 +17,6 @@ use App\Models\ClientAddress;
 use App\Models\Order;
 use App\Models\OrderImage;
 use App\Models\OrderService;
-use App\Models\ServiceRequest;
-use App\Models\SpecialService;
 use App\Models\SpecialServiceOrder;
 use App\Models\SpecialServiceOrderImage;
 use Illuminate\Support\Facades\Auth;
@@ -184,26 +183,19 @@ class ClientController extends Controller
         return response()->json(['success' => 'Added request for special service order successfully.']);
     }
 
-    public function setLocation(Request $request, Client $client)
+    public function setLocation(ClientAddressRequest $request)
     {
-        $inputFields = $request->validate([
-            'home' => 'nullable',
-            // 'address' => 'nullable',
-            'longitude' => 'nullable',
-            'latitude' => 'nullable',
-            'addresses' => 'required|array',
-        ]);
-
-        // $client->update([
-        //     'home' => isset($inputFields['home']) ? $inputFields['home'] : null,
-        //     // 'address' => isset($inputFields['address']) ? $inputFields['address'] : null,
-        //     'longitude' => isset($inputFields['longitude']) ? $inputFields['longitude'] : null,
-        //     'latitude' => isset($inputFields['latitude']) ? $inputFields['latitude'] : null
-        // ]);
+        $client = Auth::user();
+        $inputFields = $request->validated();
 
         $addresses = $inputFields['addresses'] ?? [];
         if (!is_array($addresses)) {
             return response()->json(['error' => 'Invalid addresses.'], 400);
+        }
+
+        $clientAddresses = ClientAddress::where(['client_id' => $client->id, 'is_current' => 1])->get();
+        foreach ($clientAddresses as $clientAddress) {
+            $clientAddress->update(['is_current' => 0]);
         }
 
         foreach ($addresses as $address) {
@@ -213,15 +205,31 @@ class ClientController extends Controller
                 'latitude' => $inputFields['latitude'],
                 'address' => $address,
                 'client_id' => $client->id,
+                'is_current' => 1
             ]);
         }
 
         return response()->json(['success' => 'Client updated successfully.']);
     }
 
-    public function getLocation(Client $client)
+    public function getLocations()
     {
-        $clientAddresses = $client->addresses()->get();
+        $client = Auth::user();
+        $clientAddresses = $client->addresses()->paginate(5);
         return ClientAddressResource::collection($clientAddresses);
+    }
+
+    public function chooseLocation(ClientAddress $clientAddress)
+    {
+        $client = Auth::user();
+
+        $clientAddresses = ClientAddress::where(['client_id' => $client->id, 'is_current' => 1])->get();
+        foreach ($clientAddresses as $address) {
+            $address->update(['is_current' => 0]);
+        }
+
+        $clientAddress->update(['is_current' => 1]);
+
+        return response()->json(['success' => 'Client location updated successfully.']);
     }
 }

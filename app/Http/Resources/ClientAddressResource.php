@@ -21,6 +21,7 @@ class ClientAddressResource extends JsonResource
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
             'client_id' => $this->client_id,
+            'is_current' => $this->is_current,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

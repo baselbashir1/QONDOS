@@ -33,14 +33,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('index');
     });
-    Route::resource('clients', ClientController::class);
-    Route::get('/client/get-location', [ClientController::class, 'getLocation']);
-    Route::resource('maintenance-technicians', MaintenanceTechnicianController::class);
+    Route::get('/client/{client}/get-location', [ClientController::class, 'getLocation']);
     Route::get('/join-requests', [MaintenanceTechnicianController::class, 'joinRequests']);
-    Route::post('/approve/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'approve']);
-    Route::post('/reject/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'reject']);
     Route::get('/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
-    // Route::get('/special-services-requests', [ClientController::class, 'specialServicesRequests']);
+    Route::post('/reject/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'reject']);
+    Route::post('/approve/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'approve']);
+    Route::resource('clients', ClientController::class);
+    Route::resource('maintenance-technicians', MaintenanceTechnicianController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('sub-categories', SubCategoryController::class);
     Route::resource('services', ServiceController::class);

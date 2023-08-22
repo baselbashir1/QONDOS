@@ -27,8 +27,9 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::get('/client/profile', [ClientController::class, 'getProfile']);
     Route::post('/client/makeOrder', [ClientController::class, 'makeOrder']);
     Route::post('/client/request-special-service', [ClientController::class, 'requestSpecialService']);
-    Route::post('/client/{client}/set-location', [ClientController::class, 'setLocation']);
-    Route::get('/client/{client}/get-location', [ClientController::class, 'getLocation']);
+    Route::post('/client/set-location', [ClientController::class, 'setLocation']);
+    Route::get('/client/locations', [ClientController::class, 'getLocations']);
+    Route::post('/client/{clientAddress}/choose-location', [ClientController::class, 'chooseLocation']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);

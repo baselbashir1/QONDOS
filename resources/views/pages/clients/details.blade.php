@@ -23,13 +23,11 @@
                     </div>
                     <div class="row mb-4">
                         <label for="home">المنزل</label>
-                        <div class="form-control m-1" style="width: 91%">{{ $client->home }}</div>
+                        <div class="form-control m-1" style="width: 91%">{{ $currentAddress->home }}</div>
                     </div>
                     <div class="row mb-4">
-                        <label for="home">العنوان</label>
-                        @foreach ($client->addresses as $address)
-                            <div class="form-control m-1" style="width: 91%">{{ $address->address }}</div>
-                        @endforeach
+                        <label for="home">العنوان الحالي</label>
+                        <div class="form-control m-1" style="width: 91%">{{ $currentAddress->address }}</div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
@@ -47,7 +45,8 @@
                     zoom: 5,
                 });
 
-                fetch('/get-location')
+                const clientId = {{ $client->id }};
+                fetch(`/client/${clientId}/get-location`)
                     .then(response => response.json())
                     .then(data => {
                         const myLatLng = {
@@ -68,6 +67,7 @@
             window.initMap = initMap;
         </script>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initMap" defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0HqqYZX6UfJhKREUB5hAnwcGWnP4Xl_Q&callback=initMap"
+            defer></script>
 
 </x-base-layout>

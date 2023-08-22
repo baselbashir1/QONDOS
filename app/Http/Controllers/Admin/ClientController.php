@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
+use App\Models\ClientAddress;
 use App\Models\SpecialServiceOrder;
 use Exception;
 
@@ -19,7 +20,8 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
-        return view('pages.clients.details', ['client' => $client]);
+        $currentAddress = ClientAddress::where(['client_id' => $client->id, 'is_current' => 1])->first();
+        return view('pages.clients.details', ['client' => $client, 'currentAddress' => $currentAddress]);
     }
 
     public function create()
@@ -79,9 +81,9 @@ class ClientController extends Controller
         return redirect()->route('clients.index');
     }
 
-    public function getLocation()
+    public function getLocation(Client $client)
     {
-        $location = Location::first();
+        $location = ClientAddress::where(['client_id' => $client->id, 'is_current' => 1])->first();
         return response()->json([
             'latitude' => $location->latitude,
             'longitude' => $location->longitude,
