@@ -24,8 +24,7 @@
                                     <tr>
                                         <td>{{ $specialServiceOrder->id }}</td>
                                         <td>{{ $specialServiceOrder->client_id }}</td>
-                                        <td>{{ $specialServiceOrder->specialServiceOrderImages ? count($specialServiceOrder->specialServiceOrderImages) : 'null' }}
-                                        </td>
+                                        <td>{{ count($specialServiceOrder->specialServiceOrderImages) }}</td>
                                         <td>{{ $specialServiceOrder->client->name }}</td>
                                         <td>
                                             @if ($specialServiceOrder->is_scheduled === 1)

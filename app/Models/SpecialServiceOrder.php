@@ -19,7 +19,7 @@ class SpecialServiceOrder extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function orderImages(): HasMany
+    public function specialServiceOrderImages(): HasMany
     {
         return $this->hasMany(SpecialServiceOrderImage::class, 'special_service_order_id');
     }
