@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
         return view('index');
     });
     Route::resource('clients', ClientController::class);
+    Route::get('/client/get-location', [ClientController::class, 'getLocation']);
     Route::resource('maintenance-technicians', MaintenanceTechnicianController::class);
     Route::get('/join-requests', [MaintenanceTechnicianController::class, 'joinRequests']);
     Route::post('/approve/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'approve']);

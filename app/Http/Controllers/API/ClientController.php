@@ -9,8 +9,10 @@ use App\Http\Requests\AuthRequest;
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SpecialServiceOrderRequest;
+use App\Http\Resources\ClientAddressResource;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
+use App\Models\ClientAddress;
 use App\Models\Order;
 use App\Models\OrderImage;
 use App\Models\OrderService;
@@ -159,6 +161,7 @@ class ClientController extends Controller
             'client_id' => Auth::user()->id,
             'is_scheduled' => $inputFields['is_scheduled'],
             'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null
+            // 'visit_time' => isset($inputFields['is_scheduled']) === 0 ? 'فوري' : $inputFields['visit_time']
         ]);
 
         $imagesPaths = [];
@@ -179,5 +182,46 @@ class ClientController extends Controller
         }
 
         return response()->json(['success' => 'Added request for special service order successfully.']);
+    }
+
+    public function setLocation(Request $request, Client $client)
+    {
+        $inputFields = $request->validate([
+            'home' => 'nullable',
+            // 'address' => 'nullable',
+            'longitude' => 'nullable',
+            'latitude' => 'nullable',
+            'addresses' => 'required|array',
+        ]);
+
+        // $client->update([
+        //     'home' => isset($inputFields['home']) ? $inputFields['home'] : null,
+        //     // 'address' => isset($inputFields['address']) ? $inputFields['address'] : null,
+        //     'longitude' => isset($inputFields['longitude']) ? $inputFields['longitude'] : null,
+        //     'latitude' => isset($inputFields['latitude']) ? $inputFields['latitude'] : null
+        // ]);
+
+        $addresses = $inputFields['addresses'] ?? [];
+        if (!is_array($addresses)) {
+            return response()->json(['error' => 'Invalid addresses.'], 400);
+        }
+
+        foreach ($addresses as $address) {
+            ClientAddress::create([
+                'home' => $inputFields['home'],
+                'longitude' => $inputFields['longitude'],
+                'latitude' => $inputFields['latitude'],
+                'address' => $address,
+                'client_id' => $client->id,
+            ]);
+        }
+
+        return response()->json(['success' => 'Client updated successfully.']);
+    }
+
+    public function getLocation(Client $client)
+    {
+        $clientAddresses = $client->addresses()->get();
+        return ClientAddressResource::collection($clientAddresses);
     }
 }

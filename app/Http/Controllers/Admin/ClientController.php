@@ -17,6 +17,11 @@ class ClientController extends Controller
         return view('pages.clients.list', ['clients' => $clients]);
     }
 
+    public function show(Client $client)
+    {
+        return view('pages.clients.details', ['client' => $client]);
+    }
+
     public function create()
     {
         return view('pages.clients.add');
@@ -72,5 +77,14 @@ class ClientController extends Controller
         $client->delete();
         notify()->success('تم حذف العميل بنجاح');
         return redirect()->route('clients.index');
+    }
+
+    public function getLocation()
+    {
+        $location = Location::first();
+        return response()->json([
+            'latitude' => $location->latitude,
+            'longitude' => $location->longitude,
+        ]);
     }
 }

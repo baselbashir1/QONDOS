@@ -63,14 +63,11 @@
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
-                            <label for="phone">الموقع الجغرافي</label>
+                            <label>الموقع الجغرافي</label>
                             {{-- <button class="btn btn-success"
                                 onclick="showMap({{ $maintenanceTechnician->location->latitude }}, {{ $maintenanceTechnician->location->longitude }})">{{ $maintenanceTechnician->location->longitude }}</button> --}}
                             <div id="map" style="height: 400px;"></div>
                         </div>
-                        @error('phone')
-                            <p class="mt-2 text-red-600">{{ $message }}</p>
-                        @enderror
                     </div>
                 </div>
             </div>

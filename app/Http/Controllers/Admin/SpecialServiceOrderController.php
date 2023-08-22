@@ -18,4 +18,10 @@ class SpecialServiceOrderController extends Controller
     {
         return view('pages.special-service-orders.details', ['specialServiceOrder' => $specialServiceOrder]);
     }
+
+    public function destroy(SpecialServiceOrder $specialServiceOrder)
+    {
+        $specialServiceOrder->delete();
+        return redirect()->route('special-service-orders.index');
+    }
 }

@@ -49,6 +49,8 @@
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                                     <a class="dropdown-item"
+                                                        href="{{ route('clients.show', ['client' => $client->id]) }}">تفاصيل</a>
+                                                    <a class="dropdown-item"
                                                         href="{{ route('clients.edit', ['client' => $client->id]) }}">تعديل</a>
                                                     <form
                                                         action="{{ route('clients.destroy', ['client' => $client->id]) }}"

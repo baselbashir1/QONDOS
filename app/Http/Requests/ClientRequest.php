@@ -26,7 +26,7 @@ class ClientRequest extends FormRequest
             'email' => ['nullable', 'email'],
             'phone' => ['required', 'unique:clients,phone,except,id'],
             'city' => 'required',
-            'password' => ['required', 'min:6'],
+            'password' => ['required', 'min:6']
         ];
     }
 
