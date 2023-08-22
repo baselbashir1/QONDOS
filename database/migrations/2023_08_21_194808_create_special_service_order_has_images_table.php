@@ -14,7 +14,8 @@ return new class extends Migration
     {
         Schema::create('special_service_order_has_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(SpecialServiceOrder::class, 'order_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(SpecialServiceOrder::class, 'special_service_order_id');
+            // $table->foreignIdFor(SpecialServiceOrder::class, 'special_service_order_id')->constrained()->onDelete('cascade');
             $table->string('image')->nullable();
             $table->timestamps();
         });

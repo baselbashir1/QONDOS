@@ -21,6 +21,6 @@ class SpecialServiceOrder extends Model
 
     public function orderImages(): HasMany
     {
-        return $this->hasMany(SpecialServiceOrderImage::class, 'order_id');
+        return $this->hasMany(SpecialServiceOrderImage::class, 'special_service_order_id');
     }
 }

@@ -173,7 +173,7 @@ class ClientController extends Controller
 
         foreach ($imagesPaths as $imagePath) {
             SpecialServiceOrderImage::create([
-                'order_id' => $specialServiceOrder->id,
+                'special_service_order_id' => $specialServiceOrder->id,
                 'image' => $imagePath
             ]);
         }

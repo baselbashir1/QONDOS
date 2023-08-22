@@ -9,6 +9,6 @@ class SpecialServiceOrderImage extends Model
 {
     use HasFactory;
 
-    protected $table = ['special_service_order_has_images'];
-    protected $fillable = ['order_id', 'image'];
+    protected $table = 'special_service_order_has_images';
+    protected $fillable = ['special_service_order_id', 'image'];
 }
