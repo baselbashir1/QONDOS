@@ -116,7 +116,7 @@ class MaintenanceTechnicianController extends Controller
 
     public function calculateDistance($lat1, $lon1, $lat2, $lon2)
     {
-        $radius = 6371;
+        $radius = 6371000;
 
         $lat1Rad = deg2rad($lat1);
         $lon1Rad = deg2rad($lon1);
@@ -144,11 +144,14 @@ class MaintenanceTechnicianController extends Controller
         foreach ($clientAddresses as $clientAddress) {
             $distance = self::calculateDistance($maintenanceTechnicianLocation->latitude, $maintenanceTechnicianLocation->longitude, $clientAddress->latitude, $clientAddress->longitude);
             if ($distance <= 500) {
-                $order = Order::where('client_id', $clientAddress->client_id);
+                $order = Order::where('client_id', $clientAddress->client_id)->first();
                 $closestOrders[] = $order;
             }
         }
-
-        return response()->json(['closest-orders' => $closestOrders]);
+        if ($distance <= 500) {
+            return response()->json(['closest-orders' => $closestOrders, 'distance' => $distance . 'm']);
+        } else {
+            return response()->json(['closest-orders' => 'No near orders']);
+        }
     }
 }
