@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Enums\OfferStatus;
+use App\Http\Enums\OrderStatus;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\ClientAddressRequest;
 use App\Http\Requests\ClientRequest;
@@ -121,6 +122,7 @@ class ClientController extends Controller
             'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null,
             'payment_type' => $inputFields['payment_type'],
             'payment_method' => isset($inputFields['payment_method']) ? $inputFields['payment_method'] : null,
+            'status' => OrderStatus::newOrder
         ]);
 
         $order->payment_type ? $order->update(['payment_method' => $order->payment_method]) : $order->update(['payment_method' => null]);
@@ -250,6 +252,10 @@ class ClientController extends Controller
         $offer->update([
             'status' => OfferStatus::accepted
         ]);
+        $offer->order->update([
+            'status' => OrderStatus::pendingMaintenanceConfirm
+        ]);
+
         return response()->json(['success' => 'Offer accepted successfully.']);
     }
 
@@ -258,6 +264,10 @@ class ClientController extends Controller
         $offer->update([
             'status' => OfferStatus::rejected
         ]);
+        $offer->order->update([
+            'status' => OrderStatus::canceled
+        ]);
+
         return response()->json(['success' => 'Offer rejected successfully.']);
     }
 }

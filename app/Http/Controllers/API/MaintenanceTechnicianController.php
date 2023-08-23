@@ -10,6 +10,7 @@ use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Enums\OfferStatus;
+use App\Http\Enums\OrderStatus;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MaintenanceTechnician;
 use Illuminate\Support\Facades\Validator;
@@ -182,6 +183,8 @@ class MaintenanceTechnicianController extends Controller
             'client_id' => $order->client_id,
             'order_id' => $order->id
         ]);
+
+        $order->update(['status' => OrderStatus::pendingClientApprove]);
 
         return response()->json(['success' => 'Offer sent successfully.']);
     }

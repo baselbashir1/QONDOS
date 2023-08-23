@@ -29,7 +29,8 @@ class OrderRequest extends FormRequest
             'is_scheduled' => 'required',
             'visit_time' => 'nullable',
             'payment_type' => ['required', 'boolean'],
-            'payment_method' => 'nullable'
+            'payment_method' => 'nullable',
+            'status' => 'nullable'
         ];
     }
 }
