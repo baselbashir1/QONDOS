@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Enums\OfferStatus;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\ClientAddressRequest;
 use App\Http\Requests\ClientRequest;
@@ -12,8 +13,10 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Requests\SpecialServiceOrderRequest;
 use App\Http\Resources\ClientAddressResource;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\OfferResource;
 use App\Models\Client;
 use App\Models\ClientAddress;
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\OrderImage;
 use App\Models\OrderService;
@@ -26,7 +29,8 @@ class ClientController extends Controller
 {
     public function index()
     {
-        return ClientResource::collection(Client::all());
+        $clients = Client::paginate(5);
+        return ClientResource::collection($clients);
     }
 
     public function login(AuthRequest $request)
@@ -233,5 +237,27 @@ class ClientController extends Controller
         $clientAddress->update(['is_current' => 1]);
 
         return response()->json(['success' => 'Client location updated successfully.']);
+    }
+
+    public function showOffers()
+    {
+        $offers = Offer::where('status', OfferStatus::pending)->paginate(5);
+        return OfferResource::collection($offers);
+    }
+
+    public function acceptOffer(Offer $offer)
+    {
+        $offer->update([
+            'status' => OfferStatus::accepted
+        ]);
+        return response()->json(['success' => 'Offer accepted successfully.']);
+    }
+
+    public function rejectOffer(Offer $offer)
+    {
+        $offer->update([
+            'status' => OfferStatus::rejected
+        ]);
+        return response()->json(['success' => 'Offer rejected successfully.']);
     }
 }

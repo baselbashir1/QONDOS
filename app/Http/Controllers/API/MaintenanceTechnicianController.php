@@ -9,11 +9,14 @@ use App\Models\ClientAddress;
 use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Enums\OfferStatus;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MaintenanceTechnician;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\MaintenanceTechnicianRequest;
+use App\Http\Requests\OfferRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
+use App\Models\Offer;
 
 class MaintenanceTechnicianController extends Controller
 {
@@ -144,14 +147,42 @@ class MaintenanceTechnicianController extends Controller
         foreach ($clientAddresses as $clientAddress) {
             $distance = self::calculateDistance($maintenanceTechnicianLocation->latitude, $maintenanceTechnicianLocation->longitude, $clientAddress->latitude, $clientAddress->longitude);
             if ($distance <= 500) {
-                $order = Order::where('client_id', $clientAddress->client_id)->first();
-                $closestOrders[] = $order;
+                $orders = Order::where('client_id', $clientAddress->client_id)->get();
+                $closestOrders[] = $orders;
             }
         }
+        // need fix
+        // return [
+        //     'order' => OrderResource::make($order),
+        //     'order-services' => OrderServicesResource::collection($orderServices),
+        //     'order-images' => OrderImagesResource::collection($orderImages)
+        // ];
+
         if ($distance <= 500) {
             return response()->json(['closest-orders' => $closestOrders, 'distance' => $distance . 'm']);
+            // return [
+            //     'order' => OrderResource::make($order),
+            //     'order-services' => OrderServicesResource::collection($orderServices),
+            //     'order-images' => OrderImagesResource::collection($orderImages)
+            // ];
         } else {
             return response()->json(['closest-orders' => 'No near orders']);
         }
+    }
+
+    public function sendOffer(OfferRequest $request, Order $order)
+    {
+        $inputFields = $request->validated();
+        $maintenanceTechnician = Auth::user();
+
+        Offer::create([
+            'description' => $inputFields['description'],
+            'status' => OfferStatus::pending,
+            'maintenance_technician_id' => $maintenanceTechnician->id,
+            'client_id' => $order->client_id,
+            'order_id' => $order->id
+        ]);
+
+        return response()->json(['success' => 'Offer sent successfully.']);
     }
 }

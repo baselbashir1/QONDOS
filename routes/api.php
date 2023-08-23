@@ -30,6 +30,9 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::post('/client/set-location', [ClientController::class, 'setLocation']);
     Route::get('/client/locations', [ClientController::class, 'getLocations']);
     Route::post('/client/{clientAddress}/choose-location', [ClientController::class, 'chooseLocation']);
+    Route::get('/offers', [ClientController::class, 'showOffers']);
+    Route::post('/offer/{offer}/accept', [ClientController::class, 'acceptOffer']);
+    Route::post('/offer/{offer}/reject', [ClientController::class, 'rejectOffer']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);
@@ -54,6 +57,7 @@ Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-techni
     Route::get('/maintenance-technician/profile', [MaintenanceTechnicianController::class, 'getProfile']);
     Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout']);
     Route::get('/show-orders', [MaintenanceTechnicianController::class, 'showOrders']);
+    Route::post('/send-offer/{order}', [MaintenanceTechnicianController::class, 'sendOffer']);
 });
 
 Route::apiResource('clients', ClientController::class);
