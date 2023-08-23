@@ -18,33 +18,42 @@
                             @foreach ($order->orderServices as $orderService)
                                 <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
                                     {{ $orderService->service->translate('ar')->name }}
-                                    <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
-                                        alt="..." style="width: 100%; height: 100%">
                                 </div>
                             @endforeach
-                            {{-- @foreach ($order->orderServices as $orderService)
-                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                    {{ $orderService->service->translate('ar')->name }}
-                                    <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
-                                        alt="..." style="width: 100%; height: 100%">
-                                </div>
-                            @endforeach --}}
                         @else
                             <div class="container text-center">
                                 <p style="font-size: 35px">لا يوجد خدمات</p>
                             </div>
                         @endif
                     </div>
+                    {{-- <div class="row mb-4">
+                        <label>الصور</label>
+                        @if (count($order->orderImages))
+                            @foreach ($order->orderImages as $orderImage)
+                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
+                                    <img src="{{ $orderImage->image ? Vite::asset('public/storage/' . $orderImage->image) : Vite::asset('public/no-image.png') }}"
+                                        alt="..." style="width: 100%; height: 100%">
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="container text-center">
+                                <p style="font-size: 35px">لا يوجد صور مرفقة</p>
+                            </div>
+                        @endif
+                    </div> --}}
                     <div class="row mb-4 tex">
                         <div class="col-sm-12">
-                            <label for="city">الصور</label>
+                            <label for="images">الصور</label>
                             @if (count($order->orderImages))
-                                @foreach ($order->orderImages as $orderImage)
-                                    <div class="card container mb-2">
-                                        <img src="{{ $orderImage->image ? Vite::asset('public/storage/' . $orderImage->image) : Vite::asset('public/no-image.png') }}"
-                                            alt="..." style="width: 30%; height: 30%">
-                                    </div>
-                                @endforeach
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    @foreach ($order->orderImages as $orderImage)
+                                        <div class="card container mb-2 text-center"
+                                            style="width: 300px; height; 300px">
+                                            <img src="{{ $orderImage->image ? Vite::asset('public/storage/' . $orderImage->image) : Vite::asset('public/no-image.png') }}"
+                                                alt="..." style="width: 100%; height; 100%; margin: auto;">
+                                        </div>
+                                    @endforeach
+                                </div>
                             @else
                                 <div class="container text-center">
                                     <p style="font-size: 35px">لا يوجد صور مرفقة</p>
@@ -72,12 +81,6 @@
                             @endif
                         </div>
                     </div>
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <label for="password">ملاحظات</label>
-                            <textarea class="form-control" style="pointer-events: none">{{ $order->notes }}</textarea>
-                        </div>
-                    </div>
                     @if ($order->payment_type === 0)
                         <div class="row">
                             <label class="ml-1 mr-1" style="width: 45%">نوع الدفع</label>
@@ -102,6 +105,12 @@
                             </div>
                         </div>
                     @endif
+                    <div class="row mb-4">
+                        <div class="col-sm-12">
+                            <label class="ml-1 mr-1">ملاحظات</label>
+                            <textarea class="form-control" style="pointer-events: none">{{ $order->notes }}</textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

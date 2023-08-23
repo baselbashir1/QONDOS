@@ -32,9 +32,9 @@
                             @endif
                         </div>
                     </div>
-                    <div class="row mb-4 tex">
+                    {{-- <div class="row mb-4 tex">
                         <div class="col-sm-12">
-                            <label for="city">الصور</label>
+                            <label for="images">الصور</label>
                             @if (count($specialServiceOrder->specialServiceOrderImages))
                                 @foreach ($specialServiceOrder->specialServiceOrderImages as $specialServiceOrderImage)
                                     <div class="card container mb-2">
@@ -48,10 +48,30 @@
                                 </div>
                             @endif
                         </div>
+                    </div> --}}
+                    <div class="row mb-4 tex">
+                        <div class="col-sm-12">
+                            <label for="images">الصور</label>
+                            @if (count($specialServiceOrder->specialServiceOrderImages))
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    @foreach ($specialServiceOrder->specialServiceOrderImages as $specialServiceOrderImage)
+                                        <div class="card container mb-2 text-center"
+                                            style="width: 300px; height; 300px">
+                                            <img src="{{ $specialServiceOrderImage->image ? Vite::asset('public/storage/' . $specialServiceOrderImage->image) : Vite::asset('public/no-image.png') }}"
+                                                alt="..." style="width: 100%; height; 100%; margin: auto;">
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="container text-center">
+                                    <p style="font-size: 35px">لا يوجد صور مرفقة</p>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
-                            <label for="password">ملاحظات</label>
+                            <label for="notes">ملاحظات</label>
                             <textarea class="form-control" style="pointer-events: none">{{ $specialServiceOrder->notes }}</textarea>
                         </div>
                     </div>

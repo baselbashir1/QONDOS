@@ -28,12 +28,8 @@ class OrderRequest extends FormRequest
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_scheduled' => 'required',
             'visit_time' => 'nullable',
-            'payment_type' => 'required',
-            'payment_method' => 'nullable',
-
-            // 'request_special_service' => 'nullable',
-            // 'special_service_name' => 'nullable',
-            // 'special_service_type' => 'nullable',
+            'payment_type' => ['required', 'boolean'],
+            'payment_method' => 'nullable'
         ];
     }
 }

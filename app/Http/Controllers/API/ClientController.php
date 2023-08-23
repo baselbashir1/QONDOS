@@ -119,6 +119,8 @@ class ClientController extends Controller
             'payment_method' => isset($inputFields['payment_method']) ? $inputFields['payment_method'] : null,
         ]);
 
+        $order->payment_type ? $order->update(['payment_method' => $order->payment_method]) : $order->update(['payment_method' => null]);
+
         $services = $inputFields['services'] ?? [];
         if (!is_array($services)) {
             return response()->json(['error' => 'Invalid services.'], 400);
