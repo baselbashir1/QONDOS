@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Order;
+use App\Models\Location;
 use Illuminate\Http\Request;
+use App\Models\ClientAddress;
+use App\Http\Requests\AuthRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AuthRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Models\MaintenanceTechnician;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\MaintenanceTechnicianRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
-use App\Models\Location;
-use App\Models\MaintenanceTechnician;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class MaintenanceTechnicianController extends Controller
 {
@@ -110,5 +112,43 @@ class MaintenanceTechnicianController extends Controller
 
         $token->revoke();
         return response()->json(['success' => 'Logged out successfully.', 'token' => $token]);
+    }
+
+    public function calculateDistance($lat1, $lon1, $lat2, $lon2)
+    {
+        $radius = 6371;
+
+        $lat1Rad = deg2rad($lat1);
+        $lon1Rad = deg2rad($lon1);
+        $lat2Rad = deg2rad($lat2);
+        $lon2Rad = deg2rad($lon2);
+
+        $dLat = $lat2Rad - $lat1Rad;
+        $dLon = $lon2Rad - $lon1Rad;
+
+        $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1Rad) * cos($lat2Rad) * sin($dLon / 2) * sin($dLon / 2);
+        $b = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        $distance = $radius * $b;
+        return $distance;
+    }
+
+    public function showOrders()
+    {
+        $maintenanceTechnician = Auth::user();
+        $maintenanceTechnicianLocation = Location::where('id', $maintenanceTechnician->location_id)->first();
+
+        $clientAddresses = ClientAddress::where('is_current', 1)->get();
+        $closestOrders = [];
+
+        foreach ($clientAddresses as $clientAddress) {
+            $distance = self::calculateDistance($maintenanceTechnicianLocation->latitude, $maintenanceTechnicianLocation->longitude, $clientAddress->latitude, $clientAddress->longitude);
+            if ($distance <= 500) {
+                $order = Order::where('client_id', $clientAddress->client_id);
+                $closestOrders[] = $order;
+            }
+        }
+
+        return response()->json(['closest-orders' => $closestOrders]);
     }
 }

@@ -36,23 +36,24 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::apiResource('orders', OrderController::class);
 });
 
-Route::post('/client/login', [ClientController::class, 'login']);
-Route::post('/client/register', [ClientController::class, 'register']);
-Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
-    Route::get('/client/logout', [ClientController::class, 'logout']);
-    Route::get('/client/profile', [ClientController::class, 'getProfile']);
-    Route::post('/client/makeOrder', [ClientController::class, 'makeOrder']);
-    Route::apiResource('categories', CategoryController::class);
-    Route::apiResource('sub-categories', SubCategoryController::class);
-    Route::apiResource('services', ServiceController::class);
-    Route::apiResource('orders', OrderController::class);
-});
+// Route::post('/client/login', [ClientController::class, 'login']);
+// Route::post('/client/register', [ClientController::class, 'register']);
+// Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
+//     Route::get('/client/logout', [ClientController::class, 'logout']);
+//     Route::get('/client/profile', [ClientController::class, 'getProfile']);
+//     Route::post('/client/makeOrder', [ClientController::class, 'makeOrder']);
+//     Route::apiResource('categories', CategoryController::class);
+//     Route::apiResource('sub-categories', SubCategoryController::class);
+//     Route::apiResource('services', ServiceController::class);
+//     Route::apiResource('orders', OrderController::class);
+// });
 
 Route::post('/maintenance-technician/login', [MaintenanceTechnicianController::class, 'login']);
 Route::post('/maintenance-technician/register', [MaintenanceTechnicianController::class, 'register']);
 Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician'])->group(function () {
     Route::get('/maintenance-technician/profile', [MaintenanceTechnicianController::class, 'getProfile']);
     Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout']);
+    Route::get('/show-orders', [MaintenanceTechnicianController::class, 'showOrders']);
 });
 
 Route::apiResource('clients', ClientController::class);
