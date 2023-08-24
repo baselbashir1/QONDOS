@@ -5,8 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Doctrine\DBAL\Schema\Index;
-use App\Http\Controllers\Controller;
 use App\Http\Traits\GeneralTrait;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OfferResource;
 
 class OfferController extends Controller
 {
@@ -14,6 +17,13 @@ class OfferController extends Controller
 
     public function index()
     {
+        $client = Auth::user();
+        $offers = DB::table('offers')
+            ->join('orders', 'orders.client_id', '=', 'offers.client_id')
+            ->where('offers.client_id', $client->id)
+            ->get();
+
+        return OfferResource::collection($offers);
     }
 
     public function show(Offer $offer)
