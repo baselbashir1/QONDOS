@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Exception;
 use App\Models\Client;
 use Illuminate\Http\Request;
-use App\Http\Requests\ClientRequest;
 use App\Models\ClientAddress;
 use App\Models\SpecialServiceOrder;
-use Exception;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ClientRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -81,12 +82,13 @@ class ClientController extends Controller
         return redirect()->route('clients.index');
     }
 
-    public function getLocation(Client $client)
+    public function getLocation()
     {
-        $location = ClientAddress::where(['client_id' => $client->id, 'is_current' => 1])->first();
+        $client = Auth::user();
+        $clientLocation = ClientAddress::where(['client_id' => $client->id, 'is_current' => 1])->first();
         return response()->json([
-            'latitude' => $location->latitude,
-            'longitude' => $location->longitude,
+            'latitude' => $clientLocation->latitude,
+            'longitude' => $clientLocation->longitude,
         ]);
     }
 }

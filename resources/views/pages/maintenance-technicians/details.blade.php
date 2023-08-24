@@ -64,8 +64,6 @@
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label>الموقع الجغرافي</label>
-                            {{-- <button class="btn btn-success"
-                                onclick="showMap({{ $maintenanceTechnician->location->latitude }}, {{ $maintenanceTechnician->location->longitude }})">{{ $maintenanceTechnician->location->longitude }}</button> --}}
                             <div id="map" style="height: 400px;"></div>
                         </div>
                     </div>
@@ -79,7 +77,7 @@
                     zoom: 5,
                 });
 
-                fetch('/get-location')
+                fetch(`/maintenance-technician/get-location`)
                     .then(response => response.json())
                     .then(data => {
                         const myLatLng = {
@@ -100,6 +98,7 @@
             window.initMap = initMap;
         </script>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&callback=initMap" defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0HqqYZX6UfJhKREUB5hAnwcGWnP4Xl_Q&callback=initMap"
+            defer></script>
 
 </x-base-layout>

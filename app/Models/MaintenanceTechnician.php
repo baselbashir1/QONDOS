@@ -18,7 +18,7 @@ class MaintenanceTechnician extends Authenticatable
     protected $guard = 'maintenance-technician';
     protected $fillable = [
         'name', 'phone', 'password', 'city', 'bank', 'account_number', 'photo', 'residency_photo',
-        'is_verified', 'main_category_id', 'sub_category_id', 'service_id', 'location_id'
+        'is_verified', 'main_category_id', 'sub_category_id', 'service_id', 'latitude', 'longitude'
     ];
 
     public function mainCategory(): BelongsTo
@@ -36,8 +36,8 @@ class MaintenanceTechnician extends Authenticatable
         return $this->belongsTo(Service::class);
     }
 
-    public function location(): BelongsTo
-    {
-        return $this->belongsTo(Location::class);
-    }
+    // public function location(): BelongsTo
+    // {
+    //     return $this->belongsTo(Location::class);
+    // }
 }

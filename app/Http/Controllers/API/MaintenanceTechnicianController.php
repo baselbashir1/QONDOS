@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Order;
-use App\Models\Location;
 use Illuminate\Http\Request;
 use App\Models\ClientAddress;
 use App\Http\Requests\AuthRequest;
@@ -17,13 +16,18 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\MaintenanceTechnicianRequest;
 use App\Http\Requests\OfferRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
+use App\Http\Resources\OrderResource;
+use App\Http\Traits\GeneralTrait;
 use App\Models\Offer;
 
 class MaintenanceTechnicianController extends Controller
 {
+    use GeneralTrait;
+
     public function index()
     {
-        return MaintenanceTechnicianResource::collection(MaintenanceTechnician::all());
+        $maintenanceTechnicians = MaintenanceTechnician::paginate(5);
+        return MaintenanceTechnicianResource::collection($maintenanceTechnicians);
     }
 
     public function login(AuthRequest $request)
@@ -70,11 +74,6 @@ class MaintenanceTechnicianController extends Controller
             $inputFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
         }
 
-        $location = Location::create([
-            'latitude' =>  $inputFields['latitude'],
-            'longitude' =>  $inputFields['longitude'],
-        ]);
-
         MaintenanceTechnician::create([
             'name' => $inputFields['name'],
             'phone' => $inputFields['phone'],
@@ -88,7 +87,8 @@ class MaintenanceTechnicianController extends Controller
             'sub_category_id' => $inputFields['sub_category'],
             'service_id' => $inputFields['service'],
             'is_verified' => 0,
-            'location_id' => $location->id
+            'latitude' =>  $inputFields['latitude'],
+            'longitude' =>  $inputFields['longitude'],
         ]);
 
         if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
@@ -118,54 +118,25 @@ class MaintenanceTechnicianController extends Controller
         return response()->json(['success' => 'Logged out successfully.', 'token' => $token]);
     }
 
-    public function calculateDistance($lat1, $lon1, $lat2, $lon2)
-    {
-        $radius = 6371000;
-
-        $lat1Rad = deg2rad($lat1);
-        $lon1Rad = deg2rad($lon1);
-        $lat2Rad = deg2rad($lat2);
-        $lon2Rad = deg2rad($lon2);
-
-        $dLat = $lat2Rad - $lat1Rad;
-        $dLon = $lon2Rad - $lon1Rad;
-
-        $a = sin($dLat / 2) * sin($dLat / 2) + cos($lat1Rad) * cos($lat2Rad) * sin($dLon / 2) * sin($dLon / 2);
-        $b = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-        $distance = $radius * $b;
-        return $distance;
-    }
-
     public function showOrders()
     {
         $maintenanceTechnician = Auth::user();
-        $maintenanceTechnicianLocation = Location::where('id', $maintenanceTechnician->location_id)->first();
-
         $clientAddresses = ClientAddress::where('is_current', 1)->get();
         $closestOrders = [];
 
         foreach ($clientAddresses as $clientAddress) {
-            $distance = self::calculateDistance($maintenanceTechnicianLocation->latitude, $maintenanceTechnicianLocation->longitude, $clientAddress->latitude, $clientAddress->longitude);
+            $distance = $this->calculateDistance($maintenanceTechnician->latitude, $maintenanceTechnician->longitude, $clientAddress->latitude, $clientAddress->longitude);
             if ($distance <= 500) {
-                $orders = Order::where('client_id', $clientAddress->client_id)->get();
+                $orders = DB::table('orders')
+                    ->join('client_addresses', 'orders.client_id', '=', 'client_addresses.client_id')
+                    ->where('client_addresses.is_current', 1)
+                    ->get();
                 $closestOrders[] = $orders;
             }
         }
-        // need fix
-        // return [
-        //     'order' => OrderResource::make($order),
-        //     'order-services' => OrderServicesResource::collection($orderServices),
-        //     'order-images' => OrderImagesResource::collection($orderImages)
-        // ];
 
         if ($distance <= 500) {
             return response()->json(['closest-orders' => $closestOrders, 'distance' => $distance . 'm']);
-            // return [
-            //     'order' => OrderResource::make($order),
-            //     'order-services' => OrderServicesResource::collection($orderServices),
-            //     'order-images' => OrderImagesResource::collection($orderImages)
-            // ];
         } else {
             return response()->json(['closest-orders' => 'No near orders']);
         }

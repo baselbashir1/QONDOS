@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ClientController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\MaintenanceTechnicianController;
+use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ServiceController;
 use App\Http\Controllers\API\SubCategoryController;
@@ -30,13 +31,14 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::post('/client/set-location', [ClientController::class, 'setLocation']);
     Route::get('/client/locations', [ClientController::class, 'getLocations']);
     Route::post('/client/{clientAddress}/choose-location', [ClientController::class, 'chooseLocation']);
-    Route::get('/offers', [ClientController::class, 'showOffers']);
     Route::post('/offer/{offer}/accept', [ClientController::class, 'acceptOffer']);
     Route::post('/offer/{offer}/reject', [ClientController::class, 'rejectOffer']);
+    Route::post('/client/cancel-order/{order}', [ClientController::class, 'cancelOrder']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);
     Route::apiResource('orders', OrderController::class);
+    Route::apiResource('offers', OfferController::class);
 });
 
 // Route::post('/client/login', [ClientController::class, 'login']);

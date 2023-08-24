@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Exception;
 use App\Models\Service;
 use App\Models\Category;
-use App\Models\Location;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\MaintenanceTechnician;
 use App\Http\Requests\MaintenanceTechnicianRequest;
 
@@ -144,10 +144,10 @@ class MaintenanceTechnicianController extends Controller
 
     public function getLocation()
     {
-        $location = Location::first();
+        $maintenanceTechnician = Auth::user();
         return response()->json([
-            'latitude' => $location->latitude,
-            'longitude' => $location->longitude,
+            'latitude' => $maintenanceTechnician->latitude,
+            'longitude' => $maintenanceTechnician->longitude,
         ]);
     }
 }

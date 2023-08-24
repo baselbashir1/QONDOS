@@ -23,11 +23,11 @@
                     </div>
                     <div class="row mb-4">
                         <label for="home">المنزل</label>
-                        <div class="form-control m-1" style="width: 91%">{{ $currentAddress->home }}</div>
+                        <div class="form-control m-1" style="width: 91%">{{ $currentAddress?->home }}</div>
                     </div>
                     <div class="row mb-4">
                         <label for="home">العنوان الحالي</label>
-                        <div class="form-control m-1" style="width: 91%">{{ $currentAddress->address }}</div>
+                        <div class="form-control m-1" style="width: 91%">{{ $currentAddress?->address }}</div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
@@ -45,8 +45,7 @@
                     zoom: 5,
                 });
 
-                const clientId = {{ $client->id }};
-                fetch(`/client/${clientId}/get-location`)
+                fetch(`/client/get-location`)
                     .then(response => response.json())
                     .then(data => {
                         const myLatLng = {

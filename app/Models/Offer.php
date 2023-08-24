@@ -16,4 +16,14 @@ class Offer extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function maintenanceTechnician(): BelongsTo
+    {
+        return $this->belongsTo(MaintenanceTechnician::class);
+    }
 }

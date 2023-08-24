@@ -33,9 +33,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('index');
     });
-    Route::get('/client/{client}/get-location', [ClientController::class, 'getLocation']);
+    Route::get('/client/get-location', [ClientController::class, 'getLocation']);
+    // Route::get('/client/{client}/get-location', [ClientController::class, 'getLocation']);
+    Route::get('/maintenance-technician/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
     Route::get('/join-requests', [MaintenanceTechnicianController::class, 'joinRequests']);
-    Route::get('/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
+    // Route::get('/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
     Route::post('/reject/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'reject']);
     Route::post('/approve/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'approve']);
     Route::resource('clients', ClientController::class);

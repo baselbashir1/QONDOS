@@ -15,6 +15,7 @@ use App\Http\Requests\SpecialServiceOrderRequest;
 use App\Http\Resources\ClientAddressResource;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\OfferResource;
+use App\Http\Traits\GeneralTrait;
 use App\Models\Client;
 use App\Models\ClientAddress;
 use App\Models\Offer;
@@ -28,6 +29,8 @@ use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
+    use GeneralTrait;
+
     public function index()
     {
         $clients = Client::paginate(5);
@@ -265,9 +268,20 @@ class ClientController extends Controller
             'status' => OfferStatus::rejected
         ]);
         $offer->order->update([
-            'status' => OrderStatus::canceled
+            'status' => OrderStatus::newOrder
         ]);
 
         return response()->json(['success' => 'Offer rejected successfully.']);
+    }
+
+    public function cancelOrder(Order $order)
+    {
+        $order->update([
+            'status' => OrderStatus::canceled
+        ]);
+
+        // DB::query("select * into canceled_orders from orders where orders.status = 'Canceled'");
+
+        return response()->json(['success' => 'Order canceled successfully.']);
     }
 }
