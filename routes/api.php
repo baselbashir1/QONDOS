@@ -34,6 +34,7 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::post('/offer/{offer}/accept', [ClientController::class, 'acceptOffer']);
     Route::post('/offer/{offer}/reject', [ClientController::class, 'rejectOffer']);
     Route::post('/client/cancel-order/{order}', [ClientController::class, 'cancelOrder']);
+    Route::post('/client/accept-finish-order/{order}', [ClientController::class, 'acceptFinishOrder']);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);
@@ -60,6 +61,8 @@ Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-techni
     Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout']);
     Route::get('/show-orders', [MaintenanceTechnicianController::class, 'showOrders']);
     Route::post('/send-offer/{order}', [MaintenanceTechnicianController::class, 'sendOffer']);
+    Route::post('/confirm-offer/{offer}', [MaintenanceTechnicianController::class, 'confirmOffer']);
+    Route::post('/request-finish-order/{order}', [MaintenanceTechnicianController::class, 'requestFinishOrder']);
 });
 
 Route::apiResource('clients', ClientController::class);

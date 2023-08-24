@@ -284,4 +284,13 @@ class ClientController extends Controller
 
         return response()->json(['success' => 'Order canceled successfully.']);
     }
+
+    public function acceptFinishOrder(Order $order)
+    {
+        $order->update([
+            'status' => OrderStatus::finished
+        ]);
+
+        return response()->json(['success' => 'Approved finish order successfully.']);
+    }
 }
