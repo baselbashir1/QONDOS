@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 45%">(مجدول\غير مجدول)</label>
                         <label class="ml-1 mr-1" style="width: 45%">وقت الزيارة</label>
                     </div>
                     <div class="row mb-4">

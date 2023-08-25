@@ -10,11 +10,12 @@
                             <tr>
                                 <th class="checkbox-column"></th>
                                 <th>رقم الطلب</th>
-                                <th>عدد الخدمات</th>
-                                <th>عدد الصور</th>
+                                {{-- <th>عدد الخدمات</th> --}}
+                                {{-- <th>عدد الصور</th> --}}
                                 <th>صاحب الطلب</th>
-                                <th>حالة الطلب</th>
+                                <th>(مجدول\غير مجدول)</th>
                                 <th>وقت الزيارة</th>
+                                <th>حالة الطلب</th>
                                 <th>ملاحظات</th>
                                 <th class="no-content text-center">خيارات</th>
                             </tr>
@@ -25,8 +26,8 @@
                                     <tr>
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->client_id }}</td>
-                                        <td>{{ count($order->orderServices) }}</td>
-                                        <td>{{ count($order->orderImages) }}</td>
+                                        {{-- <td>{{ count($order->orderServices) }}</td>
+                                        <td>{{ count($order->orderImages) }}</td> --}}
                                         <td>{{ $order->client->name }}</td>
                                         <td>
                                             @if ($order->is_scheduled === 1)
@@ -42,6 +43,7 @@
                                                 فوري
                                             @endif
                                         </td>
+                                        <td>{{ $order->status }}</td>
                                         <td>{{ $order->notes }}</td>
                                         <td class="text-center">
                                             <div class="dropdown">

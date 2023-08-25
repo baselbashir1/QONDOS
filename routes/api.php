@@ -21,20 +21,29 @@ use App\Http\Controllers\API\SubCategoryController;
 |
 */
 
-Route::post('/client/login', [ClientController::class, 'login']);
-Route::post('/client/register', [ClientController::class, 'register']);
+Route::controller(ClientController::class)->group(function () {
+    Route::prefix('client')->group(function () {
+        Route::post('/login', 'login');
+        Route::post('/register', 'register');
+    });
+});
+
 Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
-    Route::get('/client/logout', [ClientController::class, 'logout']);
-    Route::get('/client/profile', [ClientController::class, 'getProfile']);
-    Route::post('/client/makeOrder', [ClientController::class, 'makeOrder']);
-    Route::post('/client/request-special-service', [ClientController::class, 'requestSpecialService']);
-    Route::post('/client/set-location', [ClientController::class, 'setLocation']);
-    Route::get('/client/locations', [ClientController::class, 'getLocations']);
-    Route::post('/client/{clientAddress}/choose-location', [ClientController::class, 'chooseLocation']);
-    Route::post('/offer/{offer}/accept', [ClientController::class, 'acceptOffer']);
-    Route::post('/offer/{offer}/reject', [ClientController::class, 'rejectOffer']);
-    Route::post('/client/cancel-order/{order}', [ClientController::class, 'cancelOrder']);
-    Route::post('/client/accept-finish-order/{order}', [ClientController::class, 'acceptFinishOrder']);
+    Route::controller(ClientController::class)->group(function () {
+        Route::prefix('client')->group(function () {
+            Route::get('/logout', 'logout');
+            Route::get('/profile', 'getProfile');
+            Route::post('/make-order', 'makeOrder');
+            Route::post('/request-special-service', 'requestSpecialService');
+            Route::post('/set-location', 'setLocation');
+            Route::get('/locations', 'getLocations');
+            Route::post('/choose-location/{clientAddress}', 'chooseLocation');
+            Route::post('/accept-offer/{offer}', 'acceptOffer');
+            Route::post('/reject-offer/{offer}', 'rejectOffer');
+            Route::post('/cancel-order/{order}', 'cancelOrder');
+            Route::post('/accept-finish-order/{order}', 'acceptFinishOrder');
+        });
+    });
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('sub-categories', SubCategoryController::class);
     Route::apiResource('services', ServiceController::class);
@@ -42,27 +51,24 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
     Route::apiResource('offers', OfferController::class);
 });
 
-// Route::post('/client/login', [ClientController::class, 'login']);
-// Route::post('/client/register', [ClientController::class, 'register']);
-// Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
-//     Route::get('/client/logout', [ClientController::class, 'logout']);
-//     Route::get('/client/profile', [ClientController::class, 'getProfile']);
-//     Route::post('/client/makeOrder', [ClientController::class, 'makeOrder']);
-//     Route::apiResource('categories', CategoryController::class);
-//     Route::apiResource('sub-categories', SubCategoryController::class);
-//     Route::apiResource('services', ServiceController::class);
-//     Route::apiResource('orders', OrderController::class);
-// });
+Route::controller(MaintenanceTechnicianController::class)->group(function () {
+    Route::prefix('maintenance-technician')->group(function () {
+        Route::post('/login', 'login');
+        Route::post('/register', 'register');
+    });
+});
 
-Route::post('/maintenance-technician/login', [MaintenanceTechnicianController::class, 'login']);
-Route::post('/maintenance-technician/register', [MaintenanceTechnicianController::class, 'register']);
 Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-technician'])->group(function () {
-    Route::get('/maintenance-technician/profile', [MaintenanceTechnicianController::class, 'getProfile']);
-    Route::get('/maintenance-technician/logout', [MaintenanceTechnicianController::class, 'logout']);
-    Route::get('/show-orders', [MaintenanceTechnicianController::class, 'showOrders']);
-    Route::post('/send-offer/{order}', [MaintenanceTechnicianController::class, 'sendOffer']);
-    Route::post('/confirm-offer/{offer}', [MaintenanceTechnicianController::class, 'confirmOffer']);
-    Route::post('/request-finish-order/{order}', [MaintenanceTechnicianController::class, 'requestFinishOrder']);
+    Route::controller(MaintenanceTechnicianController::class)->group(function () {
+        Route::prefix('maintenance-technician')->group(function () {
+            Route::get('/logout', 'logout');
+            Route::get('/profile', 'getProfile');
+            Route::get('/show-orders', 'showOrders');
+            Route::post('/send-offer/{order}', 'sendOffer');
+            Route::post('/confirm-offer/{offer}', 'confirmOffer');
+            Route::post('/request-finish-order/{order}', 'requestFinishOrder');
+        });
+    });
 });
 
 Route::apiResource('clients', ClientController::class);

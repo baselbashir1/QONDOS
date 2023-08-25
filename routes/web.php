@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ClientController;
-use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SpecialServiceOrderController;
 use App\Http\Controllers\Admin\MaintenanceTechnicianController;
@@ -22,24 +21,20 @@ use App\Http\Controllers\Admin\MaintenanceTechnicianController;
 |
 */
 
-Route::get('/xclear', function () {
-    Artisan::call('config:cache');
-    Artisan::call('cache:clear');
-    Artisan::call('view:clear');
-    return 'cleared';
-});
-
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('index');
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/clear', 'clear');
     });
-    Route::get('/client/get-location', [ClientController::class, 'getLocation']);
-    // Route::get('/client/{client}/get-location', [ClientController::class, 'getLocation']);
-    Route::get('/maintenance-technician/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
-    Route::get('/join-requests', [MaintenanceTechnicianController::class, 'joinRequests']);
-    // Route::get('/get-location', [MaintenanceTechnicianController::class, 'getLocation']);
-    Route::post('/reject/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'reject']);
-    Route::post('/approve/{maintenanceTechnician}', [MaintenanceTechnicianController::class, 'approve']);
+    Route::controller(ClientController::class)->group(function () {
+        Route::get('/client/get-location', 'getLocation');
+    });
+    Route::controller(MaintenanceTechnicianController::class)->group(function () {
+        Route::get('/maintenance-technician/get-location', 'getLocation');
+        Route::get('/join-requests', 'joinRequests');
+        Route::post('/reject/{maintenanceTechnician}', 'reject');
+        Route::post('/approve/{maintenanceTechnician}', 'approve');
+    });
     Route::resource('clients', ClientController::class);
     Route::resource('maintenance-technicians', MaintenanceTechnicianController::class);
     Route::resource('categories', CategoryController::class);
