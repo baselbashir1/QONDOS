@@ -19,6 +19,7 @@ use App\Http\Resources\MaintenanceTechnicianResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Traits\GeneralTrait;
 use App\Models\Offer;
+use App\Models\Rating;
 
 class MaintenanceTechnicianController extends Controller
 {

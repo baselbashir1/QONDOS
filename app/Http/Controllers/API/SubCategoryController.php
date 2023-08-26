@@ -19,10 +19,6 @@ class SubCategoryController extends Controller
 
     public function show(SubCategory $subCategory)
     {
-        $services = $subCategory->services()->get();
-        return [
-            'sub-category' => SubCategoryResource::make($subCategory),
-            'services' => ServiceResource::collection($services)
-        ];
+        return SubCategoryResource::make($subCategory);
     }
 }

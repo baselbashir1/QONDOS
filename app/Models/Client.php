@@ -20,4 +20,9 @@ class Client extends Authenticatable
     {
         return $this->hasMany(ClientAddress::class, 'client_id');
     }
+
+    public function order(): HasMany
+    {
+        return $this->hasMany(Order::class, 'client_id');
+    }
 }

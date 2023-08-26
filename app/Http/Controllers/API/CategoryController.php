@@ -19,10 +19,6 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        $subCategories = $category->subCategories()->get();
-        return [
-            'category' => CategoryResource::make($category),
-            'sub-categories' => SubCategoryResource::collection($subCategories),
-        ];
+        return CategoryResource::make($category);
     }
 }

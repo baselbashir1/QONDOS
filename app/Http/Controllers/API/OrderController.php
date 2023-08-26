@@ -21,12 +21,6 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $orderServices = $order->orderServices()->get();
-        $orderImages = $order->orderImages()->get();
-        return [
-            'order' => OrderResource::make($order),
-            'order-services' => OrderServicesResource::collection($orderServices),
-            'order-images' => OrderImagesResource::collection($orderImages)
-        ];
+        return OrderResource::make($order);
     }
 }

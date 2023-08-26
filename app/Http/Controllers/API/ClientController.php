@@ -18,10 +18,12 @@ use App\Http\Resources\OfferResource;
 use App\Http\Traits\GeneralTrait;
 use App\Models\Client;
 use App\Models\ClientAddress;
+use App\Models\MaintenanceTechnician;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\OrderImage;
 use App\Models\OrderService;
+use App\Models\Rating;
 use App\Models\SpecialServiceOrder;
 use App\Models\SpecialServiceOrderImage;
 use Illuminate\Support\Facades\Auth;
@@ -97,8 +99,9 @@ class ClientController extends Controller
     public function getProfile()
     {
         $client = Auth::user();
+        $clientAddresses = $client->addresses()->get();
         $token = $client->token();
-        return response()->json(['client' => $client, 'token' => $token]);
+        return response()->json(['client' => $client, 'addresses' => $clientAddresses, 'token' => $token]);
     }
 
     public function logout()
@@ -171,7 +174,6 @@ class ClientController extends Controller
             'client_id' => Auth::user()->id,
             'is_scheduled' => $inputFields['is_scheduled'],
             'visit_time' => isset($inputFields['visit_time']) ? $inputFields['visit_time'] : null
-            // 'visit_time' => isset($inputFields['is_scheduled']) === 0 ? 'فوري' : $inputFields['visit_time']
         ]);
 
         $imagesPaths = [];
@@ -244,9 +246,9 @@ class ClientController extends Controller
         return response()->json(['success' => 'Client location updated successfully.']);
     }
 
-    public function showOffers()
+    public function showOrderOffers(Order $order)
     {
-        $offers = Offer::where('status', OfferStatus::pending)->paginate(5);
+        $offers = Offer::where(['order_id' => $order->id, 'status' => OfferStatus::pending])->paginate(5);
         return OfferResource::collection($offers);
     }
 
@@ -267,9 +269,12 @@ class ClientController extends Controller
         $offer->update([
             'status' => OfferStatus::rejected
         ]);
-        $offer->order->update([
-            'status' => OrderStatus::newOrder
-        ]);
+        // $offers = Offer::where('order_id', $offer->order->id)->get();
+        // if (count($offers) === 0) {
+        //     $offer->order->update([
+        //         'status' => OrderStatus::newOrder
+        //     ]);
+        // }
 
         return response()->json(['success' => 'Offer rejected successfully.']);
     }
@@ -279,8 +284,6 @@ class ClientController extends Controller
         $order->update([
             'status' => OrderStatus::canceled
         ]);
-
-        // DB::query("select * into canceled_orders from orders where orders.status = 'Canceled'");
 
         return response()->json(['success' => 'Order canceled successfully.']);
     }
@@ -292,5 +295,19 @@ class ClientController extends Controller
         ]);
 
         return response()->json(['success' => 'Approved finish order successfully.']);
+    }
+
+    public function evaluateMaintenance(Request $request, MaintenanceTechnician $maintenanceTechnician)
+    {
+        $inputFields = $request->validate([
+            'rate' => 'required|numeric|min:0.5|max:5'
+        ]);
+
+        Rating::create([
+            'rate' => $inputFields['rate'],
+            'maintenance_technician_id' => $maintenanceTechnician->id
+        ]);
+
+        return response()->json(['success' => 'Maintenance evaluated successfully.']);
     }
 }

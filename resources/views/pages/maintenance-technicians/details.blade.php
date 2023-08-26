@@ -61,6 +61,14 @@
                             {{ $maintenanceTechnician->service->translate('ar')->name }}
                         </div>
                     </div>
+                    <div class="row">
+                        <label class="ml-1 mr-1" style="width: 45%">تقييم الفني</label>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="form-control m-1" style="width: 45%">
+                            {{ $maintenanceTechnician->ratings->avg('rate') }}
+                        </div>
+                    </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label>الموقع الجغرافي</label>

@@ -38,10 +38,12 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
             Route::post('/set-location', 'setLocation');
             Route::get('/locations', 'getLocations');
             Route::post('/choose-location/{clientAddress}', 'chooseLocation');
+            Route::get('/show-order-offers/{order}', 'showOrderOffers');
             Route::post('/accept-offer/{offer}', 'acceptOffer');
             Route::post('/reject-offer/{offer}', 'rejectOffer');
             Route::post('/cancel-order/{order}', 'cancelOrder');
             Route::post('/accept-finish-order/{order}', 'acceptFinishOrder');
+            Route::post('/evaluate-maintenance/{maintenanceTechnician}', 'evaluateMaintenance');
         });
     });
     Route::apiResource('categories', CategoryController::class);

@@ -25,11 +25,10 @@ class MaintenanceTechnicianResource extends JsonResource
             'photo' => $this->photo,
             'residency_photo' => $this->residency_photo,
             'is_verified' => $this->is_verified,
-            'main_category_id' => $this->main_category_id,
-            'sub_category_id' => $this->sub_category_id,
+            'service' => $this->service,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
-            'service_id' => $this->service_id,
+            'ratings' => $this->ratings->avg('rate'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

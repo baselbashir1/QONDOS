@@ -97,7 +97,7 @@
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="main_category">اختر التصنيف الرئيسي لهذه الخدمة</label>
-                                <select name="main_category" class="form-control">
+                                <select name="main_category" id="main_category" class="form-control">
                                     <option selected disabled>اختر التصنيف الرئيسي</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->translate('ar')->name }}
@@ -112,7 +112,7 @@
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="sub_category">اختر التصنيف الفرعي لهذه الخدمة</label>
-                                <select name="sub_category" class="form-control">
+                                <select name="sub_category" id="sub_category" class="form-control">
                                     <option selected disabled>اختر التصنيف الفرعي</option>
                                     @foreach ($subCategories as $subCategory)
                                         <option value="{{ $subCategory->id }}">

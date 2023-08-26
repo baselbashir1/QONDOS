@@ -21,6 +21,7 @@ class SubCategoryResource extends JsonResource
             'name_en' => $this->translate('en')->name,
             'image' => $this->image,
             'category_id' => $this->category_id,
+            'services' => $this->services,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

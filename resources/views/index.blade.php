@@ -9,8 +9,8 @@
         <div class="row">
             <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-4">
                 <a class="card style-6" href="{{ route('clients.index') }}">
-                    <img src="{{ Vite::asset('resources/src/assets/img/cleint.png') }}" class="card-img-top" alt="..."
-                        style="width: 100%; height: 100%;">
+                    <img src="{{ Vite::asset('resources/src/assets/img/clenit-new.png') }}" class="card-img-top"
+                        alt="..." style="width: 100%; height: 100%;">
                     <div class="card-footer">
                         <div class="row">
                             <div class="container text-center">
@@ -36,6 +36,20 @@
                 </a>
             </div>
             <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-4">
+                <a class="card style-6" href="{{ route('services.index') }}">
+                    <img src="{{ Vite::asset('resources/src/assets/img/service.png') }}" class="card-img-top"
+                        alt="..." style="width: 100%; height: 100%;">
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="container text-center">
+                                <i style="font-size: 20px" class="fas fa-clipboard-list"></i>
+                                <b>الخدمات</b>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-4">
                 <a class="card style-6" href="{{ route('orders.index') }}">
                     <img src="{{ Vite::asset('resources/src/assets/img/order.png') }}" class="card-img-top"
                         alt="..." style="width: 100%; height: 100%;">
@@ -44,6 +58,20 @@
                             <div class="container text-center">
                                 <i style="font-size: 20px" class="fas fa-clipboard-list"></i>
                                 <b>الطلبات</b>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-4">
+                <a class="card style-6" href="/join-requests">
+                    <img src="{{ Vite::asset('resources/src/assets/img/join.png') }}" class="card-img-top"
+                        alt="..." style="width: 100%; height: 100%;">
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="container text-center">
+                                <i style="font-size: 20px" class="fas fa-clipboard-list"></i>
+                                <b>طلبات انضمام الفنيين</b>
                             </div>
                         </div>
                     </div>

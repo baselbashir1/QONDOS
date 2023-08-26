@@ -17,23 +17,12 @@ class OfferController extends Controller
 
     public function index()
     {
-        $client = Auth::user();
-        $offers = DB::table('offers')
-            ->join('orders', 'orders.client_id', '=', 'offers.client_id')
-            ->where('offers.client_id', $client->id)
-            ->get();
-
+        $offers = Offer::paginate(5);
         return OfferResource::collection($offers);
     }
 
     public function show(Offer $offer)
     {
-        $lat1 = $offer->maintenanceTechnician->latitude;
-        $lat2 = $offer->client->latitude;
-        $long1 = $offer->maintenanceTechnician->longitude;
-        $long2 = $offer->client->longitude;
-
-        $distance =  $this->calculateDistance($lat1, $long1, $lat2, $long2);
-        return response()->json(['offer' => $offer, 'distance' => $distance . 'm']);
+        return OfferResource::make($offer);
     }
 }
