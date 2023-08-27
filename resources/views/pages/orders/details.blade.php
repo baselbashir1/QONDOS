@@ -15,10 +15,29 @@
                     <div class="row mb-4">
                         <label>الخدمات</label>
                         @if (count($order->orderServices))
+                            @php
+                                $uniqueValues = [];
+                            @endphp
                             @foreach ($order->orderServices as $orderService)
-                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                    {{ $orderService->service->translate('ar')->name }}
-                                </div>
+                                @php
+                                    $serviceName = $orderService->service->translate('ar')->name;
+                                @endphp
+                                @if (!in_array($serviceName, $uniqueValues))
+                                    @php
+                                        $uniqueValues[] = $serviceName;
+                                        $count = 0;
+                                    @endphp
+                                    @foreach ($order->orderServices as $service)
+                                        @if ($service->service->translate('ar')->name == $serviceName)
+                                            @php
+                                                $count++;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+                                    <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
+                                        {{ $serviceName }} - {{ $count }}
+                                    </div>
+                                @endif
                             @endforeach
                         @else
                             <div class="container text-center">
