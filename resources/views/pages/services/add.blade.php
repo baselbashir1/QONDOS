@@ -58,6 +58,15 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
+                                <label for="price">سعر الخدمة</label>
+                                <input type="text" name="price" class="form-control text-right">
+                            </div>
+                            @error('price')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
                                 <label for="image">صورة الخدمة</label>
                                 <input type="file" name="image" class="form-control">
                             </div>

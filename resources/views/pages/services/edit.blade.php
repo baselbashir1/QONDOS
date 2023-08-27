@@ -64,6 +64,16 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
+                                <label for="price">سعر الخدمة</label>
+                                <input type="text" name="price" class="form-control text-right"
+                                    value="{{ $service->price }}">
+                            </div>
+                            @error('price')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
                                 <label for="image">صورة الخدمة</label>
                                 <div class="text-center">
                                     <img src="{{ $service->image ? Vite::asset('public/storage/' . $service->image) : Vite::asset('public/no-image.png') }}"

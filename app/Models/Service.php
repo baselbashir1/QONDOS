@@ -13,7 +13,7 @@ class Service extends Model
 {
     use HasFactory, Translatable;
 
-    protected $fillable = ['type', 'image', 'sub_category_id'];
+    protected $fillable = ['type', 'price', 'image', 'sub_category_id'];
     public $translatedAttributes = ['name'];
 
     public function subCategory(): BelongsTo

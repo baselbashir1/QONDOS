@@ -38,6 +38,7 @@ class ServiceController extends Controller
             }
 
             Service::create([
+                'price' => $formFields['price'],
                 'type' => CategoryType::service,
                 'en' => [
                     'name' => $formFields['name_en']
@@ -73,6 +74,7 @@ class ServiceController extends Controller
             }
 
             $service->update([
+                'price' => $formFields['price'],
                 'type' => CategoryType::service,
                 'en' => [
                     'name' => $formFields['name_en']

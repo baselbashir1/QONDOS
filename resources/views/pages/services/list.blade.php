@@ -22,6 +22,7 @@
                                 <th>اسم الخدمة باللغة العربية</th>
                                 <th>اسم الخدمة باللغة الانكليزية</th>
                                 <th>صورة الخدمة</th>
+                                <th>سعر الخدمة</th>
                                 <th class="no-content text-center">خيارات</th>
                             </tr>
                         </thead>
@@ -43,6 +44,7 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        <td>${{ $service->price }}</td>
                                         <td class="text-center">
                                             <div class="dropdown">
                                                 <a class="dropdown-toggle" href="#" role="button"
