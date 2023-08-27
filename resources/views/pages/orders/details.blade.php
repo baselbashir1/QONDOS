@@ -26,21 +26,6 @@
                             </div>
                         @endif
                     </div>
-                    {{-- <div class="row mb-4">
-                        <label>الصور</label>
-                        @if (count($order->orderImages))
-                            @foreach ($order->orderImages as $orderImage)
-                                <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                    <img src="{{ $orderImage->image ? Vite::asset('public/storage/' . $orderImage->image) : Vite::asset('public/no-image.png') }}"
-                                        alt="..." style="width: 100%; height: 100%">
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="container text-center">
-                                <p style="font-size: 35px">لا يوجد صور مرفقة</p>
-                            </div>
-                        @endif
-                    </div> --}}
                     <div class="row mb-4 tex">
                         <div class="col-sm-12">
                             <label for="images">الصور</label>

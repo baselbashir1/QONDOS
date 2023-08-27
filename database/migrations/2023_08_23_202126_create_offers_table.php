@@ -17,7 +17,6 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            // $table->boolean('status')->comment('1 accepted - 0 rejected');
             $table->string('status');
             $table->foreignIdFor(MaintenanceTechnician::class, 'maintenance_technician_id')->constrained()->onDelete('cascade');
             $table->foreignIdFor(Client::class, 'client_id');

@@ -26,20 +26,6 @@
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- <div class="row mb-4">
-                            <div class="col-sm-12">
-                                <label for="type">نوع التصنيف</label>
-                                <select name="type" class="form-control">
-                                    <option selected hidden>{{ $service->type }}</option>
-                                    @foreach ($categoryTypes as $categoryType)
-                                        <option value="{{ $categoryType }}">{{ $categoryType }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @error('type')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div> --}}
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="name_ar">اسم الخدمة باللغة العربية</label>
