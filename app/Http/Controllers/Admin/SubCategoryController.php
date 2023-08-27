@@ -38,7 +38,7 @@ class SubCategoryController extends Controller
             }
 
             SubCategory::create([
-                'type' => $formFields['type'],
+                'type' => CategoryType::subCategory,
                 'en' => [
                     'name' => $formFields['name_en']
                 ],
@@ -73,7 +73,7 @@ class SubCategoryController extends Controller
             }
 
             $subCategory->update([
-                'type' => $formFields['type'],
+                'type' => CategoryType::subCategory,
                 'en' => [
                     'name' => $formFields['name_en']
                 ],

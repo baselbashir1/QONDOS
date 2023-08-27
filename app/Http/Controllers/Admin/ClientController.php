@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\ClientAddress;
 use App\Models\SpecialServiceOrder;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClientAddressRequest;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,13 +36,22 @@ class ClientController extends Controller
         $formFields = $request->validated();
 
         try {
-            Client::create([
+            $client = Client::create([
                 'name' => $formFields['name'],
                 'email' => isset($formFields['email']) ? $formFields['email'] : null,
                 'phone' => $formFields['phone'],
                 'city' => $formFields['city'],
                 'password' => bcrypt($formFields['password'])
             ]);
+
+            // ClientAddress::create([
+            //     'home' => isset($formFields['home']) ? $formFields['home'] : null,
+            //     'address' => isset($formFields['address']) ? $formFields['address'] : null,
+            //     'latitude' => isset($formFields['latitude']) ? $formFields['latitude'] : null,
+            //     'longitude' => isset($formFields['longitude']) ? $formFields['longitude'] : null,
+            //     'client_id' => $client->id,
+            //     'is_current' => 1
+            // ]);
 
             notify()->success('تمت إضافة العميل بنجاح');
             return redirect()->route('clients.index');
@@ -52,7 +62,8 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        return view('pages.clients.edit', ['client' => $client]);
+        $clientAddress = ClientAddress::where(['is_current' => 1, 'client_id' => $client->id])->first();
+        return view('pages.clients.edit', ['client' => $client, 'clientAddress' => $clientAddress]);
     }
 
     public function update(ClientRequest $request, Client $client)
@@ -62,11 +73,17 @@ class ClientController extends Controller
         try {
             $client->update([
                 'name' => $formFields['name'],
-                'email' => isset($formFields['email']) ? $formFields['email'] : null,
+                'email' => isset($formFields['email']) ? $formFields['email'] : $client->email,
                 'phone' => $formFields['phone'],
                 'city' => $formFields['city'],
-                'password' => bcrypt($formFields['password'])
+                'password' => bcrypt($formFields['password']),
             ]);
+
+            // ClientAddress::where('client_id', $client->id)->create([
+            //     'home' => isset($formFields['home']) ? $formFields['home'] : null,
+            //     'address' => isset($formFields['address']) ? $formFields['address'] : null,
+
+            // ]);
 
             notify()->success('تم تعديل العميل بنجاح');
             return redirect()->route('clients.index');

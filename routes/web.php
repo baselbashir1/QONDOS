@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(HomeController::class)->group(function () {
         Route::get('/', 'index');
         Route::get('/clear', 'clear');
+        Route::get('/get-sub-category/{id}', 'getSubCategory');
+        Route::get('/get-main-category/{id}', 'getMainCategory');
     });
     Route::controller(ClientController::class)->group(function () {
         Route::get('/client/get-location', 'getLocation');

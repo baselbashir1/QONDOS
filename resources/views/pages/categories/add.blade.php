@@ -2,24 +2,12 @@
 
     <x-slot:pageTitle>إضافة تصنيف رئيسي</x-slot>
 
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
-
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST" action="{{ route('categories.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="widget-content widget-content-area ecommerce-create-section">
-                        <div class="row mb-4">
+                        {{-- <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="type">نوع التصنيف</label>
                                 <select name="type" class="form-control">
@@ -32,7 +20,7 @@
                             @error('type')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="name_ar">اسم التصنيف باللغة العربية</label>

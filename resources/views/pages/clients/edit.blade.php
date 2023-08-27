@@ -2,18 +2,6 @@
 
     <x-slot:pageTitle>تعديل العميل</x-slot>
 
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
-
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST" action="{{ route('clients.update', ['client' => $client->id]) }}">
                 @csrf
@@ -42,16 +30,6 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="city">المدينة</label>
-                                <input type="text" name="city" class="form-control" value="{{ $client->city }}"
-                                    placeholder="ادخل اسم المدينة">
-                            </div>
-                            @error('city')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-12">
                                 <label for="email">البريد الالكتروني</label>
                                 <input type="email" name="email" class="form-control text-right"
                                     value="{{ $client->email }}" placeholder="ادخل البريد الالكتروني">
@@ -60,6 +38,26 @@
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="city">المدينة</label>
+                                <input type="text" name="city" class="form-control" value="{{ $client->city }}"
+                                    placeholder="ادخل اسم المدينة">
+                            </div>
+                            @error('city')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="home">المنزل</label>
+                                <input type="text" name="home" class="form-control"
+                                    value="{{ $clientAddress?->home }}" placeholder="ادخل اسم المنزل">
+                            </div>
+                            @error('home')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div> --}}
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="password">كلمة المرور</label>

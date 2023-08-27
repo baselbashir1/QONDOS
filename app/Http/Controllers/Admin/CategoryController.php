@@ -36,7 +36,7 @@ class CategoryController extends Controller
             }
 
             Category::create([
-                'type' => $formFields['type'],
+                'type' => CategoryType::mainCategory,
                 'en' => [
                     'name' => $formFields['name_en']
                 ],
@@ -69,7 +69,7 @@ class CategoryController extends Controller
             }
 
             $category->update([
-                'type' => $formFields['type'],
+                'type' => CategoryType::mainCategory,
                 'en' => [
                     'name' => $formFields['name_en']
                 ],

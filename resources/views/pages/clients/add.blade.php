@@ -2,18 +2,6 @@
 
     <x-slot:pageTitle>إضافة عميل</x-slot>
 
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
-
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST" action="{{ route('clients.store') }}">
                 @csrf
@@ -39,16 +27,6 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="city">المدينة</label>
-                                <input type="text" name="city" class="form-control"
-                                    placeholder="ادخل اسم المدينة">
-                            </div>
-                            @error('city')
-                                <p class="mt-2 text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-12">
                                 <label for="email">البريد الالكتروني</label>
                                 <input type="email" name="email" class="form-control text-right"
                                     placeholder="ادخل البريد الالكتروني">
@@ -67,6 +45,52 @@
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="city">المدينة</label>
+                                <input type="text" name="city" class="form-control"
+                                    placeholder="ادخل اسم المدينة">
+                            </div>
+                            @error('city')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        {{-- <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="home">المنزل</label>
+                                <input type="text" name="home" class="form-control" placeholder="ادخل اسم المنزل">
+                            </div>
+                            @error('home')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div> --}}
+                        {{-- <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="address">العنوان</label>
+                                <input type="text" name="address" class="form-control" placeholder="ادخل العنوان">
+                            </div>
+                            @error('address')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div> --}}
+                        {{-- <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="latitude">latitude</label>
+                                <input type="text" name="latitude" class="form-control" placeholder="latitude">
+                            </div>
+                            @error('latitude')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div> --}}
+                        {{-- <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="longitude">longitude</label>
+                                <input type="text" name="longitude" class="form-control" placeholder="longitude">
+                            </div>
+                            @error('longitude')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div> --}}
                         <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-4">
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-success w-100"

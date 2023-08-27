@@ -26,7 +26,7 @@
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="row mb-4">
+                        {{-- <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="type">نوع التصنيف</label>
                                 <select name="type" class="form-control">
@@ -39,7 +39,7 @@
                             @error('type')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div> --}}
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="name_ar">اسم الخدمة باللغة العربية</label>

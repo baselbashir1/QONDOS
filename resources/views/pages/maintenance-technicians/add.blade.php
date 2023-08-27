@@ -96,16 +96,17 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="main_category">اختر التصنيف الرئيسي لهذه الخدمة</label>
-                                <select name="main_category" id="main_category" class="form-control">
-                                    <option selected disabled>اختر التصنيف الرئيسي</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->translate('ar')->name }}
+                                <label for="service">اختر الخدمة</label>
+                                <select name="service" id="service" class="form-control">
+                                    <option selected disabled>اختر الخدمة</option>
+                                    @foreach ($services as $service)
+                                        <option value="{{ $service->id }}">
+                                            {{ $service->translate('ar')->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('main_category')
+                            @error('service')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
@@ -127,17 +128,16 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="service">اختر الخدمة</label>
-                                <select name="service" class="form-control">
-                                    <option selected disabled>اختر الخدمة</option>
-                                    @foreach ($services as $service)
-                                        <option value="{{ $service->id }}">
-                                            {{ $service->translate('ar')->name }}
+                                <label for="main_category">اختر التصنيف الرئيسي لهذه الخدمة</label>
+                                <select name="main_category" id="main_category" class="form-control">
+                                    <option selected disabled>اختر التصنيف الرئيسي</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->translate('ar')->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('service')
+                            @error('main_category')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
@@ -152,5 +152,45 @@
                 </div>
             </form>
         </div>
+
+        {{-- <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const service = document.getElementById('service');
+                const subCategorySelect = document.getElementById('sub_category');
+                const mainCategorySelect = document.getElementById('main_category');
+
+                function updateSubCategoryOptions() {
+                    const selectedServiceId = service.value;
+                    fetch(`/get-sub-category/${selectedServiceId}`)
+                        .then(response => response.text())
+                        .then(subCategory => {
+                            // subCategorySelect.innerHTML = '<option value="' + subCategory + '">' + subCategory +
+                            //     '</option>';
+                            $('select[name="sub_category"]').empty();
+                            $('select[name="sub_category"]').append('<option value="' +
+                                subCategory + '">' + subCategory + '</option>');
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+
+                    fetch(`/get-main-category/${selectedServiceId}`)
+                        .then(response => response.text())
+                        .then(category => {
+                            // mainCategorySelect.innerHTML = '<option value="' + category + '">' + category +
+                            //     '</option>';
+                            $('select[name="main_category"]').empty();
+                            $('select[name="main_category"]').append('<option value="' +
+                                category + '">' + category + '</option>');
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+
+                service.addEventListener('change', updateSubCategoryOptions);
+            });
+        </script> --}}
+
 
 </x-base-layout>
