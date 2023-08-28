@@ -145,14 +145,13 @@ class ClientController extends Controller
         //     ]);
         // }
 
-        $servicesWithQuantities = $inputFields['services'] ?? [];
-        if (!is_array($servicesWithQuantities)) {
+        $services = $inputFields['services'] ?? [];
+        if (!is_array($services)) {
             return response()->json(['error' => 'Invalid services.'], 400);
         }
 
-        foreach ($servicesWithQuantities as $serviceId => $serviceData) {
-            $quantity = $serviceData['quantity'] ?? 1;
-            // Ensure the quantity is a positive integer
+        foreach ($services as $serviceId => $serviceQuantity) {
+            $quantity = $serviceQuantity['quantity'] ?? 1;
             $quantity = max(1, intval($quantity));
 
             // for ($i = 0; $i < $quantity; $i++) {
