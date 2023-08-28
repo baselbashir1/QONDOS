@@ -106,21 +106,22 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="main_category">اختر التصنيف الرئيسي لهذه الخدمة</label>
-                                <select name="main_category" class="form-control">
-                                    <option value="{{ $maintenanceTechnician->main_category_id }}" selected hidden>
-                                        {{ $maintenanceTechnician->mainCategory->translate('ar')->name }}</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->translate('ar')->name }}
+                                <label for="service">اختر الخدمة</label>
+                                <select name="service" class="form-control" id="service">
+                                    <option value="{{ $maintenanceTechnician->service_id }}" selected hidden>
+                                        {{ $maintenanceTechnician->service->translate('ar')->name }}</option>
+                                    @foreach ($services as $service)
+                                        <option value="{{ $service->id }}">
+                                            {{ $service->translate('ar')->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('main_category')
+                            @error('service')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="row mb-4">
+                        <div class="row mb-4" hidden>
                             <div class="col-sm-12">
                                 <label for="sub_category">اختر التصنيف الفرعي لهذه الخدمة</label>
                                 <select name="sub_category" class="form-control">
@@ -137,20 +138,19 @@
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="row mb-4">
+                        <div class="row mb-4" hidden>
                             <div class="col-sm-12">
-                                <label for="service">اختر الخدمة</label>
-                                <select name="service" class="form-control">
-                                    <option value="{{ $maintenanceTechnician->service_id }}" selected hidden>
-                                        {{ $maintenanceTechnician->service->translate('ar')->name }}</option>
-                                    @foreach ($services as $service)
-                                        <option value="{{ $service->id }}">
-                                            {{ $service->translate('ar')->name }}
+                                <label for="main_category">اختر التصنيف الرئيسي لهذه الخدمة</label>
+                                <select name="main_category" class="form-control">
+                                    <option value="{{ $maintenanceTechnician->main_category_id }}" selected hidden>
+                                        {{ $maintenanceTechnician->mainCategory->translate('ar')->name }}</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->translate('ar')->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('service')
+                            @error('main_category')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
@@ -164,5 +164,36 @@
                 </div>
             </form>
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                const service = $('#service');
+
+                function updateServiceSelected() {
+                    const selectedServiceId = service.val();
+
+                    fetch(`/get-sub-category/${selectedServiceId}`)
+                        .then(response => response.text())
+                        .then(subcategory => {
+                            $('select[name="sub_category"]').empty();
+                            $('select[name="sub_category"]').append('<option value="' +
+                                subcategory + '">' + subcategory + '</option>');
+                        })
+                        .catch(error => console.error(error));
+
+                    fetch(`/get-main-category/${selectedServiceId}`)
+                        .then(response => response.text())
+                        .then(maincategory => {
+                            $('select[name="main_category"]').empty();
+                            $('select[name="main_category"]').append('<option value="' +
+                                maincategory + '">' + maincategory + '</option>');
+                        })
+                        .catch(error => console.error(error));
+                }
+
+                service.on('change', updateServiceSelected);
+            });
+        </script>
 
 </x-base-layout>

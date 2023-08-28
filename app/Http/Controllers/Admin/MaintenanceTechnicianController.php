@@ -61,6 +61,15 @@ class MaintenanceTechnicianController extends Controller
                 'service_id' => $formFields['service'],
             ]);
 
+            // $selectedService = Service::findOrFail($formFields['service']);
+            // if ($selectedService->subCategory) {
+            //     $maintenanceTechnician->sub_category_id = $selectedService->subCategory->id;
+            //     if ($selectedService->subCategory->category) {
+            //         $maintenanceTechnician->main_category_id = $selectedService->subCategory->category->id;
+            //     }
+            // }
+            // $maintenanceTechnician->save();
+
             notify()->success('تمت إضافة فني صيانة بنجاح');
             return redirect()->route('maintenance-technicians.index');
         } catch (\Exception $e) {

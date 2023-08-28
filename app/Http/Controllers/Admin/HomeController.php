@@ -28,12 +28,14 @@ class HomeController extends Controller
     public function getSubCategory($id)
     {
         $service = Service::findOrFail($id);
-        return (string) $service->subCategory->translate('ar')->name;
+        return (string) $service->subCategory->id;
+        // return (string) $service->subCategory->translate('ar')->name;
     }
 
     public function getMainCategory($id)
     {
         $service = Service::findOrFail($id);
-        return (string) $service->subCategory->category->translate('ar')->name;
+        return (string) $service->subCategory->category->id;
+        // return (string) $service->subCategory->category->translate('ar')->name;
     }
 }
