@@ -27,11 +27,10 @@ class ClientRequest extends FormRequest
             'phone' => ['required', 'unique:clients,phone,except,id'],
             'city' => 'required',
             'password' => ['required', 'min:6'],
-
             'home' => 'nullable',
             'longitude' => 'nullable',
             'latitude' => 'nullable',
-            'addresses' => 'nullable|array',
+            'address' => 'nullable',
             'is_current' => 'nullable'
         ];
     }

@@ -55,7 +55,7 @@
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- <div class="row mb-4">
+                        <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="home">المنزل</label>
                                 <input type="text" name="home" class="form-control" placeholder="ادخل اسم المنزل">
@@ -63,8 +63,8 @@
                             @error('home')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
-                        </div> --}}
-                        {{-- <div class="row mb-4">
+                        </div>
+                        <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="address">العنوان</label>
                                 <input type="text" name="address" class="form-control" placeholder="ادخل العنوان">
@@ -72,25 +72,25 @@
                             @error('address')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
-                        </div> --}}
-                        {{-- <div class="row mb-4">
+                        </div>
+                        <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="latitude">latitude</label>
-                                <input type="text" name="latitude" class="form-control" placeholder="latitude">
+                                <label for="latitude">خط الطول</label>
+                                <input type="text" name="latitude" class="form-control" placeholder="خط الطول">
                             </div>
                             @error('latitude')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
-                        </div> --}}
-                        {{-- <div class="row mb-4">
+                        </div>
+                        <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="longitude">longitude</label>
-                                <input type="text" name="longitude" class="form-control" placeholder="longitude">
+                                <label for="longitude">خط العرض</label>
+                                <input type="text" name="longitude" class="form-control" placeholder="خط العرض">
                             </div>
                             @error('longitude')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
-                        </div> --}}
+                        </div>
                         <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-4">
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-success w-100"

@@ -10,9 +10,8 @@
                             <tr>
                                 <th class="checkbox-column"></th>
                                 <th>رقم الطلب</th>
-                                <th>عدد الصور</th>
                                 <th>صاحب الطلب</th>
-                                <th>حالة الطلب</th>
+                                <th>(مجدول\غير مجدول)</th>
                                 <th>وقت الزيارة</th>
                                 <th>ملاحظات</th>
                                 <th class="no-content text-center">خيارات</th>
@@ -24,7 +23,6 @@
                                     <tr>
                                         <td>{{ $specialServiceOrder->id }}</td>
                                         <td>{{ $specialServiceOrder->client_id }}</td>
-                                        <td>{{ count($specialServiceOrder->specialServiceOrderImages) }}</td>
                                         <td>{{ $specialServiceOrder->client->name }}</td>
                                         <td>
                                             @if ($specialServiceOrder->is_scheduled === 1)

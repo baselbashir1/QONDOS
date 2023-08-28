@@ -18,51 +18,6 @@
                             <div class="form-control m-1" style="width: 45%">{{ $specialServiceOrder->client->name }}
                             </div>
                         </div>
-                        {{-- <div class="row mb-4">
-                            <label>الخدمات</label>
-                            @if (count($order->orderServices))
-                                @foreach ($order->orderServices as $orderService)
-                                    <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                        {{ $orderService->service->translate('ar')->name }}
-                                        <img src="{{ $orderService->service->image ? Vite::asset('public/storage/' . $orderService->service->image) : Vite::asset('public/no-image.png') }}"
-                                            alt="..." style="width: 100%; height: 100%">
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="container text-center">
-                                    <p style="font-size: 35px">لا يوجد خدمات</p>
-                                </div>
-                            @endif
-                        </div> --}}
-                        {{-- <div class="row mb-4">
-                            <label>الخدمات</label>
-                            @if (count($order->orderServices))
-                                @foreach ($order->orderServices as $orderService)
-                                    <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                        {{ $orderService->service->translate('ar')->name }}
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="container text-center">
-                                    <p style="font-size: 35px">لا يوجد خدمات</p>
-                                </div>
-                            @endif
-                        </div> --}}
-                        {{-- <div class="row mb-4">
-                            <label>الصور</label>
-                            @if (count($specialServiceOrder->specialServiceOrderImages))
-                                @foreach ($specialServiceOrder->specialServiceOrderImages as $image)
-                                    <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                        <img src="{{ $image->image ? Vite::asset('public/storage/' . $image->image) : Vite::asset('public/no-image.png') }}"
-                                            alt="..." style="width: 100%; height: 100%">
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="container text-center">
-                                    <p style="font-size: 35px">لا يوجد صور مرفقة</p>
-                                </div>
-                            @endif
-                        </div> --}}
                         <div class="row mb-4 tex">
                             <div class="col-sm-12">
                                 <label for="images">الصور</label>
@@ -83,25 +38,8 @@
                                 @endif
                             </div>
                         </div>
-                        {{-- <div class="row mb-4 tex">
-                            <div class="col-sm-12">
-                                <label for="city">الصور</label>
-                                @if (count($order->orderImages))
-                                    @foreach ($order->orderImages as $orderImage)
-                                        <div class="card container mb-2">
-                                            <img src="{{ $orderImage->image ? Vite::asset('public/storage/' . $orderImage->image) : Vite::asset('public/no-image.png') }}"
-                                                alt="..." style="width: 30%; height: 30%">
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="container text-center">
-                                        <p style="font-size: 35px">لا يوجد صور مرفقة</p>
-                                    </div>
-                                @endif
-                            </div>
-                        </div> --}}
                         <div class="row">
-                            <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
+                            <label class="ml-1 mr-1" style="width: 45%">(مجدول\غير مجدول)</label>
                             <label class="ml-1 mr-1" style="width: 45%" id="visit_title">وقت الزيارة</label>
                         </div>
                         <div class="row mb-4">

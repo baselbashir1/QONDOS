@@ -10,12 +10,11 @@
                             <tr>
                                 <th class="checkbox-column"></th>
                                 <th>رقم الطلب</th>
-                                {{-- <th>عدد الخدمات</th> --}}
-                                {{-- <th>عدد الصور</th> --}}
                                 <th>صاحب الطلب</th>
                                 <th>(مجدول\غير مجدول)</th>
                                 <th>وقت الزيارة</th>
                                 <th>حالة الطلب</th>
+                                <th>سعر الطلب</th>
                                 <th>ملاحظات</th>
                                 <th class="no-content text-center">خيارات</th>
                             </tr>
@@ -26,8 +25,6 @@
                                     <tr>
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->client_id }}</td>
-                                        {{-- <td>{{ count($order->orderServices) }}</td>
-                                        <td>{{ count($order->orderImages) }}</td> --}}
                                         <td>{{ $order->client->name }}</td>
                                         <td>
                                             @if ($order->is_scheduled === 1)
@@ -44,7 +41,20 @@
                                             @endif
                                         </td>
                                         <td>{{ $order->status }}</td>
-                                        <td>{{ $order->notes }}</td>
+                                        <td>
+                                            @php
+                                                $totalPrice = 0.0;
+                                                $count = 0;
+                                            @endphp
+                                            @foreach ($order->orderServices as $orderService)
+                                                @php
+                                                    $totalPrice += $orderService->service->price;
+                                                    $count++;
+                                                @endphp
+                                            @endforeach
+                                            ${{ $totalPrice }}
+                                        </td>
+                                        <td>{{ substr($order->notes, 0, 20) }}...</td>
                                         <td class="text-center">
                                             <div class="dropdown">
                                                 <a class="dropdown-toggle" href="#" role="button"

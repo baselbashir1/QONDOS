@@ -32,13 +32,58 @@
                                 </div>
                             @endif
                         </div> --}}
-                        <div class="row mb-4">
+                        {{-- <div class="row mb-4">
                             <label for="services">الخدمات</label>
                             @if (count($order->orderServices))
                                 @foreach ($order->orderServices as $orderService)
                                     <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
                                         {{ $orderService->service->translate('ar')->name }}
                                     </div>
+                                @endforeach
+                            @else
+                                <div class="container text-center">
+                                    <p style="font-size: 35px">لا يوجد خدمات</p>
+                                </div>
+                            @endif
+                        </div> --}}
+                        <div class="row mb-4">
+                            <label>الخدمات</label>
+                            @if (count($order->orderServices))
+                                @php
+                                    $uniqueValues = [];
+                                    $totalPrice = 0.0;
+                                @endphp
+                                @foreach ($order->orderServices as $orderService)
+                                    @php
+                                        $serviceName = $orderService->service->translate('ar')->name;
+                                    @endphp
+                                    @if (!in_array($serviceName, $uniqueValues))
+                                        @php
+                                            $uniqueValues[] = $serviceName;
+                                            $count = 0;
+                                        @endphp
+                                        @foreach ($order->orderServices as $service)
+                                            @if ($service->service->translate('ar')->name == $serviceName)
+                                                @php
+                                                    $count++;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        <div class="card m-2 text-center w-25">
+                                            <div class="mb-2" style="font-size: 20px">
+                                                <b>{{ $serviceName }}</b>
+                                            </div>
+                                            <div class="mb-2">
+                                                x{{ $count }}
+                                            </div>
+                                            <div class="mb-2">
+                                                @php
+                                                    $totalPrice += $orderService->service->price * $count;
+                                                @endphp
+                                                ${{ $orderService->service->price * $count }}
+                                            </div>
+                                        </div>
+                                    @endif
                                 @endforeach
                             @else
                                 <div class="container text-center">
@@ -119,6 +164,14 @@
                             <input type="datetime-local" name="visit_time" id="visit_time" class="form-control m-1"
                                 style="width: 55%; border-width: 3px; border-color:lightseagreen"
                                 value="{{ $order->visit_time }}">
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="total_price">السعر الكلي</label>
+                                <div class="form-control" style="width: 45%">
+                                    ${{ $totalPrice }}
+                                </div>
+                            </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">

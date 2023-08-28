@@ -2,18 +2,6 @@
 
     <x-slot:pageTitle>إضافة فني صيانة</x-slot>
 
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
-
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST" action="{{ route('maintenance-technicians.store') }}" enctype="multipart/form-data">
                 @csrf

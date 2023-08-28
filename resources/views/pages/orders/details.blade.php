@@ -1,4 +1,5 @@
 <x-base-layout>
+
     <x-slot:pageTitle>تفاصيل الطلب</x-slot>
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
@@ -17,6 +18,7 @@
                         @if (count($order->orderServices))
                             @php
                                 $uniqueValues = [];
+                                $totalPrice = 0.0;
                             @endphp
                             @foreach ($order->orderServices as $orderService)
                                 @php
@@ -34,8 +36,19 @@
                                             @endphp
                                         @endif
                                     @endforeach
-                                    <div class="card form-control m-1" style="font-size: 20px; width: 20%; height: 20%">
-                                        {{ $serviceName }} - {{ $count }}
+                                    <div class="card m-2 text-center w-25">
+                                        <div class="mb-2" style="font-size: 20px">
+                                            <b>{{ $serviceName }}</b>
+                                        </div>
+                                        <div class="mb-2">
+                                            x{{ $count }}
+                                        </div>
+                                        <div class="mb-2">
+                                            @php
+                                                $totalPrice += $orderService->service->price * $count;
+                                            @endphp
+                                            ${{ $orderService->service->price * $count }}
+                                        </div>
                                     </div>
                                 @endif
                             @endforeach
@@ -109,6 +122,14 @@
                             </div>
                         </div>
                     @endif
+                    <div class="row">
+                        <label class="ml-1 mr-1" style="width: 45%">السعر الكلي</label>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="form-control m-1" style="width: 45%">
+                            ${{ $totalPrice }}
+                        </div>
+                    </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label class="ml-1 mr-1">ملاحظات</label>

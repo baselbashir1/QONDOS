@@ -40,6 +40,16 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
+                                <label for="password">كلمة المرور</label>
+                                <input type="password" name="password" class="form-control"
+                                    value="{{ $client->password }}" placeholder="ادخل كلمة المرور">
+                            </div>
+                            @error('password')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
                                 <label for="city">المدينة</label>
                                 <input type="text" name="city" class="form-control" value="{{ $client->city }}"
                                     placeholder="ادخل اسم المدينة">
@@ -48,7 +58,7 @@
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
-                        {{-- <div class="row mb-4">
+                        <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="home">المنزل</label>
                                 <input type="text" name="home" class="form-control"
@@ -57,14 +67,34 @@
                             @error('home')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
-                        </div> --}}
+                        </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
-                                <label for="password">كلمة المرور</label>
-                                <input type="password" name="password" class="form-control"
-                                    value="{{ $client->password }}" placeholder="ادخل كلمة المرور">
+                                <label for="address">العنوان</label>
+                                <input type="text" name="address" class="form-control"
+                                    value="{{ $clientAddress?->address }}" placeholder="ادخل العنوان">
                             </div>
-                            @error('password')
+                            @error('address')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="latitude">خط الطول</label>
+                                <input type="text" name="latitude" class="form-control"
+                                    value="{{ $clientAddress?->latitude }}" placeholder="خط الطول">
+                            </div>
+                            @error('latitude')
+                                <p class="mt-2 text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="longitude">خط العرض</label>
+                                <input type="text" name="longitude" class="form-control"
+                                    value="{{ $clientAddress?->longitude }}" placeholder="خط العرض">
+                            </div>
+                            @error('longitude')
                                 <p class="mt-2 text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

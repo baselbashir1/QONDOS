@@ -11,6 +11,8 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::paginate(5);
+        // $orders->orderServices->sum('price');
+        // dd($orders->orderServices->sum('price'));
         return view('pages.orders.list', ['orders' => $orders]);
     }
 

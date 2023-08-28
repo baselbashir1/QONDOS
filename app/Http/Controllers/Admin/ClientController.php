@@ -44,14 +44,14 @@ class ClientController extends Controller
                 'password' => bcrypt($formFields['password'])
             ]);
 
-            // ClientAddress::create([
-            //     'home' => isset($formFields['home']) ? $formFields['home'] : null,
-            //     'address' => isset($formFields['address']) ? $formFields['address'] : null,
-            //     'latitude' => isset($formFields['latitude']) ? $formFields['latitude'] : null,
-            //     'longitude' => isset($formFields['longitude']) ? $formFields['longitude'] : null,
-            //     'client_id' => $client->id,
-            //     'is_current' => 1
-            // ]);
+            ClientAddress::create([
+                'home' => isset($formFields['home']) ? $formFields['home'] : null,
+                'address' => isset($formFields['address']) ? $formFields['address'] : null,
+                'latitude' => isset($formFields['latitude']) ? $formFields['latitude'] : null,
+                'longitude' => isset($formFields['longitude']) ? $formFields['longitude'] : null,
+                'client_id' => $client->id,
+                'is_current' => 1
+            ]);
 
             notify()->success('تمت إضافة العميل بنجاح');
             return redirect()->route('clients.index');
@@ -79,11 +79,20 @@ class ClientController extends Controller
                 'password' => bcrypt($formFields['password']),
             ]);
 
-            // ClientAddress::where('client_id', $client->id)->create([
-            //     'home' => isset($formFields['home']) ? $formFields['home'] : null,
-            //     'address' => isset($formFields['address']) ? $formFields['address'] : null,
+            foreach ($client->addresses as $address) {
+                $address->update([
+                    'is_current' => 0
+                ]);
+            }
 
-            // ]);
+            ClientAddress::create([
+                'home' => isset($formFields['home']) ? $formFields['home'] : null,
+                'address' => isset($formFields['address']) ? $formFields['address'] : null,
+                'latitude' => isset($formFields['latitude']) ? $formFields['latitude'] : null,
+                'longitude' => isset($formFields['longitude']) ? $formFields['longitude'] : null,
+                'client_id' => $client->id,
+                'is_current' => 1
+            ]);
 
             notify()->success('تم تعديل العميل بنجاح');
             return redirect()->route('clients.index');

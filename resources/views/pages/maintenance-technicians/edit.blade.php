@@ -1,18 +1,6 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>نعديل فني الصيانة</x-slot>
-
-        {{-- <div class="mt-4">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
+    <x-slot:pageTitle>تعديل فني الصيانة</x-slot>
 
         <div class="row mb-4 layout-spacing layout-top-spacing">
             <form method="POST"
