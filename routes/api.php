@@ -39,10 +39,11 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
             Route::get('/locations', 'getLocations');
             Route::post('/choose-location/{clientAddress}', 'chooseLocation');
             Route::get('/show-order-offers/{order}', 'showOrderOffers');
-            Route::post('/accept-offer/{offer}', 'acceptOffer');
-            Route::post('/reject-offer/{offer}', 'rejectOffer');
-            Route::post('/cancel-order/{order}', 'cancelOrder');
-            Route::post('/accept-finish-order/{order}', 'acceptFinishOrder');
+            // Route::post('/accept-offer/{offer}', 'acceptOffer');
+            // Route::post('/reject-offer/{offer}', 'rejectOffer');
+            // Route::post('/cancel-order/{order}', 'cancelOrder');
+            // Route::post('/accept-finish-order/{order}', 'acceptFinishOrder');
+            Route::post('/update/offer/{offer}/order/{order}/status/{action}', 'updateOfferAndOrderStatus');
             Route::post('/evaluate-maintenance/{maintenanceTechnician}', 'evaluateMaintenance');
         });
     });
@@ -67,8 +68,9 @@ Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-techni
             Route::get('/profile', 'getProfile');
             Route::get('/show-orders', 'showOrders');
             Route::post('/send-offer/{order}', 'sendOffer');
-            Route::post('/confirm-offer/{offer}', 'confirmOffer');
-            Route::post('/request-finish-order/{order}', 'requestFinishOrder');
+            // Route::post('/confirm-offer/{offer}', 'confirmOffer');
+            // Route::post('/request-finish-order/{order}', 'requestFinishOrder');
+            Route::post('/update/offer/{offer}/order/{order}/status/{action}', 'updateOfferAndOrderStatus');
         });
     });
 });

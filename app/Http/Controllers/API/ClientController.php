@@ -252,49 +252,81 @@ class ClientController extends Controller
         return OfferResource::collection($offers);
     }
 
-    public function acceptOffer(Offer $offer)
+    // public function acceptOffer(Offer $offer)
+    // {
+    //     $offer->update([
+    //         'status' => OfferStatus::accepted
+    //     ]);
+    //     $offer->order->update([
+    //         'status' => OrderStatus::pendingMaintenanceConfirm
+    //     ]);
+
+    //     return response()->json(['success' => 'Offer accepted successfully.']);
+    // }
+
+    // public function rejectOffer(Offer $offer)
+    // {
+    //     $offer->update([
+    //         'status' => OfferStatus::rejected
+    //     ]);
+    //     // $offers = Offer::where('order_id', $offer->order->id)->get();
+    //     // if (count($offers) === 0) {
+    //     //     $offer->order->update([
+    //     //         'status' => OrderStatus::newOrder
+    //     //     ]);
+    //     // }
+
+    //     return response()->json(['success' => 'Offer rejected successfully.']);
+    // }
+
+    // public function cancelOrder(Order $order)
+    // {
+    //     $order->update([
+    //         'status' => OrderStatus::canceled
+    //     ]);
+
+    //     return response()->json(['success' => 'Order canceled successfully.']);
+    // }
+
+    // public function acceptFinishOrder(Order $order)
+    // {
+    //     $order->update([
+    //         'status' => OrderStatus::finished
+    //     ]);
+
+    //     return response()->json(['success' => 'Approved finish order successfully.']);
+    // }
+
+    public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, $action = null)
     {
-        $offer->update([
-            'status' => OfferStatus::accepted
-        ]);
-        $offer->order->update([
-            'status' => OrderStatus::pendingMaintenanceConfirm
-        ]);
-
-        return response()->json(['success' => 'Offer accepted successfully.']);
-    }
-
-    public function rejectOffer(Offer $offer)
-    {
-        $offer->update([
-            'status' => OfferStatus::rejected
-        ]);
-        // $offers = Offer::where('order_id', $offer->order->id)->get();
-        // if (count($offers) === 0) {
-        //     $offer->order->update([
-        //         'status' => OrderStatus::newOrder
-        //     ]);
-        // }
-
-        return response()->json(['success' => 'Offer rejected successfully.']);
-    }
-
-    public function cancelOrder(Order $order)
-    {
-        $order->update([
-            'status' => OrderStatus::canceled
-        ]);
-
-        return response()->json(['success' => 'Order canceled successfully.']);
-    }
-
-    public function acceptFinishOrder(Order $order)
-    {
-        $order->update([
-            'status' => OrderStatus::finished
-        ]);
-
-        return response()->json(['success' => 'Approved finish order successfully.']);
+        if ($action === 'acceptOffer' && $offer) {
+            $offer->update([
+                'status' => OfferStatus::accepted
+            ]);
+            if ($offer->order) {
+                $offer->order->update([
+                    'status' => OrderStatus::pendingMaintenanceConfirm
+                ]);
+            }
+            return response()->json(['success' => 'Offer accepted successfully.']);
+        } elseif ($action === 'rejectOffer' && $offer) {
+            $offer->update([
+                'status' => OfferStatus::rejected
+            ]);
+            return response()->json(['success' => 'Offer rejected successfully.']);
+        } elseif ($action === 'cancelOrder' && $order) {
+            $order->update([
+                'status' => OrderStatus::canceled
+            ]);
+            return response()->json(['success' => 'Order canceled successfully.']);
+        } elseif ($action === 'acceptFinishOrder' && $order) {
+            $order->update([
+                'status' => OrderStatus::finished
+            ]);
+            return response()->json(['success' => 'Approved finish order successfully.']);
+        } else {
+            return response()->json(['error' => 'Invalid action or missing parameters.'], 400);
+        }
     }
 
     public function evaluateMaintenance(Request $request, MaintenanceTechnician $maintenanceTechnician)

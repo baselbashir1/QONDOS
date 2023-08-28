@@ -161,21 +161,43 @@ class MaintenanceTechnicianController extends Controller
         return response()->json(['success' => 'Offer sent successfully.']);
     }
 
-    public function confirmOffer(Offer $offer)
+    // public function confirmOffer(Offer $offer)
+    // {
+    //     $offer->order->update([
+    //         'status' => OrderStatus::processing
+    //     ]);
+
+    //     return response()->json(['success' => 'Offer confirmed successfully.']);
+    // }
+
+    // public function requestFinishOrder(Order $order)
+    // {
+    //     $order->update([
+    //         'status' => OrderStatus::pendingClientApproveFinish
+    //     ]);
+
+    //     return response()->json(['success' => 'Request to finish order sent successfully.']);
+    // }
+
+    public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, $action = null)
     {
-        $offer->order->update([
-            'status' => OrderStatus::processing
-        ]);
-
-        return response()->json(['success' => 'Offer confirmed successfully.']);
-    }
-
-    public function requestFinishOrder(Order $order)
-    {
-        $order->update([
-            'status' => OrderStatus::pendingClientApproveFinish
-        ]);
-
-        return response()->json(['success' => 'Request to finish order sent successfully.']);
+        if ($action === 'confirmOffer' && $offer) {
+            $offer->update([
+                'status' => OfferStatus::confirmed
+            ]);
+            if ($offer->order) {
+                $offer->order->update([
+                    'status' => OrderStatus::processing
+                ]);
+            }
+            return response()->json(['success' => 'Offer confirmed successfully.']);
+        } elseif ($action === 'requestFinishOrder' && $offer) {
+            $order->update([
+                'status' => OrderStatus::pendingClientApproveFinish
+            ]);
+            return response()->json(['success' => 'Request to finish order sent successfully.']);
+        } else {
+            return response()->json(['error' => 'Invalid action or missing parameters.'], 400);
+        }
     }
 }
