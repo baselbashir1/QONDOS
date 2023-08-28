@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Offer;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
@@ -18,7 +19,8 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        return view('pages.orders.details', ['order' => $order]);
+        $offer = Offer::where('order_id', $order->id)->first();
+        return view('pages.orders.details', ['order' => $order, 'offer' => $offer]);
     }
 
     public function edit(Order $order)

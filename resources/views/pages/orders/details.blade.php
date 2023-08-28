@@ -123,10 +123,22 @@
                         </div>
                     @endif
                     <div class="row">
-                        <label class="ml-1 mr-1" style="width: 45%">السعر الكلي</label>
+                        <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 45%">الفني</label>
                     </div>
                     <div class="row mb-4">
                         <div class="form-control m-1" style="width: 45%">
+                            {{ $order->status }}
+                        </div>
+                        <div class="form-control m-1" style="width: 45%">
+                            {{ $offer->maintenanceTechnician->name }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="ml-1 mr-1" style="width: 45%">السعر الكلي</label>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="form-control m-1" style="width: 91%">
                             ${{ $totalPrice }}
                         </div>
                     </div>

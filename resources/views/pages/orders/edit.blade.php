@@ -165,14 +165,32 @@
                                 style="width: 55%; border-width: 3px; border-color:lightseagreen"
                                 value="{{ $order->visit_time }}">
                         </div>
+                        <div class="row">
+                            <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
+                            <label class="ml-1 mr-1" style="width: 45%">السعر الكلي</label>
+                        </div>
                         <div class="row mb-4">
-                            <div class="col-sm-12">
-                                <label for="total_price">السعر الكلي</label>
-                                <div class="form-control" style="width: 45%">
-                                    ${{ $totalPrice }}
-                                </div>
+                            <div class="form-control m-1" style="width: 45%">
+                                {{ $order->status }}
+                            </div>
+                            <div class="form-control m-1" style="width: 45%">
+                                ${{ $totalPrice }}
                             </div>
                         </div>
+
+
+
+                        <div class="row">
+                            <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="form-control m-1" style="width: 45%">
+                                {{ $order-> }}
+                            </div>
+                        </div>
+
+
+
                         <div class="row mb-4">
                             <div class="col-sm-12">
                                 <label for="notes">ملاحظات</label>
