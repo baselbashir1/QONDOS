@@ -38,13 +38,21 @@
                                             <b>{{ $orderService->service->translate('ar')->name }}</b>
                                         </div>
                                         <div class="mb-2">
-                                            x{{ $orderService->quantity }}
+                                            <input type="number" value="{{ $orderService->quantity }}" id="quantity"
+                                                class="form-control m-1" style="width: 45%" min="1">
+                                            {{-- <input type="number" value="{{ $orderService->quantity }}" id="quantity"
+                                                class="form-control text-center" min="1" max="10"> --}}
                                         </div>
-                                        <div class="mb-2">
+                                        <div class="mb-2" id="services_price">
                                             @php
                                                 $totalPrice += $orderService->service->price * $orderService->quantity;
                                             @endphp
-                                            ${{ $orderService->service->price * $orderService->quantity }}
+                                            {{-- ${{ $orderService->service->price * $orderService->quantity }} --}}
+                                            <input type="text" id="services_price"
+                                                value="{{ $orderService->service->price * $orderService->quantity }}"
+                                                disabled>
+                                            {{-- <input type="text" id="services_price"
+                                                value="{{ $orderService->service->price * $orderService->quantity }}"> --}}
                                         </div>
                                     </div>
                                 @endforeach
@@ -132,9 +140,13 @@
                                     <option value="{{ $orderStatus }}">{{ $orderStatus }}</option>
                                 @endforeach
                             </select>
-                            <div class="form-control m-1" style="width: 45%">
+                            {{-- <div class="form-control m-1" style="width: 45%" id="total_price">
                                 ${{ $totalPrice }}
-                            </div>
+                            </div> --}}
+                            {{-- <input type="text" value="{{ $totalPrice }}" id="total_price"
+                                class="form-control m-1" style="width: 45%"> --}}
+                            <input type="text" value="{{ $totalPrice }}" id="total_price"
+                                class="form-control m-1" style="width: 45%" disabled>
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
@@ -195,6 +207,27 @@
                     visitTitle.style.visibility = 'hidden';
                 }
             };
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const quantityInput = document.getElementById('quantity');
+                const servicesPrice = document.getElementById('services_price');
+                const totalPrice = document.getElementById('total_price');
+
+                function updatePrices() {
+                    const servicePrice = parseFloat(servicesPrice.value);
+                    const quantity = parseFloat(quantityInput.value);
+                    const result = servicePrice * quantity;
+
+                    totalPrice.value = result.toFixed(2);
+                }
+
+                quantityInput.addEventListener('input', updatePrices);
+
+                // Initial calculation when the page loads
+                updatePrices();
+            });
         </script>
 
 </x-base-layout>
