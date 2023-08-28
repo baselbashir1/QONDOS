@@ -13,18 +13,24 @@
                     <div class="row mb-4">
                         <div class="form-control m-1" style="width: 30%">{{ $order->id }}</div>
                         <div class="form-control m-1" style="width: 30%">{{ $order->client->name }}</div>
-                        <div class="form-control m-1" style="width: 30%">
-                            {{ $offer->maintenanceTechnician->name }}
-                        </div>
+                        @if ($offer?->maintenanceTechnician->name)
+                            <div class="form-control m-1" style="width: 30%">
+                                {{ $offer?->maintenanceTechnician->name }}
+                            </div>
+                        @else
+                            <div class="form-control m-1" style="width: 30%">
+                                لم يتم تحديد الفني حتى الآن
+                            </div>
+                        @endif
                     </div>
                     <div class="row mb-4">
                         <label>الخدمات</label>
                         @if (count($order->orderServices))
-                            @php
+                            {{-- @php
                                 $uniqueValues = [];
                                 $totalPrice = 0.0;
-                            @endphp
-                            @foreach ($order->orderServices as $orderService)
+                            @endphp --}}
+                            {{-- @foreach ($order->orderServices as $orderService)
                                 @php
                                     $serviceName = $orderService->service->translate('ar')->name;
                                 @endphp
@@ -55,6 +61,25 @@
                                         </div>
                                     </div>
                                 @endif
+                            @endforeach --}}
+                            @php
+                                $totalPrice = 0.0;
+                            @endphp
+                            @foreach ($order->orderServices as $orderService)
+                                <div class="card m-2 text-center w-25">
+                                    <div class="mb-2" style="font-size: 20px">
+                                        <b>{{ $orderService->service->translate('ar')->name }}</b>
+                                    </div>
+                                    <div class="mb-2">
+                                        x{{ $orderService->quantity }}
+                                    </div>
+                                    <div class="mb-2">
+                                        @php
+                                            $totalPrice += $orderService->service->price * $orderService->quantity;
+                                        @endphp
+                                        ${{ $orderService->service->price * $orderService->quantity }}
+                                    </div>
+                                </div>
                             @endforeach
                         @else
                             <div class="container text-center">

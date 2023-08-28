@@ -161,24 +161,6 @@ class MaintenanceTechnicianController extends Controller
         return response()->json(['success' => 'Offer sent successfully.']);
     }
 
-    // public function confirmOffer(Offer $offer)
-    // {
-    //     $offer->order->update([
-    //         'status' => OrderStatus::processing
-    //     ]);
-
-    //     return response()->json(['success' => 'Offer confirmed successfully.']);
-    // }
-
-    // public function requestFinishOrder(Order $order)
-    // {
-    //     $order->update([
-    //         'status' => OrderStatus::pendingClientApproveFinish
-    //     ]);
-
-    //     return response()->json(['success' => 'Request to finish order sent successfully.']);
-    // }
-
     public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, $action = null)
     {
         if ($action === 'confirmOffer' && $offer) {

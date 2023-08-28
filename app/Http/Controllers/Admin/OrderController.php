@@ -6,6 +6,7 @@ use App\Models\Offer;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Enums\OrderStatus;
 
 class OrderController extends Controller
 {
@@ -25,7 +26,9 @@ class OrderController extends Controller
 
     public function edit(Order $order)
     {
-        return view('pages.orders.edit', ['order' => $order]);
+        $offer = Offer::where('order_id', $order->id)->first();
+        $orderStatuses = OrderStatus::getOrderStatus();
+        return view('pages.orders.edit', ['order' => $order, 'offer' => $offer, 'orderStatuses' => $orderStatuses]);
     }
 
     public function update(Request $request, Order $order)
@@ -36,6 +39,7 @@ class OrderController extends Controller
             'notes' => $formFields['notes'],
             'is_scheduled' => $formFields['is_scheduled'],
             'visit_time' => $formFields['visit_time'],
+            'status' => $formFields['status'],
         ]);
 
         return redirect()->route('orders.index');

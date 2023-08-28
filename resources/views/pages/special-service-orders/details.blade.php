@@ -5,25 +5,20 @@
             <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="widget-content widget-content-area ecommerce-create-section">
                     <div class="row">
-                        @if ($offer?->maintenanceTechnician->name)
-                            <label class="ml-1 mr-1" style="width: 30%">رقم الطلب</label>
-                            <label class="ml-1 mr-1" style="width: 30%">صاحب الطلب</label>
-                            <label class="ml-1 mr-1" style="width: 30%">الفني</label>
-                        @else
-                            <label class="ml-1 mr-1" style="width: 45%">رقم الطلب</label>
-                            <label class="ml-1 mr-1" style="width: 45%">صاحب الطلب</label>
-                        @endif
+                        <label class="ml-1 mr-1" style="width: 30%">رقم الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 30%">صاحب الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 30%">الفني</label>
                     </div>
                     <div class="row mb-4">
+                        <div class="form-control m-1" style="width: 30%">{{ $specialServiceOrder->id }}</div>
+                        <div class="form-control m-1" style="width: 30%">{{ $specialServiceOrder->client->name }}</div>
                         @if ($offer?->maintenanceTechnician->name)
-                            <div class="form-control m-1" style="width: 30%">{{ $specialServiceOrder->id }}</div>
-                            <div class="form-control m-1" style="width: 30%">{{ $specialServiceOrder->client->name }}
-                            </div>
-                            <div class="form-control m-1" style="width: 30%">{{ $offer?->maintenanceTechnician->name }}
+                            <div class="form-control m-1" style="width: 30%">
+                                {{ $offer?->maintenanceTechnician->name }}
                             </div>
                         @else
-                            <div class="form-control m-1" style="width: 45%">{{ $specialServiceOrder->id }}</div>
-                            <div class="form-control m-1" style="width: 45%">{{ $specialServiceOrder->client->name }}
+                            <div class="form-control m-1" style="width: 30%">
+                                لم يتم تحديد الفني حتى الآن
                             </div>
                         @endif
                     </div>

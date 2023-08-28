@@ -11,7 +11,7 @@ class OrderService extends Model
     use HasFactory;
 
     protected $table = 'order_has_services';
-    protected $fillable = ['order_id', 'service_id'];
+    protected $fillable = ['order_id', 'service_id', 'quantity'];
 
     public function service(): BelongsTo
     {

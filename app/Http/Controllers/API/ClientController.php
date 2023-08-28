@@ -133,16 +133,35 @@ class ClientController extends Controller
 
         $order->payment_type ? $order->update(['payment_method' => $order->payment_method]) : $order->update(['payment_method' => null]);
 
-        $services = $inputFields['services'] ?? [];
-        if (!is_array($services)) {
+        // $services = $inputFields['services'] ?? [];
+        // if (!is_array($services)) {
+        //     return response()->json(['error' => 'Invalid services.'], 400);
+        // }
+
+        // foreach ($services as $serviceId) {
+        //     OrderService::create([
+        //         'order_id' => $order->id,
+        //         'service_id' => $serviceId,
+        //     ]);
+        // }
+
+        $servicesWithQuantities = $inputFields['services'] ?? [];
+        if (!is_array($servicesWithQuantities)) {
             return response()->json(['error' => 'Invalid services.'], 400);
         }
 
-        foreach ($services as $serviceId) {
+        foreach ($servicesWithQuantities as $serviceId => $serviceData) {
+            $quantity = $serviceData['quantity'] ?? 1;
+            // Ensure the quantity is a positive integer
+            $quantity = max(1, intval($quantity));
+
+            // for ($i = 0; $i < $quantity; $i++) {
             OrderService::create([
                 'order_id' => $order->id,
                 'service_id' => $serviceId,
+                'quantity' => $quantity
             ]);
+            // }
         }
 
         $imagesPaths = [];
@@ -251,51 +270,6 @@ class ClientController extends Controller
         $offers = Offer::where(['order_id' => $order->id, 'status' => OfferStatus::pending])->paginate(5);
         return OfferResource::collection($offers);
     }
-
-    // public function acceptOffer(Offer $offer)
-    // {
-    //     $offer->update([
-    //         'status' => OfferStatus::accepted
-    //     ]);
-    //     $offer->order->update([
-    //         'status' => OrderStatus::pendingMaintenanceConfirm
-    //     ]);
-
-    //     return response()->json(['success' => 'Offer accepted successfully.']);
-    // }
-
-    // public function rejectOffer(Offer $offer)
-    // {
-    //     $offer->update([
-    //         'status' => OfferStatus::rejected
-    //     ]);
-    //     // $offers = Offer::where('order_id', $offer->order->id)->get();
-    //     // if (count($offers) === 0) {
-    //     //     $offer->order->update([
-    //     //         'status' => OrderStatus::newOrder
-    //     //     ]);
-    //     // }
-
-    //     return response()->json(['success' => 'Offer rejected successfully.']);
-    // }
-
-    // public function cancelOrder(Order $order)
-    // {
-    //     $order->update([
-    //         'status' => OrderStatus::canceled
-    //     ]);
-
-    //     return response()->json(['success' => 'Order canceled successfully.']);
-    // }
-
-    // public function acceptFinishOrder(Order $order)
-    // {
-    //     $order->update([
-    //         'status' => OrderStatus::finished
-    //     ]);
-
-    //     return response()->json(['success' => 'Approved finish order successfully.']);
-    // }
 
     public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, $action = null)
     {
