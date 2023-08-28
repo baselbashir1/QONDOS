@@ -40,7 +40,35 @@
                                                 فوري
                                             @endif
                                         </td>
-                                        <td>{{ $order->status }}</td>
+                                        <td>
+                                            @if ($order->status === 'Processing' || $order->status === 'Finished')
+                                                <div class="btn btn-success"
+                                                    style="border-radius: 20px; background-color: rgb(17, 163, 17); pointer-events: none">
+                                                    {{ $order->status }}
+                                                </div>
+                                            @endif
+                                            @if (
+                                                $order->status === 'Pending client approve' ||
+                                                    $order->status === 'Pending maintenance confirm' ||
+                                                    $order->status === 'Pending client to approve finish order')
+                                                <div class="btn btn-warning"
+                                                    style="border-radius: 20px; background-color: orange; pointer-events: none">
+                                                    {{ $order->status }}
+                                                </div>
+                                            @endif
+                                            @if ($order->status === 'Canceled')
+                                                <div class="btn btn-danger"
+                                                    style="border-radius: 20px; background-color: red; pointer-events: none">
+                                                    {{ $order->status }}
+                                                </div>
+                                            @endif
+                                            @if ($order->status === 'New order')
+                                                <div class="btn btn-secondary"
+                                                    style="border-radius: 20px; background-color: gray; pointer-events: none">
+                                                    {{ $order->status }}
+                                                </div>
+                                            @endif
+                                        </td>
                                         <td>
                                             @php
                                                 $totalPrice = 0.0;

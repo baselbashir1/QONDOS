@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\SpecialServiceOrder;
 use App\Http\Controllers\Controller;
+use App\Models\Offer;
 
 class SpecialServiceOrderController extends Controller
 {
@@ -16,7 +17,8 @@ class SpecialServiceOrderController extends Controller
 
     public function show(SpecialServiceOrder $specialServiceOrder)
     {
-        return view('pages.special-service-orders.details', ['specialServiceOrder' => $specialServiceOrder]);
+        $offer = Offer::where('order_id', $specialServiceOrder->id)->first();
+        return view('pages.special-service-orders.details', ['specialServiceOrder' => $specialServiceOrder, 'offer' => $offer]);
     }
 
     public function edit(SpecialServiceOrder $specialServiceOrder)

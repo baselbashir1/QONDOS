@@ -6,12 +6,16 @@
             <div class="col-xxl-9 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="widget-content widget-content-area ecommerce-create-section">
                     <div class="row">
-                        <label class="ml-1 mr-1" style="width: 45%">رقم الطلب</label>
-                        <label class="ml-1 mr-1" style="width: 45%">صاحب الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 30%">رقم الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 30%">صاحب الطلب</label>
+                        <label class="ml-1 mr-1" style="width: 30%">الفني</label>
                     </div>
                     <div class="row mb-4">
-                        <div class="form-control m-1" style="width: 45%">{{ $order->id }}</div>
-                        <div class="form-control m-1" style="width: 45%">{{ $order->client->name }}</div>
+                        <div class="form-control m-1" style="width: 30%">{{ $order->id }}</div>
+                        <div class="form-control m-1" style="width: 30%">{{ $order->client->name }}</div>
+                        <div class="form-control m-1" style="width: 30%">
+                            {{ $offer->maintenanceTechnician->name }}
+                        </div>
                     </div>
                     <div class="row mb-4">
                         <label>الخدمات</label>
@@ -124,21 +128,13 @@
                     @endif
                     <div class="row">
                         <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
-                        <label class="ml-1 mr-1" style="width: 45%">الفني</label>
+                        <label class="ml-1 mr-1" style="width: 45%">السعر الكلي</label>
                     </div>
                     <div class="row mb-4">
                         <div class="form-control m-1" style="width: 45%">
                             {{ $order->status }}
                         </div>
                         <div class="form-control m-1" style="width: 45%">
-                            {{ $offer->maintenanceTechnician->name }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="ml-1 mr-1" style="width: 45%">السعر الكلي</label>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="form-control m-1" style="width: 91%">
                             ${{ $totalPrice }}
                         </div>
                     </div>
