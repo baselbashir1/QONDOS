@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Offer;
 use App\Models\Order;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use App\Models\ClientAddress;
-use App\Http\Requests\AuthRequest;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use App\Http\Enums\OfferStatus;
 use App\Http\Enums\OrderStatus;
+use App\Http\Traits\GeneralTrait;
+use App\Models\SpecialOrderOffer;
+use App\Http\Requests\AuthRequest;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\OfferRequest;
+use App\Models\SpecialServiceOrder;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OrderResource;
 use App\Models\MaintenanceTechnician;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\SpecialOrderOfferRequest;
 use App\Http\Requests\MaintenanceTechnicianRequest;
-use App\Http\Requests\OfferRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
-use App\Http\Resources\OrderResource;
-use App\Http\Traits\GeneralTrait;
-use App\Models\Offer;
-use App\Models\Rating;
 
 class MaintenanceTechnicianController extends Controller
 {
@@ -161,7 +164,25 @@ class MaintenanceTechnicianController extends Controller
         return response()->json(['success' => 'Offer sent successfully.']);
     }
 
-    public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, $action = null)
+    public function sendOfferToSpecialOrder(SpecialOrderOfferRequest $request, SpecialServiceOrder $specialServiceOrder)
+    {
+        $inputFields = $request->validated();
+        $maintenanceTechnician = Auth::user();
+
+        SpecialOrderOffer::create([
+            'description' => $inputFields['description'],
+            'status' => OfferStatus::pending,
+            'maintenance_technician_id' => $maintenanceTechnician->id,
+            'client_id' => $specialServiceOrder->client_id,
+            'special_service_order_id' => $specialServiceOrder->id
+        ]);
+
+        $specialServiceOrder->update(['status' => OrderStatus::pendingClientApprove]);
+
+        return response()->json(['success' => 'Offer sent successfully.']);
+    }
+
+    public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, SpecialOrderOffer $specialOrderOffer = null, SpecialServiceOrder $specialServiceOrder = null, $action = null)
     {
         if ($action === 'confirmOffer' && $offer) {
             $offer->update([
@@ -173,13 +194,36 @@ class MaintenanceTechnicianController extends Controller
                 ]);
             }
             return response()->json(['success' => 'Offer confirmed successfully.']);
+        } elseif ($action === 'confirmOffer' && $specialOrderOffer) {
+            $specialOrderOffer->update([
+                'status' => OfferStatus::confirmed
+            ]);
+            if ($specialOrderOffer->order) {
+                $specialOrderOffer->order->update([
+                    'status' => OrderStatus::processing
+                ]);
+            }
+            return response()->json(['success' => 'Offer confirmed successfully.']);
         } elseif ($action === 'requestFinishOrder' && $offer) {
             $order->update([
+                'status' => OrderStatus::pendingClientApproveFinish
+            ]);
+            return response()->json(['success' => 'Request to finish order sent successfully.']);
+        } elseif ($action === 'requestFinishOrder' && $specialOrderOffer) {
+            $specialServiceOrder->update([
                 'status' => OrderStatus::pendingClientApproveFinish
             ]);
             return response()->json(['success' => 'Request to finish order sent successfully.']);
         } else {
             return response()->json(['error' => 'Invalid action or missing parameters.'], 400);
         }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $inputFields = $request->all();
+        $client = Auth::user();
+        $client->update($inputFields);
+        return response()->json(['success' => 'Client updated successfully.', 'client' => $client]);
     }
 }

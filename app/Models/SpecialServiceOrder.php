@@ -12,7 +12,7 @@ class SpecialServiceOrder extends Model
     use HasFactory;
 
     protected $table = 'special_service_orders';
-    protected $fillable = ['is_scheduled', 'visit_time', 'notes', 'client_id'];
+    protected $fillable = ['is_scheduled', 'visit_time', 'notes', 'client_id', 'status'];
 
     public function client(): BelongsTo
     {

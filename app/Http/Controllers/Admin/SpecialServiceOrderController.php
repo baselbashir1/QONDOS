@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Offer;
 use Illuminate\Http\Request;
+use App\Http\Enums\OrderStatus;
 use App\Models\SpecialServiceOrder;
 use App\Http\Controllers\Controller;
-use App\Models\Offer;
 
 class SpecialServiceOrderController extends Controller
 {
@@ -23,7 +24,8 @@ class SpecialServiceOrderController extends Controller
 
     public function edit(SpecialServiceOrder $specialServiceOrder)
     {
-        return view('pages.special-service-orders.edit', ['specialServiceOrder' => $specialServiceOrder]);
+        $orderStatuses = OrderStatus::getOrderStatus();
+        return view('pages.special-service-orders.edit', ['specialServiceOrder' => $specialServiceOrder, 'orderStatuses' => $orderStatuses]);
     }
 
     public function update(Request $request, SpecialServiceOrder $specialServiceOrder)
@@ -34,6 +36,7 @@ class SpecialServiceOrderController extends Controller
             'notes' => $formFields['notes'],
             'is_scheduled' => $formFields['is_scheduled'],
             'visit_time' => $formFields['visit_time'],
+            'status' => $formFields['status'],
         ]);
 
         return redirect()->route('special-service-orders.index');

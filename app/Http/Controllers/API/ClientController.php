@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Http\Enums\OfferStatus;
-use App\Http\Enums\OrderStatus;
-use App\Http\Requests\AuthRequest;
-use App\Http\Requests\ClientAddressRequest;
-use App\Http\Requests\ClientRequest;
-use App\Http\Requests\OrderRequest;
-use App\Http\Requests\SpecialServiceOrderRequest;
-use App\Http\Resources\ClientAddressResource;
-use App\Http\Resources\ClientResource;
-use App\Http\Resources\OfferResource;
-use App\Http\Traits\GeneralTrait;
-use App\Models\Client;
-use App\Models\ClientAddress;
-use App\Models\MaintenanceTechnician;
 use App\Models\Offer;
 use App\Models\Order;
+use App\Models\Client;
+use App\Models\Rating;
 use App\Models\OrderImage;
 use App\Models\OrderService;
-use App\Models\Rating;
+use Illuminate\Http\Request;
+use App\Models\ClientAddress;
+use App\Http\Enums\OfferStatus;
+use App\Http\Enums\OrderStatus;
+use App\Http\Traits\GeneralTrait;
+use App\Models\SpecialOrderOffer;
+use App\Http\Requests\AuthRequest;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\OrderRequest;
 use App\Models\SpecialServiceOrder;
-use App\Models\SpecialServiceOrderImage;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OfferResource;
+use App\Models\MaintenanceTechnician;
+use App\Http\Resources\ClientResource;
+use App\Models\SpecialServiceOrderImage;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ClientAddressRequest;
+use App\Http\Resources\ClientAddressResource;
+use App\Http\Requests\SpecialServiceOrderRequest;
 
 class ClientController extends Controller
 {
@@ -251,7 +252,7 @@ class ClientController extends Controller
         return OfferResource::collection($offers);
     }
 
-    public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, $action = null)
+    public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, SpecialOrderOffer $specialOrderOffer = null, SpecialServiceOrder $specialServiceOrder = null, $action = null)
     {
         if ($action === 'acceptOffer' && $offer) {
             $offer->update([
@@ -263,18 +264,28 @@ class ClientController extends Controller
                 ]);
             }
             return response()->json(['success' => 'Offer accepted successfully.']);
-        } elseif ($action === 'rejectOffer' && $offer) {
-            $offer->update([
+        } elseif ($action === 'acceptOffer' && $specialOrderOffer) {
+            $specialOrderOffer->update([
+                'status' => OfferStatus::accepted
+            ]);
+            if ($specialOrderOffer->order) {
+                $specialOrderOffer->order->update([
+                    'status' => OrderStatus::pendingMaintenanceConfirm
+                ]);
+            }
+            return response()->json(['success' => 'Offer accepted successfully.']);
+        } elseif ($action === 'rejectOffer' && $specialOrderOffer) {
+            $specialOrderOffer->update([
                 'status' => OfferStatus::rejected
             ]);
             return response()->json(['success' => 'Offer rejected successfully.']);
-        } elseif ($action === 'cancelOrder' && $order) {
-            $order->update([
+        } elseif ($action === 'cancelOrder' && $specialServiceOrder) {
+            $specialServiceOrder->update([
                 'status' => OrderStatus::canceled
             ]);
             return response()->json(['success' => 'Order canceled successfully.']);
-        } elseif ($action === 'acceptFinishOrder' && $order) {
-            $order->update([
+        } elseif ($action === 'acceptFinishOrder' && $specialServiceOrder) {
+            $specialServiceOrder->update([
                 'status' => OrderStatus::finished
             ]);
             return response()->json(['success' => 'Approved finish order successfully.']);
