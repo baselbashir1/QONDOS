@@ -39,8 +39,7 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
             Route::get('/locations', 'getLocations');
             Route::post('/choose-location/{clientAddress}', 'chooseLocation');
             Route::get('/show-order-offers/{order}', 'showOrderOffers');
-            // Route::post('/update/offer/{offer}/order/{order}/specialOrderOffer/{specialOrderOffer}/specialServiceOrder/{specialServiceOrder}/status/{action}', 'updateOfferAndOrderStatus');
-            Route::post('/update/specialOrderOffer/{specialOrderOffer}/specialServiceOrder/{specialServiceOrder}/status/{action}', 'updateOfferAndOrderStatus');
+            Route::post('/update-offer-order-status', 'updateOfferAndOrderStatus');
             Route::post('/evaluate-maintenance/{maintenanceTechnician}', 'evaluateMaintenance');
             Route::post('/update-profile', 'updateProfile');
         });
@@ -66,7 +65,7 @@ Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-techni
             Route::get('/profile', 'getProfile');
             Route::get('/show-orders', 'showOrders');
             Route::post('/send-offer/{order}', 'sendOffer');
-            Route::post('/update/offer/{offer}/order/{order}/specialOrderOffer/{specialOrderOffer}/specialServiceOrder/{specialServiceOrder}status/{action}', 'updateOfferAndOrderStatus');
+            Route::post('/update-offer-order-status', 'updateOfferAndOrderStatus');
             Route::post('/send-offer-to-special-order/{specialServiceOrder}', 'sendOfferToSpecialOrder');
             Route::post('/update-profile', 'updateProfile');
         });

@@ -252,8 +252,19 @@ class ClientController extends Controller
         return OfferResource::collection($offers);
     }
 
-    public function updateOfferAndOrderStatus(Offer $offer = null, Order $order = null, SpecialOrderOffer $specialOrderOffer = null, SpecialServiceOrder $specialServiceOrder = null, $action = null)
+    public function updateOfferAndOrderStatus(Request $request)
     {
+        $action = $request->input('action');
+        $offer_id = $request->input('offer_id');
+        $order_id = $request->input('order_id');
+        $specialOrderOffer_id = $request->input('special_order_offer_id');
+        $specialServiceOrder_id = $request->input('special_service_order_id');
+
+        $offer = Offer::find($offer_id);
+        $order = Order::find($order_id);
+        $specialOrderOffer = SpecialOrderOffer::find($specialOrderOffer_id);
+        $specialServiceOrder = SpecialServiceOrder::find($specialServiceOrder_id);
+
         if ($action === 'acceptOffer' && $offer) {
             $offer->update([
                 'status' => OfferStatus::accepted
