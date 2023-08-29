@@ -37,10 +37,25 @@ class OrderController extends Controller
 
         $order->update([
             'notes' => $formFields['notes'],
+            'payment_type' => $formFields['payment_type'],
+            'payment_method' => $order->payment_type === 1 ? $formFields['payment_method'] : null,
             'is_scheduled' => $formFields['is_scheduled'],
             'visit_time' => $formFields['visit_time'],
             'status' => $formFields['status'],
         ]);
+
+        $quantities = $formFields['quantities'] ?? [];
+        if (!is_array($quantities)) {
+            notify()->error('حدث خطأ أثناء تعديل الطلب');
+        }
+
+        foreach ($order->orderServices as $orderService) {
+            $quantity = $quantities[$orderService->id] ?? 1;
+            $quantity = max(1, intval($quantity));
+            $orderService->update([
+                'quantity' => $quantity
+            ]);
+        }
 
         return redirect()->route('orders.index');
     }

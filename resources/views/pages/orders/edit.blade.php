@@ -38,21 +38,10 @@
                                             <b>{{ $orderService->service->translate('ar')->name }}</b>
                                         </div>
                                         <div class="mb-2">
-                                            <input type="number" value="{{ $orderService->quantity }}" id="quantity"
-                                                class="form-control m-1" style="width: 45%" min="1">
-                                            {{-- <input type="number" value="{{ $orderService->quantity }}" id="quantity"
-                                                class="form-control text-center" min="1" max="10"> --}}
-                                        </div>
-                                        <div class="mb-2" id="services_price">
-                                            @php
-                                                $totalPrice += $orderService->service->price * $orderService->quantity;
-                                            @endphp
-                                            {{-- ${{ $orderService->service->price * $orderService->quantity }} --}}
-                                            <input type="text" id="services_price"
-                                                value="{{ $orderService->service->price * $orderService->quantity }}"
-                                                disabled>
-                                            {{-- <input type="text" id="services_price"
-                                                value="{{ $orderService->service->price * $orderService->quantity }}"> --}}
+                                            <input type="number" name="quantities[{{ $orderService->id }}]"
+                                                style="border-width: 3px; border-color:lightseagreen"
+                                                value="{{ $orderService->quantity }}"
+                                                class="form-control m-1 text-center" min="1">
                                         </div>
                                     </div>
                                 @endforeach
@@ -104,49 +93,38 @@
                                 style="width: 55%; border-width: 3px; border-color:lightseagreen"
                                 value="{{ $order->visit_time }}">
                         </div>
-                        @if ($order->payment_type === 0)
-                            <div class="row">
-                                <label class="ml-1 mr-1" style="width: 45%">نوع الدفع</label>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="form-control m-1" style="width: 45%">
-                                    نقدي
-                                </div>
-                            </div>
-                        @endif
-                        @if ($order->payment_type === 1 && $order->payment_method)
-                            <div class="row">
-                                <label class="ml-1 mr-1" style="width: 45%">نوع الدفع</label>
-                                <label class="ml-1 mr-1" style="width: 45%">طريقة الدفع</label>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="form-control m-1" style="width: 45%">
-                                    الكتروني
-                                </div>
-                                <div class="form-control m-1" style="width: 45%">
-                                    {{ $order->payment_method }}
-                                </div>
-                            </div>
-                        @endif
+                        <div class="row">
+                            <label class="ml-1 mr-1" style="width: 45%">نوع الدفع</label>
+                            <label class="ml-1 mr-1" style="width: 45%" id="payment_type_label">طريقة الدفع</label>
+                        </div>
+                        <div class="row mb-4">
+                            <select name="payment_type" class="form-control m-1" id="payment_type"
+                                style="width: 45%; border-width: 3px; border-color:lightseagreen">
+                                <option value="{{ $order->payment_type }}" hidden>
+                                    @if ($order->payment_type === 1)
+                                        الكتروني
+                                    @else
+                                        نقدي
+                                    @endif
+                                </option>
+                                <option value="0">نقدي</option>
+                                <option value="1">الكتروني</option>
+                            </select>
+                            <input type="text" name="payment_method" class="form-control m-1" id="payment_method"
+                                style="width: 45%; border-width: 3px; border-color:lightseagreen"
+                                value="{{ $order->payment_method }}">
+                        </div>
                         <div class="row">
                             <label class="ml-1 mr-1" style="width: 45%">حالة الطلب</label>
-                            <label class="ml-1 mr-1" style="width: 45%">السعر الكلي</label>
                         </div>
                         <div class="row mb-4">
                             <select name="status" class="form-control m-1"
-                                style="width: 45%; border-width: 3px; border-color:lightseagreen">
+                                style="width: 91%; border-width: 3px; border-color:lightseagreen">
                                 <option value="{{ $order->status }}" hidden>{{ $order->status }}</option>
                                 @foreach ($orderStatuses as $orderStatus)
                                     <option value="{{ $orderStatus }}">{{ $orderStatus }}</option>
                                 @endforeach
                             </select>
-                            {{-- <div class="form-control m-1" style="width: 45%" id="total_price">
-                                ${{ $totalPrice }}
-                            </div> --}}
-                            {{-- <input type="text" value="{{ $totalPrice }}" id="total_price"
-                                class="form-control m-1" style="width: 45%"> --}}
-                            <input type="text" value="{{ $totalPrice }}" id="total_price"
-                                class="form-control m-1" style="width: 45%" disabled>
                         </div>
                         <div class="row mb-4">
                             <div class="col-sm-12">
@@ -157,7 +135,8 @@
                         <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-4">
                             <div class="col-sm-12">
                                 <button type="submit" class="btn btn-success w-100"
-                                    style="background:green"><span>تحديث الطلب</span></button>
+                                    style="background:green"><span>تحديث
+                                        الطلب</span></button>
                             </div>
                         </div>
                     </div>
@@ -171,6 +150,14 @@
                 const unscheduled = document.getElementById('unscheduled');
                 const visitTime = document.getElementById('visit_time');
                 const visitTitle = document.getElementById('visit_title');
+
+                if (scheduled === 1) {
+                    visitTime.style.visibility = 'visible';
+                    visitTitle.style.visibility = 'visible';
+                } else {
+                    visitTime.style.visibility = 'hidden';
+                    visitTitle.style.visibility = 'hidden';
+                }
 
                 function clickScheduled() {
                     visitTime.style.visibility = 'visible';
@@ -210,24 +197,29 @@
         </script>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const quantityInput = document.getElementById('quantity');
-                const servicesPrice = document.getElementById('services_price');
-                const totalPrice = document.getElementById('total_price');
+            window.onload = function() {
+                const paymentMethod = document.getElementById('payment_method');
+                const paymentTypeLabel = document.getElementById('payment_type_label');
+                const paymentTypeSelect = document.getElementById('payment_type');
 
-                function updatePrices() {
-                    const servicePrice = parseFloat(servicesPrice.value);
-                    const quantity = parseFloat(quantityInput.value);
-                    const result = servicePrice * quantity;
+                paymentTypeSelect.addEventListener('change', function() {
+                    if (this.value === '1') {
+                        paymentMethod.style.display = 'block';
+                        paymentTypeLabel.style.display = 'block';
+                    } else {
+                        paymentMethod.style.display = 'none';
+                        paymentTypeLabel.style.display = 'none';
+                    }
+                });
 
-                    totalPrice.value = result.toFixed(2);
+                if (paymentTypeSelect.value === '1') {
+                    paymentMethod.style.display = 'block';
+                    paymentTypeLabel.style.display = 'block';
+                } else {
+                    paymentMethod.style.display = 'none';
+                    paymentTypeLabel.style.display = 'none';
                 }
-
-                quantityInput.addEventListener('input', updatePrices);
-
-                // Initial calculation when the page loads
-                updatePrices();
-            });
+            };
         </script>
 
 </x-base-layout>

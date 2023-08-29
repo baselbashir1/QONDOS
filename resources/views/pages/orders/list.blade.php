@@ -72,12 +72,10 @@
                                         <td>
                                             @php
                                                 $totalPrice = 0.0;
-                                                $count = 0;
                                             @endphp
                                             @foreach ($order->orderServices as $orderService)
                                                 @php
-                                                    $totalPrice += $orderService->service->price;
-                                                    $count++;
+                                                    $totalPrice += $orderService->service->price * $orderService->quantity;
                                                 @endphp
                                             @endforeach
                                             ${{ $totalPrice }}

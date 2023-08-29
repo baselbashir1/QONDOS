@@ -133,18 +133,6 @@ class ClientController extends Controller
 
         $order->payment_type ? $order->update(['payment_method' => $order->payment_method]) : $order->update(['payment_method' => null]);
 
-        // $services = $inputFields['services'] ?? [];
-        // if (!is_array($services)) {
-        //     return response()->json(['error' => 'Invalid services.'], 400);
-        // }
-
-        // foreach ($services as $serviceId) {
-        //     OrderService::create([
-        //         'order_id' => $order->id,
-        //         'service_id' => $serviceId,
-        //     ]);
-        // }
-
         $services = $inputFields['services'] ?? [];
         if (!is_array($services)) {
             return response()->json(['error' => 'Invalid services.'], 400);
@@ -153,14 +141,11 @@ class ClientController extends Controller
         foreach ($services as $serviceId => $serviceQuantity) {
             $quantity = $serviceQuantity['quantity'] ?? 1;
             $quantity = max(1, intval($quantity));
-
-            // for ($i = 0; $i < $quantity; $i++) {
             OrderService::create([
                 'order_id' => $order->id,
                 'service_id' => $serviceId,
                 'quantity' => $quantity
             ]);
-            // }
         }
 
         $imagesPaths = [];
@@ -170,8 +155,6 @@ class ClientController extends Controller
                 $imagesPaths[] = $imagePath;
             }
         }
-
-        // dd($imagesPaths);
 
         foreach ($imagesPaths as $imagePath) {
             OrderImage::create([
@@ -201,8 +184,6 @@ class ClientController extends Controller
                 $imagesPaths[] = $imagePath;
             }
         }
-
-        // dd($specialServiceOrder, $imagesPaths);
 
         foreach ($imagesPaths as $imagePath) {
             SpecialServiceOrderImage::create([
@@ -314,5 +295,13 @@ class ClientController extends Controller
         ]);
 
         return response()->json(['success' => 'Maintenance evaluated successfully.']);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $inputFields = $request->all();
+        $client = Auth::user();
+        $client->update($inputFields);
+        return response()->json(['success' => 'Client updated successfully.', 'client' => $client]);
     }
 }
