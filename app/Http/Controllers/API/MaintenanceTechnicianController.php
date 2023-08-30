@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\SpecialOrderOfferRequest;
 use App\Http\Requests\MaintenanceTechnicianRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
+use App\Models\MaintenanceSubCategory;
 
 class MaintenanceTechnicianController extends Controller
 {
@@ -65,8 +66,8 @@ class MaintenanceTechnicianController extends Controller
             return response()->json(['error' => $validator->errors()]);
         }
 
-        $existingClient = MaintenanceTechnician::where('phone', $inputFields['phone'])->first();
-        if ($existingClient) {
+        $existingMaintenance = MaintenanceTechnician::where('phone', $inputFields['phone'])->first();
+        if ($existingMaintenance) {
             return response()->json(['error' => 'Phone number already registered.']);
         }
 
@@ -78,7 +79,7 @@ class MaintenanceTechnicianController extends Controller
             $inputFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
         }
 
-        MaintenanceTechnician::create([
+        $maintenanceTechnician = MaintenanceTechnician::create([
             'name' => $inputFields['name'],
             'phone' => $inputFields['phone'],
             'password' => bcrypt($inputFields['password']),
@@ -87,13 +88,25 @@ class MaintenanceTechnicianController extends Controller
             'account_number' => $inputFields['account_number'],
             'photo' => isset($inputFields['photo']) ? $inputFields['photo'] : null,
             'residency_photo' => isset($inputFields['residency_photo']) ? $inputFields['residency_photo'] : null,
-            'main_category_id' => $inputFields['main_category'],
-            'sub_category_id' => $inputFields['sub_category'],
-            'service_id' => $inputFields['service'],
+            // 'main_category_id' => $inputFields['main_category'],
+            // 'sub_category_id' => $inputFields['sub_category'],
+            // 'service_id' => $inputFields['service'],
             'is_verified' => 0,
             'latitude' =>  $inputFields['latitude'],
             'longitude' =>  $inputFields['longitude'],
         ]);
+
+        $subCategories = $inputFields['sub_categories'] ?? [];
+        if (!is_array($subCategories)) {
+            return response()->json(['error' => 'Invalid sub-categories.'], 400);
+        }
+
+        foreach ($subCategories as $subCategoryId) {
+            MaintenanceSubCategory::create([
+                'maintenance_technician_id' => $maintenanceTechnician->id,
+                'sub_category_id' => $subCategoryId
+            ]);
+        }
 
         if (Auth::guard('maintenance-technician')->attempt(['phone' => $inputFields['phone'], 'password' => $inputFields['password']])) {
             return response()->json(['unauthorized' => 'Pending approval.']);

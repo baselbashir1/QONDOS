@@ -30,9 +30,10 @@ class MaintenanceTechnicianRequest extends FormRequest
             'account_number' => 'required',
             'photo' => ['nullable', 'image'],
             'residency_photo' => ['nullable', 'image'],
-            'main_category' => 'required',
-            'sub_category' => 'required',
-            'service' => 'required',
+            // 'main_category' => 'required',
+            // 'sub_category' => 'required',
+            // 'service' => 'required',
+            'sub_categories' => 'required|array',
             'latitude' => 'nullable',
             'longitude' => 'nullable',
         ];
