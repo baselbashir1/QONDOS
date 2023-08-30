@@ -64,6 +64,9 @@
                     <li>
                         <a href="{{ route('special-service-orders.index') }}"> الطلبات الخاصة </a>
                     </li>
+                    <li>
+                        <a href="{{ route('contacts.index') }}"> الرسائل </a>
+                    </li>
                 </ul>
             </li>
         </ul>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SpecialServiceOrderController;
@@ -44,6 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('special-service-orders', SpecialServiceOrderController::class);
+    Route::resource('contacts', ContactController::class);
+
+    Route::get('/message-send-replay/{contact}', [ContactController::class, 'messageSendReply']);
+    Route::post('/message-replay/{contact}', [ContactController::class, 'messageReply']);
 });
 
 require __DIR__ . '/auth.php';

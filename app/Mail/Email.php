@@ -57,7 +57,8 @@ class Email extends Mailable
 
     public function build()
     {
+        $msg = $this->message;
         return $this->subject($this->subject)
-            ->view('index'); // Create this view file
+            ->view('pages.contacts.mail-content', ['msg' => $msg]);
     }
 }
