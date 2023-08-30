@@ -42,6 +42,7 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
             Route::post('/update-offer-order-status', 'updateOfferAndOrderStatus');
             Route::post('/evaluate-maintenance/{maintenanceTechnician}', 'evaluateMaintenance');
             Route::post('/update-profile', 'updateProfile');
+            Route::post('/send-message', 'sendMessage');
         });
     });
     Route::apiResource('categories', CategoryController::class);

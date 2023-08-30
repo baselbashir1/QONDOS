@@ -6,7 +6,9 @@ use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Client;
 use App\Models\Rating;
+use App\Models\Contact;
 use App\Models\OrderImage;
+use App\Mail\EmailMailable;
 use App\Models\OrderService;
 use Illuminate\Http\Request;
 use App\Models\ClientAddress;
@@ -21,6 +23,7 @@ use App\Models\SpecialServiceOrder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\OfferResource;
 use App\Models\MaintenanceTechnician;
 use App\Http\Resources\ClientResource;
@@ -29,6 +32,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ClientAddressRequest;
 use App\Http\Resources\ClientAddressResource;
 use App\Http\Requests\SpecialServiceOrderRequest;
+use App\Mail\Email;
 
 class ClientController extends Controller
 {
@@ -325,5 +329,25 @@ class ClientController extends Controller
         $client = Auth::user();
         $client->update($inputFields);
         return response()->json(['success' => 'Client updated successfully.', 'client' => $client]);
+    }
+
+    public function sendMessage(Request $request)
+    {
+        $inputFields = $request->validate([
+            'client_id' => 'required',
+            'to_email' => ['required', 'email'],
+            'subject' => 'required',
+            'message' => 'required'
+        ]);
+
+        Contact::create([
+            'client_id' => $inputFields['client_id'],
+            'to_email' => $inputFields['to_email'],
+            'subject' => $inputFields['subject'],
+            'message' => $inputFields['message']
+        ]);
+
+        Mail::to($inputFields['to_email'])->send(new Email($inputFields['subject'], $inputFields['message']));
+        return response()->json(['message' => 'Email sent successfully.']);
     }
 }
