@@ -70,7 +70,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ```
 APP_NAME=Laravel
 APP_ENV=local
-APP_KEY=base64:adGTdiS2J1UpBjaPtsa6G1Ahw43vFufDwgGOC/2o5OE=
+APP_KEY=base64:D3gIA5WdGBOhn30oOTmarx3SLiPVkx3V6730kxrh4g0=
 APP_DEBUG=true
 APP_URL=http://localhost
 
@@ -99,11 +99,11 @@ REDIS_PASSWORD=null
 REDIS_PORT=6379
 
 MAIL_MAILER=smtp
-MAIL_HOST=mailpit
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=587
+MAIL_USERNAME=b91bde540e586a
+MAIL_PASSWORD=a6ae811b239e83
+MAIL_ENCRYPTION=tls
 MAIL_FROM_ADDRESS="hello@example.com"
 MAIL_FROM_NAME="${APP_NAME}"
 
