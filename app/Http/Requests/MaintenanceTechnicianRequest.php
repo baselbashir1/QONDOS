@@ -23,7 +23,8 @@ class MaintenanceTechnicianRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => ['required', 'unique:maintenance_technicians,phone,except,id'],
+            'phone' => 'required',
+            // 'phone' => ['required', 'unique:maintenance_technicians,phone,except,id'],
             'password' => ['required', 'min:6'],
             'city' => 'required',
             'bank' => 'required',
@@ -33,7 +34,7 @@ class MaintenanceTechnicianRequest extends FormRequest
             // 'main_category' => 'required',
             // 'sub_category' => 'required',
             // 'service' => 'required',
-            'sub_categories' => 'required|array',
+            'sub_categories' => 'nullable|array',
             'latitude' => 'nullable',
             'longitude' => 'nullable',
         ];

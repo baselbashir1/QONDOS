@@ -7,9 +7,11 @@ use App\Models\Service;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MaintenanceTechnician;
+use App\Models\MaintenanceSubCategory;
 use App\Http\Requests\MaintenanceTechnicianRequest;
 
 class MaintenanceTechnicianController extends Controller
@@ -27,9 +29,9 @@ class MaintenanceTechnicianController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        // $categories = Category::all();
         $subCategories = SubCategory::all();
-        $services = Service::all();
+        // $services = Service::all();
         return view('pages.maintenance-technicians.add', ['categories' => $categories, 'subCategories' => $subCategories, 'services' => $services]);
     }
 
@@ -46,7 +48,7 @@ class MaintenanceTechnicianController extends Controller
                 $formFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
             }
 
-            MaintenanceTechnician::create([
+            $maintenanceTechnician =  MaintenanceTechnician::create([
                 'name' => $formFields['name'],
                 'phone' => $formFields['phone'],
                 'password' => bcrypt($formFields['password']),
@@ -56,9 +58,11 @@ class MaintenanceTechnicianController extends Controller
                 'photo' => isset($formFields['photo']) ? $formFields['photo'] : null,
                 'residency_photo' => isset($formFields['residency_photo']) ? $formFields['residency_photo'] : null,
                 'is_verified' => 1,
-                'main_category_id' => $formFields['main_category'],
-                'sub_category_id' => $formFields['sub_category'],
-                'service_id' => $formFields['service'],
+                // 'main_category_id' => $formFields['main_category'],
+                // 'sub_category_id' => $formFields['sub_category'],
+                // 'service_id' => $formFields['service'],
+                'latitude' => isset($formFields['latitude']) ? $formFields['latitude'] : null,
+                'longitude' => isset($formFields['longitude']) ? $formFields['longitude'] : null,
             ]);
 
             // $selectedService = Service::findOrFail($formFields['service']);
@@ -70,6 +74,14 @@ class MaintenanceTechnicianController extends Controller
             // }
             // $maintenanceTechnician->save();
 
+            $subCategories = $formFields['sub_categories'] ?? [];
+            foreach ($subCategories as $subCategoryId) {
+                MaintenanceSubCategory::create([
+                    'maintenance_technician_id' => $maintenanceTechnician->id,
+                    'sub_category_id' => $subCategoryId
+                ]);
+            }
+
             notify()->success('تمت إضافة فني صيانة بنجاح');
             return redirect()->route('maintenance-technicians.index');
         } catch (\Exception $e) {
@@ -79,14 +91,19 @@ class MaintenanceTechnicianController extends Controller
 
     public function edit(MaintenanceTechnician $maintenanceTechnician)
     {
-        $categories = Category::all();
+        $selected = DB::table('maintenance_sub_categories')
+            ->where('maintenance_sub_categories.maintenance_technician_id', $maintenanceTechnician->id)
+            ->pluck('maintenance_sub_categories.sub_category_id', 'maintenance_sub_categories.sub_category_id')
+            ->all();
+        // $categories = Category::all();
         $subCategories = SubCategory::all();
-        $services = Service::all();
+        // $services = Service::all();
         return view('pages.maintenance-technicians.edit', [
             'maintenanceTechnician' => $maintenanceTechnician,
-            'categories' => $categories,
+            // 'categories' => $categories,
             'subCategories' => $subCategories,
-            'services' => $services
+            // 'services' => $services,
+            'selected' => $selected
         ]);
     }
 
@@ -112,10 +129,57 @@ class MaintenanceTechnicianController extends Controller
                 'account_number' => $formFields['account_number'],
                 'photo' => isset($formFields['photo']) ? $formFields['photo'] : $maintenanceTechnician->photo,
                 'residency_photo' => isset($formFields['residency_photo']) ? $formFields['residency_photo'] : $maintenanceTechnician->residency_photo,
-                'main_category_id' => $formFields['main_category'],
-                'sub_category_id' => $formFields['sub_category'],
-                'service_id' => $formFields['service']
+                // 'main_category_id' => $formFields['main_category'],
+                // 'sub_category_id' => $formFields['sub_category'],
+                // 'service_id' => $formFields['service']
             ]);
+
+            // $subCategories = $formFields['sub_categories'] ?? [];
+            // foreach ($subCategories as $subCategoryId) {
+            //     foreach ($maintenanceTechnician->maintenanceSubCategories as $maintenanceSubCategory) {
+            //         if ($maintenanceSubCategory->maintenance_technician_id && $maintenanceSubCategory->sub_category_id) {
+            //             $maintenanceSubCategory->update([
+            //                 'sub_category_id' => $subCategoryId
+            //             ]);
+            //         } else {
+            //             MaintenanceSubCategory::create([
+            //                 'maintenance_technician_id' => $maintenanceTechnician->id,
+            //                 'sub_category_id' => $subCategoryId
+            //             ]);
+            //         }
+            //     }
+            // }
+
+            $subCategories = $formFields['sub_categories'] ?? [];
+            foreach ($maintenanceTechnician->maintenanceSubCategories as $maintenanceSubCategory) {
+                $matchingSubCategory = null;
+                foreach ($subCategories as $subCategoryId) {
+                    if ($maintenanceSubCategory->maintenance_technician_id == $maintenanceTechnician->id && $maintenanceSubCategory->sub_category_id == $subCategoryId) {
+                        $matchingSubCategory = $subCategoryId;
+                        break;
+                    }
+                }
+                if ($matchingSubCategory !== null) {
+                    $maintenanceSubCategory->update([
+                        'sub_category_id' => $matchingSubCategory
+                    ]);
+                } else {
+                    $maintenanceSubCategory->delete();
+                }
+            }
+
+            foreach ($subCategories as $subCategoryId) {
+                $existingSubCategory = $maintenanceTechnician->maintenanceSubCategories()
+                    ->where('sub_category_id', $subCategoryId)
+                    ->first();
+
+                if (!$existingSubCategory) {
+                    MaintenanceSubCategory::create([
+                        'maintenance_technician_id' => $maintenanceTechnician->id,
+                        'sub_category_id' => $subCategoryId
+                    ]);
+                }
+            }
 
             notify()->success('تم تعديل فني الصيانة بنجاح');
             return redirect()->route('maintenance-technicians.index');

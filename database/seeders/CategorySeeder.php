@@ -23,5 +23,15 @@ class CategorySeeder extends Seeder
                 'name' => 'التصنيف الرئيسي الأول'
             ]
         ]);
+
+        Category::create([
+            'type' => CategoryType::mainCategory,
+            'en' => [
+                'name' => 'Second main category'
+            ],
+            'ar' => [
+                'name' => 'التصنيف الرئيسي الثاني'
+            ]
+        ]);
     }
 }

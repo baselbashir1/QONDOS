@@ -80,7 +80,6 @@
                             <p class="mt-2 text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="longitude">خط الطول</label>
@@ -122,8 +121,8 @@
                                 @foreach ($subCategories as $subCategory)
                                     <li>
                                         <label style="font-size: 16px;">
-                                            <input type="checkbox" name="sub_category[]" value="{{ $subCategory->id }}"
-                                                class="name">
+                                            <input type="checkbox" name="sub_categories[]"
+                                                value="{{ $subCategory->id }}" class="name">
                                             {{ $subCategory->translate('ar')->name }}
                                         </label>
                                     </li>

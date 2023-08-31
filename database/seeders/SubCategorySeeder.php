@@ -25,5 +25,27 @@ class SubCategorySeeder extends Seeder
             ],
             'category_id' => Category::find(1)->id
         ]);
+
+        SubCategory::create([
+            'type' => CategoryType::subCategory,
+            'en' => [
+                'name' => 'Second sub category'
+            ],
+            'ar' => [
+                'name' => 'التصنيف الفرعي الثاني'
+            ],
+            'category_id' => Category::find(1)->id
+        ]);
+
+        SubCategory::create([
+            'type' => CategoryType::subCategory,
+            'en' => [
+                'name' => 'Third sub category'
+            ],
+            'ar' => [
+                'name' => 'التصنيف الفرعي الثالث'
+            ],
+            'category_id' => Category::find(2)->id
+        ]);
     }
 }

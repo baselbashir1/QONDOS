@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             // ClientSeeder::class,
             // MaintenanceTechnicianSeeder::class,
-            // CategorySeeder::class,
-            // SubCategorySeeder::class,
+            CategorySeeder::class,
+            SubCategorySeeder::class,
             // ServiceSeeder::class
         ]);
     }
