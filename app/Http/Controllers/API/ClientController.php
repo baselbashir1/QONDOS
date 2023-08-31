@@ -105,8 +105,8 @@ class ClientController extends Controller
     {
         $client = Auth::user();
         $clientAddresses = $client->addresses()->get();
-        $token = $client->token();
-        return response()->json(['client' => $client, 'addresses' => $clientAddresses, 'token' => $token]);
+        // $token = $client->token();
+        return response()->json(['client' => $client, 'addresses' => $clientAddresses]);
     }
 
     public function logout()

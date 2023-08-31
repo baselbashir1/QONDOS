@@ -45,9 +45,9 @@ Route::middleware(['auth:api-client', 'scopes:client'])->group(function () {
             Route::post('/send-message', 'sendMessage');
         });
     });
-    Route::apiResource('categories', CategoryController::class);
-    Route::apiResource('sub-categories', SubCategoryController::class);
-    Route::apiResource('services', ServiceController::class);
+    // Route::apiResource('categories', CategoryController::class);
+    // Route::apiResource('sub-categories', SubCategoryController::class);
+    // Route::apiResource('services', ServiceController::class);
     Route::apiResource('orders', OrderController::class);
     Route::apiResource('offers', OfferController::class);
 });
@@ -71,7 +71,13 @@ Route::middleware(['auth:api-maintenance-technician', 'scopes:maintenance-techni
             Route::post('/update-profile', 'updateProfile');
         });
     });
+    // Route::apiResource('categories', CategoryController::class);
+    // Route::apiResource('sub-categories', SubCategoryController::class);
+    // Route::apiResource('services', ServiceController::class);
 });
 
 Route::apiResource('clients', ClientController::class);
 Route::apiResource('maintenance-technicians', MaintenanceTechnicianController::class);
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('sub-categories', SubCategoryController::class);
+Route::apiResource('services', ServiceController::class);
