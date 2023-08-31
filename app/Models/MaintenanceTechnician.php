@@ -39,8 +39,13 @@ class MaintenanceTechnician extends Authenticatable
         return $this->hasMany(Rating::class, 'maintenance_technician_id');
     }
 
-    public function subCategories(): HasMany
+    // public function subCategories(): HasMany
+    // {
+    //     return $this->hasMany(SubCategory::class);
+    // }
+
+    public function maintenanceSubCategories(): HasMany
     {
-        return $this->hasMany(SubCategory::class, 'sub_category_id');
+        return $this->hasMany(MaintenanceSubCategory::class, 'maintenance_technician_id');
     }
 }
