@@ -98,22 +98,6 @@
                             <p class="mt-2 text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-                    {{-- <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <label for="service">اختر التصنيف الرئيسي</label>
-                            <select name="category" class="form-control">
-                                <option selected disabled>اختر التصنيف الرئيسي</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">
-                                        {{ $category->translate('ar')->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('category')
-                            <p class="mt-2 text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div> --}}
                     <div class="row">
                         <div class="col-lg-4">
                             <label class="mb-3">اختر تصنيفات فرعية</label>

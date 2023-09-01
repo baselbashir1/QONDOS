@@ -17,10 +17,6 @@ class ServiceController extends Controller
         return view('pages.services.list', ['services' => $services]);
     }
 
-    public function show()
-    {
-    }
-
     public function create()
     {
         $subCategories = SubCategory::all();

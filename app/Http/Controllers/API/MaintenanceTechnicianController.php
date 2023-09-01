@@ -88,9 +88,6 @@ class MaintenanceTechnicianController extends Controller
             'account_number' => $inputFields['account_number'],
             'photo' => isset($inputFields['photo']) ? $inputFields['photo'] : null,
             'residency_photo' => isset($inputFields['residency_photo']) ? $inputFields['residency_photo'] : null,
-            // 'main_category_id' => $inputFields['main_category'],
-            // 'sub_category_id' => $inputFields['sub_category'],
-            // 'service_id' => $inputFields['service'],
             'is_verified' => 0,
             'latitude' =>  $inputFields['latitude'],
             'longitude' =>  $inputFields['longitude'],
@@ -118,8 +115,72 @@ class MaintenanceTechnicianController extends Controller
     public function getProfile()
     {
         $maintenanceTechnician = Auth::user();
-        $token = $maintenanceTechnician->token();
-        return response()->json(['maintenanceTechnician' => $maintenanceTechnician, 'token' => $token]);
+        // $token = $maintenanceTechnician->token();
+        return response()->json(['maintenanceTechnician' => $maintenanceTechnician]);
+    }
+
+    public function updateProfile(MaintenanceTechnicianRequest $request)
+    {
+        $inputFields = $request->validated();
+        $maintenanceTechnician = Auth::user();
+
+        if ($request->hasFile('photo')) {
+            $inputFields['photo'] = $request->file('photo')->store('images', 'public');
+        }
+
+        if ($request->hasFile('residency_photo')) {
+            $inputFields['residency_photo'] = $request->file('residency_photo')->store('images', 'public');
+        }
+
+        $maintenanceTechnician->update([
+            'name' => $inputFields['name'],
+            'phone' => $inputFields['phone'],
+            'password' => bcrypt($inputFields['password']),
+            'city' => $inputFields['city'],
+            'bank' => $inputFields['bank'],
+            'account_number' => $inputFields['account_number'],
+            'photo' => $inputFields['photo'],
+            'residency_photo' => $inputFields['residency_photo'],
+            'latitude' => $inputFields['latitude'],
+            'longitude' => $inputFields['longitude'],
+        ]);
+
+        $subCategories = $inputFields['sub_categories'] ?? [];
+        if (!is_array($subCategories)) {
+            return response()->json(['error' => 'Invalid sub-categories.'], 400);
+        }
+
+        foreach ($maintenanceTechnician->maintenanceSubCategories as $maintenanceSubCategory) {
+            $matchingSubCategory = null;
+            foreach ($subCategories as $subCategoryId) {
+                if ($maintenanceSubCategory->maintenance_technician_id == $maintenanceTechnician->id && $maintenanceSubCategory->sub_category_id == $subCategoryId) {
+                    $matchingSubCategory = $subCategoryId;
+                    break;
+                }
+            }
+            if ($matchingSubCategory !== null) {
+                $maintenanceSubCategory->update([
+                    'sub_category_id' => $matchingSubCategory
+                ]);
+            } else {
+                $maintenanceSubCategory->delete();
+            }
+        }
+
+        foreach ($subCategories as $subCategoryId) {
+            $existingSubCategory = $maintenanceTechnician->maintenanceSubCategories()
+                ->where('sub_category_id', $subCategoryId)
+                ->first();
+
+            if (!$existingSubCategory) {
+                MaintenanceSubCategory::create([
+                    'maintenance_technician_id' => $maintenanceTechnician->id,
+                    'sub_category_id' => $subCategoryId
+                ]);
+            }
+        }
+
+        return response()->json(['success' => 'Maintenance updated successfully.', 'maintenance-technician' => $maintenanceTechnician]);
     }
 
     public function logout()
@@ -228,7 +289,7 @@ class MaintenanceTechnicianController extends Controller
                 ]);
             }
             return response()->json(['success' => 'Offer confirmed successfully.']);
-        } elseif ($action === 'requestFinishOrder' && $offer) {
+        } elseif ($action === 'requestFinishOrder' && $order) {
             $order->update([
                 'status' => OrderStatus::pendingClientApproveFinish
             ]);
@@ -241,13 +302,5 @@ class MaintenanceTechnicianController extends Controller
         } else {
             return response()->json(['error' => 'Invalid action or missing parameters.'], 400);
         }
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $inputFields = $request->all();
-        $client = Auth::user();
-        $client->update($inputFields);
-        return response()->json(['success' => 'Client updated successfully.', 'client' => $client]);
     }
 }

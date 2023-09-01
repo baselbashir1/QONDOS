@@ -16,10 +16,6 @@ class CategoryController extends Controller
         return view('pages.categories.list', ['categories' => $categories]);
     }
 
-    public function show()
-    {
-    }
-
     public function create()
     {
         $categoryTypes = [CategoryType::mainCategory, CategoryType::subCategory, CategoryType::service];

@@ -17,10 +17,6 @@ class SubCategoryController extends Controller
         return view('pages.sub-categories.list', ['subCategories' => $subCategories]);
     }
 
-    public function show()
-    {
-    }
-
     public function create()
     {
         $categories = Category::all();

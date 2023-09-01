@@ -10,6 +10,7 @@ class SpecialOrderOffer extends Model
 {
     use HasFactory;
 
+    protected $table = 'special_order_offers';
     protected $fillable = ['description', 'status', 'maintenance_technician_id', 'client_id', 'special_service_order_id'];
 
     public function order(): BelongsTo

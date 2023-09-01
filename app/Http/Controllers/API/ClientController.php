@@ -31,6 +31,7 @@ use App\Models\SpecialServiceOrderImage;
 use App\Http\Requests\SendMessageRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ClientAddressRequest;
+use App\Http\Requests\EvaluateRequest;
 use App\Http\Resources\ClientAddressResource;
 use App\Http\Requests\SpecialServiceOrderRequest;
 
@@ -107,6 +108,20 @@ class ClientController extends Controller
         $clientAddresses = $client->addresses()->get();
         // $token = $client->token();
         return response()->json(['client' => $client, 'addresses' => $clientAddresses]);
+    }
+
+    public function updateProfile(ClientRequest $request)
+    {
+        $inputFields = $request->validated();
+        $client = Auth::user();
+        $client->update([
+            'name' => $inputFields['name'],
+            'phone' => $inputFields['phone'],
+            'email' => $inputFields['email'],
+            'city' => $inputFields['city'],
+            'password' => bcrypt($inputFields['password']),
+        ]);
+        return response()->json(['success' => 'Client updated successfully.', 'client' => $client]);
     }
 
     public function logout()
@@ -226,7 +241,7 @@ class ClientController extends Controller
             ]);
         }
 
-        return response()->json(['success' => 'Client updated successfully.']);
+        return response()->json(['success' => 'Client address updated successfully.']);
     }
 
     public function getLocations()
@@ -289,16 +304,31 @@ class ClientController extends Controller
                 ]);
             }
             return response()->json(['success' => 'Offer accepted successfully.']);
+        } elseif ($action === 'rejectOffer' && $offer) {
+            $offer->update([
+                'status' => OfferStatus::rejected
+            ]);
+            return response()->json(['success' => 'Offer rejected successfully.']);
         } elseif ($action === 'rejectOffer' && $specialOrderOffer) {
             $specialOrderOffer->update([
                 'status' => OfferStatus::rejected
             ]);
             return response()->json(['success' => 'Offer rejected successfully.']);
+        } elseif ($action === 'cancelOrder' && $order) {
+            $order->update([
+                'status' => OrderStatus::canceled
+            ]);
+            return response()->json(['success' => 'Order canceled successfully.']);
         } elseif ($action === 'cancelOrder' && $specialServiceOrder) {
             $specialServiceOrder->update([
                 'status' => OrderStatus::canceled
             ]);
             return response()->json(['success' => 'Order canceled successfully.']);
+        } elseif ($action === 'acceptFinishOrder' && $order) {
+            $order->update([
+                'status' => OrderStatus::finished
+            ]);
+            return response()->json(['success' => 'Approved finish order successfully.']);
         } elseif ($action === 'acceptFinishOrder' && $specialServiceOrder) {
             $specialServiceOrder->update([
                 'status' => OrderStatus::finished
@@ -309,26 +339,16 @@ class ClientController extends Controller
         }
     }
 
-    public function evaluateMaintenance(Request $request, MaintenanceTechnician $maintenanceTechnician)
+    public function evaluateMaintenance(EvaluateRequest $request)
     {
-        $inputFields = $request->validate([
-            'rate' => 'required|numeric|min:0.5|max:5'
-        ]);
+        $inputFields = $request->validated();
 
         Rating::create([
             'rate' => $inputFields['rate'],
-            'maintenance_technician_id' => $maintenanceTechnician->id
+            'maintenance_technician_id' => $inputFields['maintenance_technician_id']
         ]);
 
         return response()->json(['success' => 'Maintenance evaluated successfully.']);
-    }
-
-    public function updateProfile(Request $request)
-    {
-        $inputFields = $request->all();
-        $client = Auth::user();
-        $client->update($inputFields);
-        return response()->json(['success' => 'Client updated successfully.', 'client' => $client]);
     }
 
     public function sendMessage(SendMessageRequest $request)

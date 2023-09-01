@@ -27,9 +27,6 @@ return new class extends Migration
             $table->boolean('is_verified');
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
-            // $table->foreignIdFor(Category::class, 'main_category_id')->comment('main service');
-            // $table->foreignIdFor(SubCategory::class, 'sub_category_id')->comment('sub service');
-            // $table->foreignIdFor(Service::class, 'service_id')->comment('maintenance technician service');
             $table->timestamps();
         });
     }

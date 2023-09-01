@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SpecialOrderOfferRequest extends FormRequest
+class EvaluateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class SpecialOrderOfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'required'
+            'rate' => 'required|numeric|min:0.5|max:5',
+            'maintenance_technician_id' => 'required'
         ];
     }
 }

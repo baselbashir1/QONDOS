@@ -29,9 +29,7 @@ class MaintenanceTechnicianController extends Controller
 
     public function create()
     {
-        // $categories = Category::all();
         $subCategories = SubCategory::all();
-        // $services = Service::all();
         return view('pages.maintenance-technicians.add', ['categories' => $categories, 'subCategories' => $subCategories, 'services' => $services]);
     }
 
@@ -58,21 +56,9 @@ class MaintenanceTechnicianController extends Controller
                 'photo' => isset($formFields['photo']) ? $formFields['photo'] : null,
                 'residency_photo' => isset($formFields['residency_photo']) ? $formFields['residency_photo'] : null,
                 'is_verified' => 1,
-                // 'main_category_id' => $formFields['main_category'],
-                // 'sub_category_id' => $formFields['sub_category'],
-                // 'service_id' => $formFields['service'],
                 'latitude' => isset($formFields['latitude']) ? $formFields['latitude'] : null,
                 'longitude' => isset($formFields['longitude']) ? $formFields['longitude'] : null,
             ]);
-
-            // $selectedService = Service::findOrFail($formFields['service']);
-            // if ($selectedService->subCategory) {
-            //     $maintenanceTechnician->sub_category_id = $selectedService->subCategory->id;
-            //     if ($selectedService->subCategory->category) {
-            //         $maintenanceTechnician->main_category_id = $selectedService->subCategory->category->id;
-            //     }
-            // }
-            // $maintenanceTechnician->save();
 
             $subCategories = $formFields['sub_categories'] ?? [];
             foreach ($subCategories as $subCategoryId) {
@@ -95,14 +81,10 @@ class MaintenanceTechnicianController extends Controller
             ->where('maintenance_sub_categories.maintenance_technician_id', $maintenanceTechnician->id)
             ->pluck('maintenance_sub_categories.sub_category_id', 'maintenance_sub_categories.sub_category_id')
             ->all();
-        // $categories = Category::all();
         $subCategories = SubCategory::all();
-        // $services = Service::all();
         return view('pages.maintenance-technicians.edit', [
             'maintenanceTechnician' => $maintenanceTechnician,
-            // 'categories' => $categories,
             'subCategories' => $subCategories,
-            // 'services' => $services,
             'selected' => $selected
         ]);
     }
@@ -128,27 +110,8 @@ class MaintenanceTechnicianController extends Controller
                 'bank' => $formFields['bank'],
                 'account_number' => $formFields['account_number'],
                 'photo' => isset($formFields['photo']) ? $formFields['photo'] : $maintenanceTechnician->photo,
-                'residency_photo' => isset($formFields['residency_photo']) ? $formFields['residency_photo'] : $maintenanceTechnician->residency_photo,
-                // 'main_category_id' => $formFields['main_category'],
-                // 'sub_category_id' => $formFields['sub_category'],
-                // 'service_id' => $formFields['service']
+                'residency_photo' => isset($formFields['residency_photo']) ? $formFields['residency_photo'] : $maintenanceTechnician->residency_photo
             ]);
-
-            // $subCategories = $formFields['sub_categories'] ?? [];
-            // foreach ($subCategories as $subCategoryId) {
-            //     foreach ($maintenanceTechnician->maintenanceSubCategories as $maintenanceSubCategory) {
-            //         if ($maintenanceSubCategory->maintenance_technician_id && $maintenanceSubCategory->sub_category_id) {
-            //             $maintenanceSubCategory->update([
-            //                 'sub_category_id' => $subCategoryId
-            //             ]);
-            //         } else {
-            //             MaintenanceSubCategory::create([
-            //                 'maintenance_technician_id' => $maintenanceTechnician->id,
-            //                 'sub_category_id' => $subCategoryId
-            //             ]);
-            //         }
-            //     }
-            // }
 
             $subCategories = $formFields['sub_categories'] ?? [];
             foreach ($maintenanceTechnician->maintenanceSubCategories as $maintenanceSubCategory) {

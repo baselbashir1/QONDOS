@@ -24,7 +24,8 @@ class ClientRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => ['nullable', 'email'],
-            'phone' => ['required', 'unique:clients,phone,except,id'],
+            'phone' => 'required',
+            // 'phone' => ['required', 'unique:clients,phone,except,id'],
             'city' => 'required',
             'password' => ['required', 'min:6'],
             'home' => 'nullable',

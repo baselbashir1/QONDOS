@@ -19,30 +19,10 @@ class MaintenanceTechnician extends Authenticatable
     protected $guard = 'maintenance-technician';
     protected $fillable = ['name', 'phone', 'password', 'city', 'bank', 'account_number', 'photo', 'residency_photo', 'is_verified', 'latitude', 'longitude'];
 
-    // public function mainCategory(): BelongsTo
-    // {
-    //     return $this->belongsTo(Category::class);
-    // }
-
-    // public function subCategory(): BelongsTo
-    // {
-    //     return $this->belongsTo(SubCategory::class);
-    // }
-
-    // public function service(): BelongsTo
-    // {
-    //     return $this->belongsTo(Service::class);
-    // }
-
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class, 'maintenance_technician_id');
     }
-
-    // public function subCategories(): HasMany
-    // {
-    //     return $this->hasMany(SubCategory::class);
-    // }
 
     public function maintenanceSubCategories(): HasMany
     {
