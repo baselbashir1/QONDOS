@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\DistanceController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SpecialServiceOrderController;
 use App\Http\Controllers\Admin\MaintenanceTechnicianController;
+use App\Http\Controllers\Admin\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/clear', 'clear');
         Route::get('/get-sub-category/{id}', 'getSubCategory');
         Route::get('/get-main-category/{id}', 'getMainCategory');
+        // Route::get('/settings', 'settings');
     });
     Route::controller(ClientController::class)->group(function () {
         Route::get('/client/get-location', 'getLocation');
@@ -55,7 +57,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/message-send-replay/{contact}', [ContactController::class, 'messageSendReply']);
     Route::post('/message-replay/{contact}', [ContactController::class, 'messageReply']);
     Route::get('/order-offers/{order}', [OrderController::class, 'orderOffers']);
-    Route::post('/set-distance', [DistanceController::class, 'setDistance']);
+    // Route::post('/set-distance', [DistanceController::class, 'setDistance']);
+    // Route::get('/settings', [SettingController::class, 'index']);
+    // Route::get('/settings', [SettingController::class, 'index']);
+
+    Route::get('/settings', [SettingController::class, 'index']);
+    Route::post('/update-settings', [SettingController::class, 'updateSettings']);
 });
 
 require __DIR__ . '/auth.php';

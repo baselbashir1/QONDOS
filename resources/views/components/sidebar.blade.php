@@ -70,6 +70,9 @@
                     <li>
                         <a href="{{ route('offers.index') }}"> العروض </a>
                     </li>
+                    <li>
+                        <a href="/settings"> الاعدادات </a>
+                    </li>
                 </ul>
             </li>
         </ul>

@@ -9,6 +9,7 @@ use App\Http\Controllers\API\MaintenanceTechnicianController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ServiceController;
+use App\Http\Controllers\API\SettingController;
 use App\Http\Controllers\API\SubCategoryController;
 
 /*
@@ -78,3 +79,7 @@ Route::apiResource('sub-categories', SubCategoryController::class);
 Route::apiResource('services', ServiceController::class);
 
 Route::post('/set-distance', [DistanceController::class, 'setDistance']);
+
+// Route::apiResource('settings', SettingController::class);
+
+Route::post('/update-settings', [SettingController::class, 'updateSettings']);

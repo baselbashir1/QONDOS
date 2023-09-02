@@ -40,6 +40,7 @@
     defer></script> --}}
 
     @notifyCss
+
 </head>
 
 <body class="layout-boxed alt-menu">

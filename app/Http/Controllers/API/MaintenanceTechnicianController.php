@@ -206,7 +206,7 @@ class MaintenanceTechnicianController extends Controller
 
         foreach ($clientAddresses as $clientAddress) {
             $distance = $this->calculateDistance($maintenanceTechnician->latitude, $maintenanceTechnician->longitude, $clientAddress->latitude, $clientAddress->longitude);
-            if ($distance <= 500) {
+            if ($distance <= 500) { // need to change
                 $orders = DB::table('orders')
                     ->join('client_addresses', 'orders.client_id', '=', 'client_addresses.client_id')
                     ->join('order_has_services', 'orders.id', '=', 'order_has_services.order_id')
