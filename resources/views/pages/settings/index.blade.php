@@ -10,7 +10,7 @@
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="privacy_policy">المسافة</label>
-                            <input type="number" name="distance" class="form-control" min="0"
+                            <input type="number" name="distance" class="form-control w-25" min="0"
                                 value="{{ $settings->distance }}">
                         </div>
                     </div>
