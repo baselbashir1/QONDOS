@@ -44,7 +44,31 @@
                                         @endif
                                     </td>
                                     <td>{{ $offer->description }}</td>
-                                    <td class="text-center">
+                                    <td class="row">
+                                        <form action="/accept-offer/{{ $offer->id }}" method="POST" class="col m-2"
+                                            style=" width: 10px">
+                                            @csrf
+                                            <button class="btn btn-success" type="submit"
+                                                style="background: rgb(14, 164, 14)">قبول</button>
+                                        </form>
+                                        <form action="/reject-offer/{{ $offer->id }}" method="POST" class="col m-2"
+                                            style=" width: 10px">
+                                            @csrf
+                                            <button class="btn btn-danger" type="submit"
+                                                style="background: rgb(255, 55, 55)">رفض</button>
+                                        </form>
+                                        {{-- <form action="/reject/{{ $offer->id }}" method="POST" class="col"
+                                            style=" width: 10px">
+                                            @csrf
+                                            <button class="btn btn-primary" type="submit"
+                                                style="background: rgb(16, 100, 210)">تفاصيل العرض</button>
+                                        </form> --}}
+                                        <div class="col m-2" style=" width: 10px">
+                                            <a href="{{ route('offers.show', ['offer' => $offer->id]) }}"
+                                                class="btn btn-primary" style="background: rgb(16, 100, 210)">تفاصيل</a>
+                                        </div>
+                                    </td>
+                                    {{-- <td class="text-center">
                                         <div class="dropdown">
                                             <a class="dropdown-toggle" href="#" role="button"
                                                 id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -60,10 +84,17 @@
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                                 <a class="dropdown-item"
-                                                    href="{{ route('offers.show', ['offer' => $offer->id]) }}">عرض</a>
+                                                    href="{{ route('offers.show', ['offer' => $offer->id]) }}">قبول
+                                                    العرض</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('offers.show', ['offer' => $offer->id]) }}">رفض
+                                                    العرض</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('offers.show', ['offer' => $offer->id]) }}">عرض
+                                                    التفاصيل</a>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         @else

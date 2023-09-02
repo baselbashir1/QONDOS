@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(ClientController::class)->group(function () {
         Route::get('/client/get-location', 'getLocation');
+        Route::post('/accept-offer/{offer}', 'acceptOffer');
+        Route::post('/reject-offer/{offer}', 'rejectOffer');
     });
     Route::controller(MaintenanceTechnicianController::class)->group(function () {
         Route::get('/maintenance-technician/get-location', 'getLocation');

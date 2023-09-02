@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use Exception;
+use App\Models\Offer;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\ClientAddress;
+use App\Http\Enums\OfferStatus;
+use App\Http\Enums\OrderStatus;
 use App\Models\SpecialServiceOrder;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ClientAddressRequest;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ClientAddressRequest;
 
 class ClientController extends Controller
 {
@@ -116,5 +119,28 @@ class ClientController extends Controller
             'latitude' => $clientLocation->latitude,
             'longitude' => $clientLocation->longitude,
         ]);
+    }
+
+    public function acceptOffer(Offer $offer)
+    {
+        $offer->update([
+            'status' => OfferStatus::accepted
+        ]);
+        if ($offer->order) {
+            $offer->order->update([
+                'status' => OrderStatus::pendingMaintenanceConfirm
+            ]);
+        }
+        notify()->success('تم قبول العرض بنجاح');
+        return redirect()->back();
+    }
+
+    public function rejectOffer(Offer $offer)
+    {
+        $offer->update([
+            'status' => OfferStatus::rejected
+        ]);
+        notify()->success('تم رفض العرض بنجاح');
+        return redirect()->back();
     }
 }
