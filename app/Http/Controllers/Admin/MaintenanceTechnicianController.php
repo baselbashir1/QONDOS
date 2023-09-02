@@ -30,7 +30,7 @@ class MaintenanceTechnicianController extends Controller
     public function create()
     {
         $subCategories = SubCategory::all();
-        return view('pages.maintenance-technicians.add', ['categories' => $categories, 'subCategories' => $subCategories, 'services' => $services]);
+        return view('pages.maintenance-technicians.add', ['subCategories' => $subCategories]);
     }
 
     public function store(MaintenanceTechnicianRequest $request)

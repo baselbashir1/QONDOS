@@ -204,37 +204,22 @@ class MaintenanceTechnicianController extends Controller
         $clientAddresses = ClientAddress::where('is_current', 1)->get();
         $closestOrders = [];
 
-        // $orderServices = OrderService::all();
-        // $maintenanceSubCategories = MaintenanceSubCategory::all();
-
-        // $orderService->service->subCategory->id = $maintenanceSubCategory->id
-        // $matchedSubCategories = [];
         foreach ($clientAddresses as $clientAddress) {
-            // foreach ($orderServices as $orderService) {
-            //     foreach ($maintenanceSubCategories as $maintenanceSubCategory) {
-            //         if ($orderService->service->subCategory->id === $maintenanceSubCategory->subCategory->id)
-            //             $matchedSubCategories[] = $maintenanceSubCategory->subCategory->id;
-            //     }
-            // }
-
             $distance = $this->calculateDistance($maintenanceTechnician->latitude, $maintenanceTechnician->longitude, $clientAddress->latitude, $clientAddress->longitude);
             if ($distance <= 500) {
                 $orders = DB::table('orders')
                     ->join('client_addresses', 'orders.client_id', '=', 'client_addresses.client_id')
                     ->join('order_has_services', 'orders.id', '=', 'order_has_services.order_id')
                     ->join('services', 'order_has_services.service_id', '=', 'services.id')
-                    ->join('maintenance_sub_categories', 'services.sub_category_id', '=', 'services.sub_category_id')
+                    ->join('maintenance_sub_categories', 'services.sub_category_id', '=', 'maintenance_sub_categories.sub_category_id')
                     ->where('client_addresses.is_current', 1)
+                    ->select(['orders.id', 'orders.notes', 'orders.client_id', 'orders.is_scheduled', 'orders.visit_time', 'orders.payment_type', 'orders.payment_method', 'orders.status', 'order_has_services.service_id', 'order_has_services.quantity', 'orders.created_at', 'orders.updated_at'])
                     ->get();
-                $closestOrders[] = $orders;
+                $closestOrders[] = ['order' => $orders, 'distance' => $distance . 'm'];
             }
         }
 
-        if ($distance <= 500) {
-            return response()->json(['closest-orders' => $closestOrders, 'distance' => $distance . 'm']);
-        } else {
-            return response()->json(['closest-orders' => 'No near orders']);
-        }
+        return response()->json(['closest-orders' => $closestOrders]);
     }
 
     public function sendOffer(OfferRequest $request, Order $order)
