@@ -25,6 +25,7 @@ use App\Http\Requests\MaintenanceTechnicianRequest;
 use App\Http\Resources\MaintenanceTechnicianResource;
 use App\Models\MaintenanceSubCategory;
 use App\Models\OrderService;
+use App\Models\Setting;
 use PhpParser\Node\Stmt\Foreach_;
 
 class MaintenanceTechnicianController extends Controller
@@ -202,11 +203,12 @@ class MaintenanceTechnicianController extends Controller
     {
         $maintenanceTechnician = Auth::user();
         $clientAddresses = ClientAddress::where('is_current', 1)->get();
+        $settings = Setting::find(1);
         $closestOrders = [];
 
         foreach ($clientAddresses as $clientAddress) {
             $distance = $this->calculateDistance($maintenanceTechnician->latitude, $maintenanceTechnician->longitude, $clientAddress->latitude, $clientAddress->longitude);
-            if ($distance <= 500) { // need to change
+            if ($distance <= $settings->distance) {
                 $orders = DB::table('orders')
                     ->join('client_addresses', 'orders.client_id', '=', 'client_addresses.client_id')
                     ->join('order_has_services', 'orders.id', '=', 'order_has_services.order_id')

@@ -79,7 +79,4 @@ Route::apiResource('sub-categories', SubCategoryController::class);
 Route::apiResource('services', ServiceController::class);
 
 Route::post('/set-distance', [DistanceController::class, 'setDistance']);
-
-// Route::apiResource('settings', SettingController::class);
-
 Route::post('/update-settings', [SettingController::class, 'updateSettings']);
