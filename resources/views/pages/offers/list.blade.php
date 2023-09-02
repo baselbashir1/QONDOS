@@ -1,6 +1,6 @@
 <x-base-layout>
 
-    <x-slot:pageTitle>الطلبات</x-slot>
+    <x-slot:pageTitle>جميع العروض</x-slot>
 
     <div class="row layout-top-spacing">
         <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
@@ -10,77 +10,72 @@
                         <tr>
                             <th class="checkbox-column"></th>
                             <th>رقم الطلب</th>
-                            <th>صاحب الطلب</th>
-                            <th>(مجدول\غير مجدول)</th>
-                            <th>وقت الزيارة</th>
+                            <th>اسم العميل</th>
+                            <th>اسم الفني</th>
+                            <th>تقييم الفني</th>
                             <th>حالة الطلب</th>
-                            <th>سعر الطلب</th>
-                            <th>ملاحظات</th>
+                            <th>حالة العرض</th>
                             <th class="no-content text-center">خيارات</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (count($orders))
-                            @foreach ($orders as $order)
+                        @if (count($offers))
+                            @foreach ($offers as $offer)
                                 <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->client_id }}</td>
-                                    <td>{{ $order->client->name }}</td>
+                                    <td>{{ $offer->id }}</td>
+                                    <td>{{ $offer->order->id }}</td>
+                                    <td>{{ $offer->client->name }}</td>
+                                    <td>{{ $offer->maintenanceTechnician->name }}</td>
+                                    <td>{{ $offer->maintenanceTechnician->ratings->avg('rate') }}</td>
                                     <td>
-                                        @if ($order->is_scheduled === 1)
-                                            مجدول
-                                        @else
-                                            غير مجدول
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($order->visit_time)
-                                            {{ $order->visit_time }}
-                                        @else
-                                            فوري
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($order->status === 'Processing' || $order->status === 'Finished')
+                                        @if ($offer->order->status === 'Processing' || $offer->order->status === 'Finished')
                                             <div class="btn btn-success"
                                                 style="border-radius: 20px; background-color: rgb(17, 163, 17); pointer-events: none">
-                                                {{ $order->status }}
+                                                {{ $offer->order->status }}
                                             </div>
                                         @endif
                                         @if (
-                                            $order->status === 'Pending client approve' ||
-                                                $order->status === 'Pending maintenance confirm' ||
-                                                $order->status === 'Pending client to approve finish order')
+                                            $offer->order->status === 'Pending client approve' ||
+                                                $offer->order->status === 'Pending maintenance confirm' ||
+                                                $offer->order->status === 'Pending client to approve finish order')
                                             <div class="btn btn-warning"
                                                 style="border-radius: 20px; background-color: orange; pointer-events: none">
-                                                {{ $order->status }}
+                                                {{ $offer->order->status }}
                                             </div>
                                         @endif
-                                        @if ($order->status === 'Canceled')
+                                        @if ($offer->order->status === 'Canceled')
                                             <div class="btn btn-danger"
                                                 style="border-radius: 20px; background-color: red; pointer-events: none">
-                                                {{ $order->status }}
+                                                {{ $offer->order->status }}
                                             </div>
                                         @endif
-                                        @if ($order->status === 'New order')
+                                        @if ($offer->order->status === 'New order')
                                             <div class="btn btn-secondary"
                                                 style="border-radius: 20px; background-color: gray; pointer-events: none">
-                                                {{ $order->status }}
+                                                {{ $offer->order->status }}
                                             </div>
                                         @endif
                                     </td>
                                     <td>
-                                        @php
-                                            $totalPrice = 0.0;
-                                        @endphp
-                                        @foreach ($order->orderServices as $orderService)
-                                            @php
-                                                $totalPrice += $orderService->service->price * $orderService->quantity;
-                                            @endphp
-                                        @endforeach
-                                        ${{ $totalPrice }}
+                                        @if ($offer->status === 'Accepted' || $offer->status === 'Confirmed')
+                                            <div class="btn btn-success"
+                                                style="border-radius: 20px; background-color: rgb(17, 163, 17); pointer-events: none">
+                                                {{ $offer->status }}
+                                            </div>
+                                        @endif
+                                        @if ($offer->status === 'Pending')
+                                            <div class="btn btn-warning"
+                                                style="border-radius: 20px; background-color: orange; pointer-events: none">
+                                                {{ $offer->status }}
+                                            </div>
+                                        @endif
+                                        @if ($offer->status === 'Rejected')
+                                            <div class="btn btn-danger"
+                                                style="border-radius: 20px; background-color: red; pointer-events: none">
+                                                {{ $offer->status }}
+                                            </div>
+                                        @endif
                                     </td>
-                                    <td>{{ substr($order->notes, 0, 20) }}...</td>
                                     <td class="text-center">
                                         <div class="dropdown">
                                             <a class="dropdown-toggle" href="#" role="button"
@@ -97,19 +92,8 @@
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                                 <a class="dropdown-item"
-                                                    href="/order-offers/{{ $order->id }}">العروض</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('orders.show', ['order' => $order->id]) }}">عرض
+                                                    href="{{ route('offers.show', ['offer' => $offer->id]) }}">عرض
                                                     التفاصيل</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('orders.edit', ['order' => $order->id]) }}">تعديل</a>
-                                                <form action="{{ route('orders.destroy', ['order' => $order->id]) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="dropdown-item" type="submit"
-                                                        style="font-size: 13px">حذف</button>
-                                                </form>
                                             </div>
                                         </div>
                                     </td>
@@ -117,12 +101,12 @@
                             @endforeach
                         @else
                             <div class="mb-4 text-center">
-                                <h4>لا يوجد طلبات</h4>
+                                <h4>لا يوجد عروض</h4>
                             </div>
                         @endif
                     </tbody>
                 </table>
-                {{ $orders->links() }}
+                {{ $offers->links() }}
             </div>
         </div>
     </div>

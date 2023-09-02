@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SpecialServiceOrderController;
 use App\Http\Controllers\Admin\MaintenanceTechnicianController;
+use App\Http\Controllers\Admin\OfferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,9 +47,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('orders', OrderController::class);
     Route::resource('special-service-orders', SpecialServiceOrderController::class);
     Route::resource('contacts', ContactController::class);
+    Route::resource('offers', OfferController::class);
 
     Route::get('/message-send-replay/{contact}', [ContactController::class, 'messageSendReply']);
     Route::post('/message-replay/{contact}', [ContactController::class, 'messageReply']);
+    Route::get('/order-offers/{order}', [OrderController::class, 'orderOffers']);
 });
 
 require __DIR__ . '/auth.php';

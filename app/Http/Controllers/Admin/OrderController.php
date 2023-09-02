@@ -63,4 +63,10 @@ class OrderController extends Controller
         $order->delete();
         return redirect()->route('orders.index');
     }
+
+    public function orderOffers(Order $order)
+    {
+        $offers =  Offer::where('order_id', $order->id)->paginate(5);
+        return view('pages.orders.order-offers', ['order' => $order, 'offers' => $offers]);
+    }
 }

@@ -67,6 +67,9 @@
                     <li>
                         <a href="{{ route('contacts.index') }}"> الرسائل </a>
                     </li>
+                    <li>
+                        <a href="{{ route('offers.index') }}"> العروض </a>
+                    </li>
                 </ul>
             </li>
         </ul>
