@@ -1,16 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ContactController;
-use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\DistanceController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SpecialServiceOrderController;
 use App\Http\Controllers\Admin\MaintenanceTechnicianController;
-use App\Http\Controllers\Admin\OfferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/message-send-replay/{contact}', [ContactController::class, 'messageSendReply']);
     Route::post('/message-replay/{contact}', [ContactController::class, 'messageReply']);
     Route::get('/order-offers/{order}', [OrderController::class, 'orderOffers']);
+    Route::post('/set-distance', [DistanceController::class, 'setDistance']);
 });
 
 require __DIR__ . '/auth.php';

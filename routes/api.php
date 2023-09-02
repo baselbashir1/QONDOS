@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\ClientController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\DistanceController;
 use App\Http\Controllers\API\MaintenanceTechnicianController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\OrderController;
@@ -75,3 +76,5 @@ Route::apiResource('maintenance-technicians', MaintenanceTechnicianController::c
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('sub-categories', SubCategoryController::class);
 Route::apiResource('services', ServiceController::class);
+
+Route::post('/set-distance', [DistanceController::class, 'setDistance']);
