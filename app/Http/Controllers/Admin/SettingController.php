@@ -18,26 +18,29 @@ class SettingController extends Controller
     public function updateSettings(SettingRequest $request)
     {
         $formFields = $request->validated();
-
         $settings = Setting::find(1);
 
-        if ($settings) {
-            $settings->update([
-                'distance' => $formFields['distance'],
-                'about' => $formFields['about'],
-                'privacy_policy' => $formFields['privacy_policy'],
-                'terms_and_conditions' => $formFields['terms_and_conditions']
-            ]);
-        } else {
-            Setting::create([
-                'distance' => $formFields['distance'],
-                'about' => $formFields['about'],
-                'privacy_policy' => $formFields['privacy_policy'],
-                'terms_and_conditions' => $formFields['terms_and_conditions']
-            ]);
-        }
+        try {
+            if ($settings) {
+                $settings->update([
+                    'distance' => $formFields['distance'],
+                    'about' => $formFields['about'],
+                    'privacy_policy' => $formFields['privacy_policy'],
+                    'terms_and_conditions' => $formFields['terms_and_conditions']
+                ]);
+            } else {
+                Setting::create([
+                    'distance' => $formFields['distance'],
+                    'about' => $formFields['about'],
+                    'privacy_policy' => $formFields['privacy_policy'],
+                    'terms_and_conditions' => $formFields['terms_and_conditions']
+                ]);
+            }
 
-        notify()->success('تم تحديث الاعدادات بنجاح');
-        return redirect()->back();
+            notify()->success('تم تحديث الاعدادات بنجاح');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            notify()->error('حدث خطأ أثناء تحديث الاعدادات');
+        }
     }
 }

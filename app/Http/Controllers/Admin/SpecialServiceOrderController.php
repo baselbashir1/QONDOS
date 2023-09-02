@@ -32,14 +32,19 @@ class SpecialServiceOrderController extends Controller
     {
         $formFields = $request->all();
 
-        $specialServiceOrder->update([
-            'notes' => $formFields['notes'],
-            'is_scheduled' => $formFields['is_scheduled'],
-            'visit_time' => $formFields['visit_time'],
-            'status' => $formFields['status'],
-        ]);
+        try {
+            $specialServiceOrder->update([
+                'notes' => $formFields['notes'],
+                'is_scheduled' => $formFields['is_scheduled'],
+                'visit_time' => $formFields['visit_time'],
+                'status' => $formFields['status'],
+            ]);
 
-        return redirect()->route('special-service-orders.index');
+            notify()->success('تم تحديث الطلب بنجاح');
+            return redirect()->route('special-service-orders.index');
+        } catch (\Exception $e) {
+            notify()->error('حدث خطأ أثناء تحديث الطلب');
+        }
     }
 
     public function destroy(SpecialServiceOrder $specialServiceOrder)

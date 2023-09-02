@@ -70,7 +70,6 @@
             ],
         });
     </script>
-
     <script>
         $('textarea#summernote_terms_and_conditions').summernote({
             placeholder: 'الشروط والأحكام',
@@ -92,7 +91,6 @@
             ],
         });
     </script>
-
     <script>
         $('textarea#summernote_about').summernote({
             placeholder: 'حول التطبيق',
