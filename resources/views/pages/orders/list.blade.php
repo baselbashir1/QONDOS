@@ -13,7 +13,7 @@
                             <th>صاحب الطلب</th>
                             <th>(مجدول\غير مجدول)</th>
                             <th>وقت الزيارة</th>
-                            <th>حالة الطلب</th>
+                            <th class="text-center">حالة الطلب</th>
                             <th>سعر الطلب</th>
                             <th>ملاحظات</th>
                             <th class="no-content text-center">خيارات</th>
@@ -40,7 +40,7 @@
                                             فوري
                                         @endif
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         @if ($order->status === 'Processing' || $order->status === 'Finished')
                                             <div class="btn btn-success"
                                                 style="border-radius: 20px; background-color: rgb(17, 163, 17); pointer-events: none">
