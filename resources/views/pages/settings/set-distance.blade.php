@@ -1,4 +1,4 @@
-<x-base-layout>
+{{-- <x-base-layout>
 
     <x-slot:pageTitle>المسافة</x-slot>
 
@@ -22,4 +22,4 @@
         </form>
     </div>
 
-</x-base-layout>
+</x-base-layout> --}}

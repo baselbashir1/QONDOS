@@ -8,11 +8,11 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DistanceController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SpecialServiceOrderController;
 use App\Http\Controllers\Admin\MaintenanceTechnicianController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SpecialOrderOfferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('special-service-orders', SpecialServiceOrderController::class);
     Route::resource('contacts', ContactController::class);
     Route::resource('offers', OfferController::class);
+    Route::resource('special-order-offers', SpecialOrderOfferController::class);
 
     Route::get('/message-send-replay/{contact}', [ContactController::class, 'messageSendReply']);
     Route::post('/message-replay/{contact}', [ContactController::class, 'messageReply']);

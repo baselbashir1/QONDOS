@@ -71,7 +71,7 @@
                         <a href="{{ route('offers.index') }}"> العروض </a>
                     </li>
                     <li>
-                        <a href="/settings"> الاعدادات </a>
+                        <a href="/settings"> الإعدادات </a>
                     </li>
                 </ul>
             </li>
