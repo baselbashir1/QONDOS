@@ -11,25 +11,26 @@
                         <div class="col-sm-12">
                             <label for="privacy_policy">المسافة</label>
                             <input type="number" name="distance" class="form-control w-25 text-center" min="0"
-                                style="border-width: 3px; border-color:lightseagreen" value="{{ $settings->distance }}">
+                                style="border-width: 3px; border-color:lightseagreen"
+                                value="{{ $settings?->distance }}">
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="notes">سياسة الخصوصية</label>
-                            <textarea id="summernote_privacy_policy" name="privacy_policy">{{ $settings->privacy_policy }}</textarea>
+                            <textarea id="summernote_privacy_policy" name="privacy_policy">{{ $settings?->privacy_policy }}</textarea>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="terms_and_conditions">الشروط والاحكام</label>
-                            <textarea id="summernote_terms_and_conditions" name="terms_and_conditions">{{ $settings->terms_and_conditions }}</textarea>
+                            <textarea id="summernote_terms_and_conditions" name="terms_and_conditions">{{ $settings?->terms_and_conditions }}</textarea>
                         </div>
                     </div>
                     <div class="row mb-4">
                         <div class="col-sm-12">
                             <label for="about">حول التطبيق</label>
-                            <textarea id="summernote_about" name="about">{{ $settings->about }}</textarea>
+                            <textarea id="summernote_about" name="about">{{ $settings?->about }}</textarea>
                         </div>
                     </div>
                     <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 mt-4">

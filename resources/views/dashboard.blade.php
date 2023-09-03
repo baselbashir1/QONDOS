@@ -1,17 +1,79 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+<x-base-layout>
+    <x-slot:pageTitle>لوحة التحكم</x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+    <div class="container mt-4 row">
+        <div id="piechart" style="width: 500px; height: 400px;" class="text-right"></div>
+        <div id="columnchart" style="width: 100px; height: 100px;" class="text-left"></div>
     </div>
-</x-app-layout>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Type', 'Count'],
+                ['categories', <?php echo $categories; ?>],
+                ['subCategories', <?php echo $subCategories; ?>],
+                ['services', <?php echo $services; ?>],
+            ]);
+
+            var options = {
+                title: 'Categories Types',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+
+    <script type="text/javascript">
+        google.charts.load("current", {
+            packages: ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ["User Type", "Count", {
+                    role: "style"
+                }],
+                ["Admins", <?php echo $users; ?>, "gold"],
+                ['Clients', <?php echo $clients; ?>, "#b87333"],
+                ['Maintenances', <?php echo $maintenances; ?>, "silver"],
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2
+            ]);
+
+            var options = {
+                title: "Users",
+                width: 600,
+                height: 400,
+                bar: {
+                    groupWidth: "95%"
+                },
+                legend: {
+                    position: "none"
+                },
+            };
+            var chart = new google.visualization.ColumnChart(document.getElementById("columnchart"));
+            chart.draw(view, options);
+        }
+    </script>
+
+</x-base-layout>
