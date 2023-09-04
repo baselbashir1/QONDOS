@@ -1,5 +1,56 @@
 <x-base-layout>
+
     <x-slot:pageTitle>لوحة التحكم</x-slot>
+
+    <div class="container mt-4 row">
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+            <div class="card bg-secondary">
+                <div class="card-body pt-3">
+                    <h5 class="card-title mb-3">العملاء</h5>
+                    <p class="card-text">any</p>
+                </div>
+                <div class="card-footer px-4 pt-0 border-0">
+                    <a href="/clients" target="_blank">اضغط هنا لرؤية العملاء</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+            <div class="card bg-primary">
+                <div class="card-body pt-3">
+                    <h5 class="card-title mb-3">فنيو الصيانة</h5>
+                    <p class="card-text">any</p>
+                </div>
+                <div class="card-footer px-4 pt-0 border-0">
+                    <a href="/maintenance-technicians" target="_blank">اضغط هنا لرؤية الفنيين</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+            <div class="card bg-dark">
+                <div class="card-body pt-3">
+                    <h5 class="card-title mb-3">اجالي مبلغ الطلبات</h5>
+                    <p class="card-text">${{ $totalPrice }}</p>
+                </div>
+                <div class="card-footer px-4 pt-0 border-0">
+                    <a href="/orders" target="_blank">اضغط هنا لرؤية الطلبات</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
+            <div class="card bg-danger">
+                <div class="card-body pt-3">
+                    <h5 class="card-title mb-3">اجالي مبلغ الطلبات الخاصة</h5>
+                    <p class="card-text">${{ $totalPrice }}</p>
+                </div>
+                <div class="card-footer px-4 pt-0 border-0">
+                    <a href="/orders" target="_blank">اضغط هنا لرؤية الطلبات الخاصة</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container mt-4 row">
         <div id="piechart" style="width: 500px; height: 400px;" class="text-right"></div>
@@ -24,9 +75,9 @@
                 ['Type', 'Count', {
                     role: 'link'
                 }],
-                ['Categories', <?php echo $categories; ?>, '/categories'],
-                ['SubCategories', <?php echo $subCategories; ?>, '/sub-categories'],
-                ['Services', <?php echo $services; ?>, '/services'],
+                ['Categories', <?php echo count($categories); ?>, '/categories'],
+                ['SubCategories', <?php echo count($subCategories); ?>, '/sub-categories'],
+                ['Services', <?php echo count($services); ?>, '/services'],
             ]);
 
             var options = {
@@ -62,9 +113,8 @@
                 }, {
                     role: 'link'
                 }],
-                ['Admins', <?php echo $users; ?>, 'gold', ''],
-                ['Clients', <?php echo $clients; ?>, '#b87333', '/clients'],
-                ['Maintenances', <?php echo $maintenances; ?>, 'silver', '/maintenance-technicians'],
+                ['Clients', <?php echo count($clients); ?>, '#b87333', '/clients'],
+                ['Maintenances', <?php echo count($maintenances); ?>, 'silver', '/maintenance-technicians'],
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -117,10 +167,10 @@
             data.addColumn('number', 'Populartiy');
             data.addColumn(['string', 'Link']);
             data.addRows([
-                ['Finished', <?php echo $finished; ?>, '/orders'],
-                ['Processing', <?php echo $processing; ?>, '/orders'],
-                ['Canceled', <?php echo $canceled; ?>, '/orders'],
-                ['Other', <?php echo $other; ?>, '/orders']
+                ['Finished', <?php echo count($finished); ?>, '/orders'],
+                ['Processing', <?php echo count($processing); ?>, '/orders'],
+                ['Canceled', <?php echo count($canceled); ?>, '/orders'],
+                ['Other', <?php echo count($other); ?>, '/orders']
             ]);
 
             var options = {

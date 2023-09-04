@@ -18,43 +18,36 @@ class ChartController extends Controller
 {
     public function index()
     {
-        $services = count(Service::all());
-        $subCategories = count(SubCategory::all());
-        $categories = count(Category::all());
-        $users = count(User::all());
-        $clients = count(Client::all());
-        $maintenances = count(MaintenanceTechnician::all());
+        $services = Service::all();
+        $subCategories = SubCategory::all();
+        $categories = Category::all();
+        $clients = Client::all();
+        $maintenances = MaintenanceTechnician::all();
 
-        $finishedOrders = Order::where('status', OrderStatus::finished)->get();
-        $processingOrders = Order::where('status', OrderStatus::processing)->get();
-        $canceledOrders = Order::where('status', OrderStatus::canceled)->get();
-        $otherOrders = Order::whereIn('status', [OrderStatus::newOrder, OrderStatus::pendingClientApprove, OrderStatus::pendingClientApproveFinish, OrderStatus::pendingMaintenanceConfirm])->get();
-        $finished = count($finishedOrders);
-        $processing = count($processingOrders);
-        $canceled = count($canceledOrders);
-        $other = count($otherOrders);
+        $orders = Order::all();
+        $finished = Order::where('status', OrderStatus::finished)->get();
+        $processing = Order::where('status', OrderStatus::processing)->get();
+        $canceled = Order::where('status', OrderStatus::canceled)->get();
+        $other = Order::whereIn('status', [OrderStatus::newOrder, OrderStatus::pendingClientApprove, OrderStatus::pendingClientApproveFinish, OrderStatus::pendingMaintenanceConfirm])->get();
 
-        // $result = DB::select(DB::raw("select count(ename) as emp_name, dept.dname from emp LEFT JOIN dept ON dept.deptno = emp.deptno GROUP BY emp.deptno"));
-        // $data = "";
-
-        // foreach ($result as $val) {
-        //     $data .= "['" . $val->dname . "',     " . $val->emp_name . "],";
-        // }
-        // $chartData = $data;
-        // return view('dashboard', ['chartData' => $chartData]);
-
+        $totalPrice = 0.0;
+        foreach ($orders as $order) {
+            foreach ($order->orderServices as $orderService) {
+                $totalPrice += $orderService->service->price * $orderService->quantity;
+            }
+        }
 
         return view('dashboard', [
             'services' => $services,
             'subCategories' => $subCategories,
             'categories' => $categories,
-            'users' => $users,
             'clients' => $clients,
             'maintenances' => $maintenances,
             'finished' => $finished,
             'processing' => $processing,
             'canceled' => $canceled,
-            'other' => $other
+            'other' => $other,
+            'totalPrice' => $totalPrice
         ]);
     }
 }
