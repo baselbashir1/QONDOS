@@ -54,12 +54,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('offers', OfferController::class);
     Route::resource('special-order-offers', SpecialOrderOfferController::class);
 
-    Route::get('/message-send-replay/{contact}', [ContactController::class, 'messageSendReply']);
-    Route::post('/message-replay/{contact}', [ContactController::class, 'messageReply']);
+    Route::controller(ContactController::class)->group(function () {
+        Route::get('/message-send-replay/{contact}', 'messageSendReply');
+        Route::post('/message-replay/{contact}', 'messageReply');
+    });
+
     Route::get('/order-offers/{order}', [OrderController::class, 'orderOffers']);
 
-    Route::get('/settings', [SettingController::class, 'index']);
-    Route::post('/update-settings', [SettingController::class, 'updateSettings']);
+    Route::controller(SettingController::class)->group(function () {
+        Route::get('/settings', 'index');
+        Route::post('/update-settings', 'updateSettings');
+    });
 });
 
 require __DIR__ . '/auth.php';
