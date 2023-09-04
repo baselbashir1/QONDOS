@@ -1,4 +1,4 @@
-<div class="header-container container-xxl" style="z-index: 0">
+<div class="header-container container-xxl">
     <header class="header navbar navbar-expand-sm expand-header">
         <a href="javascript:void(0);" class="sidebarCollapse">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
