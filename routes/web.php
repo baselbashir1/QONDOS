@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ChartController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\SpecialServiceOrderController;
 use App\Http\Controllers\Admin\MaintenanceTechnicianController;
@@ -61,8 +60,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/settings', [SettingController::class, 'index']);
     Route::post('/update-settings', [SettingController::class, 'updateSettings']);
-
-    Route::get('/dashboard', [ChartController::class, 'index']);
 });
 
 require __DIR__ . '/auth.php';

@@ -4,61 +4,78 @@
 
     <div class="container mt-4 row">
         <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="card bg-secondary">
-                <div class="card-body pt-3">
-                    <h5 class="card-title mb-3">العملاء</h5>
-                    <p class="card-text">any</p>
+            <a href="/clients">
+                <div class="card bg-secondary">
+                    <div class="card-body pt-3">
+                        <p class="card-title mb-3" style="font-size: 20px">العملاء</p>
+                        <p class="card-text text-center" style="font-size: 25px">
+                            <b>{{ count($clients) }}</b>
+                        </p>
+                    </div>
+                    <div class="card-footer px-4 pt-0 border-0">
+                        <p>اضغط هنا لرؤية العملاء</p>
+                    </div>
                 </div>
-                <div class="card-footer px-4 pt-0 border-0">
-                    <a href="/clients" target="_blank">اضغط هنا لرؤية العملاء</a>
-                </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="card bg-primary">
-                <div class="card-body pt-3">
-                    <h5 class="card-title mb-3">فنيو الصيانة</h5>
-                    <p class="card-text">any</p>
+            <a href="/maintenance-technicians">
+                <div class="card bg-primary">
+                    <div class="card-body pt-3">
+                        <p class="card-title mb-3" style="font-size: 20px">فنيو الصيانة</p>
+                        <p class="card-text text-center" style="font-size: 25px">
+                            <b>{{ count($maintenances) }}</b>
+                        </p>
+                    </div>
+                    <div class="card-footer px-4 pt-0 border-0">
+                        <p>اضغط هنا لرؤية الفنيين</p>
+                    </div>
                 </div>
-                <div class="card-footer px-4 pt-0 border-0">
-                    <a href="/maintenance-technicians" target="_blank">اضغط هنا لرؤية الفنيين</a>
-                </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="card bg-dark">
-                <div class="card-body pt-3">
-                    <h5 class="card-title mb-3">اجالي مبلغ الطلبات</h5>
-                    <p class="card-text">${{ $totalPrice }}</p>
+            <a href="/join-requests">
+                <div class="card bg-dark">
+                    <div class="card-body pt-3">
+                        <p class="card-title mb-3" style="font-size: 20px">طلبات انضمام الفنيين</p>
+                        <p class="card-text text-center" style="font-size: 25px">
+                            <b>{{ count($maintenancesJoinRequests) }}</b>
+                        </p>
+                    </div>
+                    <div class="card-footer px-4 pt-0 border-0">
+                        <p>اضغط هنا لرؤية طلبات انضمام الفنيين</p>
+                    </div>
                 </div>
-                <div class="card-footer px-4 pt-0 border-0">
-                    <a href="/orders" target="_blank">اضغط هنا لرؤية الطلبات</a>
-                </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-xl-3 col-lg-6 col-md-6 mb-4">
-            <div class="card bg-danger">
-                <div class="card-body pt-3">
-                    <h5 class="card-title mb-3">اجالي مبلغ الطلبات الخاصة</h5>
-                    <p class="card-text">${{ $totalPrice }}</p>
+            <a href="/orders">
+                <div class="card bg-danger">
+                    <div class="card-body pt-3">
+                        <p class="card-title mb-3" style="font-size: 20px">اجمالي مبلغ الطلبات</p>
+                        <p class="card-text text-center" style="font-size: 25px">
+                            <b>${{ $totalPrice }}</b>
+                        </p>
+                    </div>
+                    <div class="card-footer px-4 pt-0 border-0">
+                        <p>اضغط هنا لرؤية الطلبات</p>
+                    </div>
                 </div>
-                <div class="card-footer px-4 pt-0 border-0">
-                    <a href="/orders" target="_blank">اضغط هنا لرؤية الطلبات الخاصة</a>
-                </div>
-            </div>
+            </a>
         </div>
     </div>
 
     <div class="container mt-4 row">
-        <div id="piechart" style="width: 500px; height: 400px;" class="text-right"></div>
-        <div id="columnchart" style="width: 100px; height: 100px;" class="text-left"></div>
+        <div id="piechart" style="width: 690px; height: 400px;" class="text-right"></div>
+        {{-- <div id="columnchart" style="width: 100px; height: 100px;" class="text-left"></div> --}}
+        <div id="chart_div" style="width: 690px; height: 400px;" class="text-right"></div>
     </div>
 
     <div class="container mt-4 row">
-        <div id="chart_div" style="width: 500px; height: 400px;" class="text-right"></div>
+        {{-- <div id="chart_div" style="width: 500px; height: 400px;" class="text-right"></div> --}}
         {{-- <div id="columnchart" style="width: 100px; height: 100px;" class="text-left"></div> --}}
     </div>
 
@@ -75,13 +92,13 @@
                 ['Type', 'Count', {
                     role: 'link'
                 }],
-                ['Categories', <?php echo count($categories); ?>, '/categories'],
-                ['SubCategories', <?php echo count($subCategories); ?>, '/sub-categories'],
-                ['Services', <?php echo count($services); ?>, '/services'],
+                ['تصنيفات رئيسية', <?php echo count($categories); ?>, '/categories'],
+                ['تصنيفات فرعية', <?php echo count($subCategories); ?>, '/sub-categories'],
+                ['خدمات', <?php echo count($services); ?>, '/services'],
             ]);
 
             var options = {
-                title: 'Categories Types',
+                title: 'جميع التصنيفات',
                 pieHole: 0.4,
             };
 
@@ -167,14 +184,14 @@
             data.addColumn('number', 'Populartiy');
             data.addColumn(['string', 'Link']);
             data.addRows([
-                ['Finished', <?php echo count($finished); ?>, '/orders'],
-                ['Processing', <?php echo count($processing); ?>, '/orders'],
-                ['Canceled', <?php echo count($canceled); ?>, '/orders'],
-                ['Other', <?php echo count($other); ?>, '/orders']
+                ['منتهي', <?php echo count($finished); ?>, '/orders'],
+                ['قيد التحضير', <?php echo count($processing); ?>, '/orders'],
+                ['ملغي', <?php echo count($canceled); ?>, '/orders'],
+                ['غير ذلك', <?php echo count($other); ?>, '/orders']
             ]);
 
             var options = {
-                title: 'Orders',
+                title: 'الطلبات',
                 sliceVisibilityThreshold: .2,
                 colors: ['green', 'orange', 'red', 'lightgray']
             };

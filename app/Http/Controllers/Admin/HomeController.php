@@ -2,17 +2,54 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Distance;
+use App\Models\Order;
+use App\Models\Client;
 use App\Models\Service;
+use App\Models\Category;
+use App\Models\SubCategory;
+use Illuminate\Http\Request;
+use App\Http\Enums\OrderStatus;
+use App\Http\Controllers\Controller;
+use App\Models\MaintenanceTechnician;
 use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('index');
+        $services = Service::all();
+        $subCategories = SubCategory::all();
+        $categories = Category::all();
+        $clients = Client::all();
+        $maintenances = MaintenanceTechnician::all();
+        $maintenancesJoinRequests = MaintenanceTechnician::where('is_verified', 0)->get();
+
+        $orders = Order::all();
+        $finished = Order::where('status', OrderStatus::finished)->get();
+        $processing = Order::where('status', OrderStatus::processing)->get();
+        $canceled = Order::where('status', OrderStatus::canceled)->get();
+        $other = Order::whereIn('status', [OrderStatus::newOrder, OrderStatus::pendingClientApprove, OrderStatus::pendingClientApproveFinish, OrderStatus::pendingMaintenanceConfirm])->get();
+
+        $totalPrice = 0.0;
+        foreach ($orders as $order) {
+            foreach ($order->orderServices as $orderService) {
+                $totalPrice += $orderService->service->price * $orderService->quantity;
+            }
+        }
+
+        return view('dashboard', [
+            'services' => $services,
+            'subCategories' => $subCategories,
+            'categories' => $categories,
+            'clients' => $clients,
+            'maintenances' => $maintenances,
+            'maintenancesJoinRequests' => $maintenancesJoinRequests,
+            'finished' => $finished,
+            'processing' => $processing,
+            'canceled' => $canceled,
+            'other' => $other,
+            'totalPrice' => $totalPrice,
+        ]);
     }
 
     public function clear()
